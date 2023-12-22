@@ -1,0 +1,24 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+personal-portfolio/node_modules
+personal-portfolio/.pnp
+personal-portfolio/.pnp.js
+personal-portfolio/.gitignore
+
+# testing
+personal-portfolio/coverage
+
+# production
+personal-portfolio/build
+
+# misc
+personal-portfolio/.DS_Store
+personal-portfolio/.env.local
+personal-portfolio/.env.development.local
+personal-portfolio/.env.test.local
+personal-portfolio/.env.production.local
+
+personal-portfolio/npm-debug.log*
+personal-portfolio/yarn-debug.log*
+personal-portfolio/yarn-error.log*
