@@ -11,15 +11,15 @@ function Header() {
       </div>
       <div className="right-section flex-1">
         <nav className="navigation flex justify-center items-center">
-          <ul className="nav-list flex justify-center items-center w-1/4">
-            <li className="nav-item active flex-1">Home</li>
-            <li className="nav-item flex-1">About</li>
-            <li className="nav-item flex-1">Projects</li>
+          <ul className="nav-list flex justify-between gap-8">
+        <li className="nav-item active flex-1">Home</li>
+        <li className="nav-item flex-1">About</li>
+        <li className="nav-item flex-1">Projects</li>
           </ul>
         </nav>
       </div>
-    </header>
-  );
-}
+        </header>
+      );
+    }
 
-export default Header;
+    export default Header;
