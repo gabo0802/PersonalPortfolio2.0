@@ -31,7 +31,7 @@ function Header() {
                 Home
               </NavLink>
             </li>
-            <li className="nav-item flex-1">
+            <li className="nav-item flex-2">
               <NavLink
                 to="/about"
                 className={({ isActive }) =>
