@@ -2,9 +2,7 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 
 function Header() {
-  const linkClasses =
-    "flex-1 text-center transition-colors duration-200 hover:text-blue-400";
-
+  const linkClasses = "flex-1 text-center transition-colors duration-200 hover:text-blue-400";
   const activeClasses = "text-blue-500 font-semibold border-b-2 border-blue-500";
 
   return (

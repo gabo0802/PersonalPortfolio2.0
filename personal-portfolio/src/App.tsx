@@ -11,7 +11,7 @@ function App() {
   return (
     <div className="App">
       <Header />
-      <main style={{ padding: "2rem" }}>
+      <main style={{ }}>
         <Routes>
           <Route path="/" element={<MainPage />} />
           <Route path="/about" element={<AboutMe />} />
