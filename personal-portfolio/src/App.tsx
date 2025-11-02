@@ -1,18 +1,23 @@
 import React from "react";
+import { Routes, Route } from "react-router-dom";
 import "./App.css";
 
 import Header from "./Components/Header/Header";
+import MainPage from "./Components/Pages/MainPage";
+import AboutMe from "./Components/Pages/AboutMe";
+import ProjectsPage from "./Components/Pages/ProjectsPage";
 
 function App() {
   return (
     <div className="App">
       <Header />
-      <header className="App-header">
-        {/* <img src={logo} className="App-logo" alt="logo" /> */}
-        <p className="text-3xl underline">
-          This is my personal portfolio website.
-        </p>
-      </header>
+      <main style={{ padding: "2rem" }}>
+        <Routes>
+          <Route path="/" element={<MainPage />} />
+          <Route path="/about" element={<AboutMe />} />
+          <Route path="/projects/*" element={<ProjectsPage />} />
+        </Routes>
+      </main>
     </div>
   );
 }
