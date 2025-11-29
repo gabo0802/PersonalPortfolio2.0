@@ -11,12 +11,32 @@ export type Project = {
   title: string;
   summary: string;
   description: string;
-  tech?: string[];
+  tech?: Skill[];
   links?: { demo?: string | null; repo?: string | null };
   thumbnail?: string | null; // main image
   gallery?: MediaItem[];     // extra media shown at the bottom of detail page
 };
 
+export type Skill = {
+  slug: string;
+  name: string;
+  proficiency: Proficiency;
+};
+
+export const enum Proficiency {
+  Expert = "Expert", // 5+ years of experience
+  Proficient = "Proficient", // 2-5 years of experience
+  Experienced = "Experienced", // 1-2 years of experience
+  Novice = "Novice", // 0-1 years of experience
+  Exposed = "Exposed", // Have worked with the tool before a few times
+};
+
+export const TemplateSkill: Skill = 
+{
+  slug: "template",
+  name: "react",
+  proficiency: Proficiency.Expert,
+}
 // TODO: This can be more data driven so that we pull it from a DB back-end, but there is support for it here in the front-end
 export const projects: Project[] = [
   {
@@ -25,7 +45,7 @@ export const projects: Project[] = [
     summary: "Internal tooling to speed up integrations.",
     description:
       "Built automation and integration helpers for the SHIELD team to streamline QA and bulldogging workflows.",
-    tech: ["React", "Node", "TypeScript"],
+    tech: [TemplateSkill],
     links: { repo: "https://github.com/your/repo", demo: null },
     thumbnail:
       "https://raw.githubusercontent.com/your/repo/main/assets/dk-tools/cover.png",
@@ -53,7 +73,7 @@ export const projects: Project[] = [
     summary: "Responsive portfolio with project detail routing.",
     description:
       "Showcases projects with clean UI and dynamic routing using React Router and TailwindCSS.",
-    tech: ["React", "React Router", "TailwindCSS"],
+    tech: [TemplateSkill],
     links: {
       demo: "https://your-site.example",
       repo: "https://github.com/your/portfolio"
@@ -66,6 +86,8 @@ export const projects: Project[] = [
     ]
   }
 ];
+
+
 
 export const getProjectBySlug = (slug: string) =>
   projects.find((p) => p.slug === slug);

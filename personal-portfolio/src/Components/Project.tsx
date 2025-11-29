@@ -31,15 +31,15 @@ export default function Project() {
       )}
 
       {project.tech?.length ? (
-        <section className="mt-6">
-          <h3 className="text-lg font-semibold mb-2">Tech</h3>
-          <ul className="list-disc list-inside space-y-1">
-            {project.tech.map((t) => (
-              <li key={t}>{t}</li>
-            ))}
-          </ul>
-        </section>
-      ) : null}
+      <section className="mt-6">
+        <h3 className="text-lg font-semibold mb-2">Tech Used</h3>
+        <ul className="list-disc list-inside space-y-1">
+          {project.tech.map((t) => (
+            <li key={t.name}>{t.name}</li>
+          ))}
+        </ul>
+      </section>
+    ) : null}
 
       {(project.links?.demo || project.links?.repo) && (
         <section className="mt-6 space-x-4">
