@@ -1,3 +1,4 @@
+import { Skill, TemplateSkill } from "./skills"
 
 export type MediaItem = {
   url: string;               // absolute or relative (prefer raw file URLs)
@@ -17,26 +18,7 @@ export type Project = {
   gallery?: MediaItem[];     // extra media shown at the bottom of detail page
 };
 
-export type Skill = {
-  slug: string;
-  name: string;
-  proficiency: Proficiency;
-};
 
-export const enum Proficiency {
-  Expert = "Expert", // 5+ years of experience
-  Proficient = "Proficient", // 2-5 years of experience
-  Experienced = "Experienced", // 1-2 years of experience
-  Novice = "Novice", // 0-1 years of experience
-  Exposed = "Exposed", // Have worked with the tool before a few times
-};
-
-export const TemplateSkill: Skill = 
-{
-  slug: "template",
-  name: "react",
-  proficiency: Proficiency.Expert,
-}
 // TODO: This can be more data driven so that we pull it from a DB back-end, but there is support for it here in the front-end
 export const projects: Project[] = [
   {
@@ -86,8 +68,6 @@ export const projects: Project[] = [
     ]
   }
 ];
-
-
 
 export const getProjectBySlug = (slug: string) =>
   projects.find((p) => p.slug === slug);
