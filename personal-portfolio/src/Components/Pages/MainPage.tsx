@@ -1,13 +1,19 @@
 import React from "react";
-
 function MainPage() {
     return (
-        <div
-            className="bg-[#282c34] min-h-screen min-w-screen flex flex-col items-center justify-center text-white"
-            style={{ fontSize: "calc(10px + 2vmin)" }}>
-            <p className="text-3xl underline">
-            This is my personal portfolio website.
-            </p>
+        <div className="flex flex-col w-full">
+            <div className="bg-[#282c34] h-[75vh] w-full flex items-center justify-center text-white">
+                <p className="text-3xl underline">This is my personal portfolio website.</p>
+            </div>
+            <div className="bg-[#282c34] h-[75vh] w-full flex items-center justify-center text-white">
+                <p className="text-3xl">Section 2</p>
+            </div>
+            <div className="bg-[#282c34] h-[75vh] w-full flex items-center justify-center text-white">
+                <p className="text-3xl">Section 3</p>
+            </div>
+            <div className="bg-[#282c34] h-[75vh] w-full flex items-center justify-center text-white">
+                <p className="text-3xl">Section 4</p>
+            </div>
         </div>
     );
 }
