@@ -1,6 +1,7 @@
 import React from "react";
-import { Card, Carousel } from "react-bootstrap";
+import { Badge, Card, Carousel, ListGroup } from "react-bootstrap";
 import { experiences } from "../../Data/experiences";
+import { featuredSkills } from "../../Data/skills";
 
 function MainPage() {
     return (
@@ -76,13 +77,170 @@ function MainPage() {
 
       {/* SECTION 3 */}
       <div className="bg-[#282c34] h-[75vh] w-full flex items-center justify-center text-white">
-        <p className="text-3xl">Section 3</p>
-      </div>
+        {/* Education Section */}
+        <div className="flex-[0_0_33%] flex items-center justify-center px-6">
+            <Card bg="dark" text="white" className="w-full max-w-sm border-0 shadow-lg pb-2">
+            <Card.Body>
+                <Card.Title className="text-2xl font-bold">Education</Card.Title>
+            </Card.Body>
+
+            <ListGroup variant="flush" className="bg-transparent">
+                {/* High School */}
+                <ListGroup.Item className="bg-transparent text-white border-0">
+                <h3 className="text-lg font-semibold">High School (Valedictorian)</h3>
+                <p className="text-sm opacity-80">
+                    [High School Name]
+                </p>
+                <p className="text-xs opacity-60">
+                    [Graduation Date]
+                </p>
+                </ListGroup.Item>
+
+                {/* Arrow */}
+                <div className="text-center text-gray-400 text-sm my-1">↓</div>
+
+                {/* Associate Degree */}
+                <ListGroup.Item className="bg-transparent text-white border-0">
+                <h3 className="text-lg font-semibold">
+                    Associate Degree (Highest Honors)
+                </h3>
+                <p className="text-sm opacity-80">
+                    [College Name]
+                </p>
+                <p className="text-xs opacity-60">
+                    [Graduation Date]
+                </p>
+                </ListGroup.Item>
+
+                {/* Arrow */}
+                <div className="text-center text-gray-400 text-sm my-1">↓</div>
+
+                {/* Bachelor’s */}
+                <ListGroup.Item className="bg-transparent text-white border-0">
+                <h3 className="text-lg font-semibold">Bachelor&apos;s Degree (Magna Cum Laude)</h3>
+                <p className="text-sm opacity-80">
+                    [University Name]
+                </p>
+                <p className="text-xs opacity-60">
+                    [Graduation Date]
+                </p>
+                </ListGroup.Item>
+            </ListGroup>
+            </Card>
+        </div>
+
+        {/* Middle image column */}
+        <div className="flex-[0_0_33%] flex items-center justify-center px-6">
+            {/* Placeholder for image */}
+            <div className="w-3/4 h-3/4 bg-black rounded-xl" />
+        </div>
+
+        {/* Skills column*/}
+        <div className="flex-[0_0_33%] flex items-center justify-center px-6">
+        <Card bg="dark" text="white" className="w-full max-w-sm border-0 shadow-lg">
+        <Card.Body>
+            <Card.Title className="text-2xl font-bold mb-3">Skills</Card.Title>
+            <Card.Text className="text-sm opacity-80 mb-3">
+            A snapshot of some of the languages and tools I work with most.
+            </Card.Text>
+
+            <div className="space-y-3">
+            {featuredSkills.map((skill) => (
+                <div
+                key={skill.slug}
+                className="flex items-center gap-3"
+                >
+                {/* Badge/logo */}
+                <img
+                    src={skill.visual}
+                    alt={skill.name}
+                    className="h-8"
+                />
+
+                {/* Name + proficiency */}
+                <div className="flex flex-col">
+                    <span className="font-semibold">{skill.name}</span>
+                    <span className="text-xs opacity-70 flex items-center gap-2">
+                    <Badge bg="secondary" className="text-[0.65rem]">
+                        {skill.proficiency}
+                    </Badge>
+                    </span>
+                </div>
+                </div>
+            ))}
+            </div>
+        </Card.Body>
+        </Card>
+    </div>
+        </div>
 
       {/* SECTION 4 */}
-      <div className="bg-[#282c34] h-[75vh] w-full flex items-center justify-center text-white">
-        <p className="text-3xl">Section 4</p>
-      </div>
+    <div className="bg-[#282c34] h-[75vh] w-full flex items-center justify-center text-white">
+    {/* Left column – 40%: Contact Me */}
+    <div className="flex-[0_0_40%] flex items-center justify-center px-6">
+        <Card bg="dark" text="white" className="w-full max-w-md border-0 shadow-lg">
+        <Card.Body>
+            <Card.Title className="text-3xl font-bold mb-4">
+            Contact Me
+            </Card.Title>
+
+            <Card.Text className="text-sm opacity-80 mb-4">
+            Feel free to reach out if you&apos;d like to chat about opportunities,
+            projects, or anything tech-related.
+            </Card.Text>
+
+            {/* Social links */}
+            <div className="flex flex-col gap-3">
+            {/* GitHub */}
+            <a
+                href="https://github.com/your-github-handle"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center"
+            >
+                <img
+                src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white"
+                alt="GitHub"
+                />
+            </a>
+
+            {/* LinkedIn */}
+            <a
+                href="https://www.linkedin.com/in/your-linkedin-handle/"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center"
+            >
+                <img
+                src="https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white"
+                alt="LinkedIn"
+                />
+            </a>
+
+            {/* Email */}
+            <div className="mt-2">
+                <div className="text-xs uppercase opacity-60">Email</div>
+                <a
+                href="mailto:youremail@example.com"
+                className="text-sm text-blue-400 hover:underline break-all"
+                >
+                youremail@example.com
+                </a>
+            </div>
+            </div>
+        </Card.Body>
+        </Card>
+    </div>
+
+    {/* Right column – 60%: placeholder for now */}
+    <div className="flex-[0_0_60%] flex items-center justify-center px-6">
+        <div className="w-full max-w-2xl border border-dashed border-gray-500 rounded-2xl h-2/3 flex items-center justify-center text-center opacity-70">
+        <p className="text-sm md:text-base">
+            Future content goes here – maybe a contact form, map, or a final call-to-action.
+        </p>
+        </div>
+    </div>
+    </div>
     </div>
     );
 }
