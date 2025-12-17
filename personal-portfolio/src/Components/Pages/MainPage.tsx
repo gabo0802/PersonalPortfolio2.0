@@ -1,14 +1,17 @@
 import React from "react";
 import { Badge, Card, Carousel, ListGroup } from "react-bootstrap";
 import { experiences } from "../../Data/experiences";
-import { featuredSkills } from "../../Data/skills";
+import { featuredSkills, proficiencyRank } from "../../Data/skills";
+
+const orderedSkills = [...featuredSkills].sort(
+  (a, b) => proficiencyRank[b.proficiency] - proficiencyRank[a.proficiency]
+);
 
 function MainPage() {
     return (
         <div className="flex flex-col w-full">
       {/* SECTION 1 */}
       <div className="bg-[#282c34] h-[75vh] w-full flex text-white">
-        {/* Left side – 35% width */}
         <div className="flex-[0_0_35%] flex items-center justify-center">
           {/* Placeholder for image – 50% of this area's width/height */}
           <div className="w-1/2 h-1/2 bg-black rounded-lg" />
@@ -83,9 +86,7 @@ function MainPage() {
             <Card.Body>
                 <Card.Title className="text-2xl font-bold">Education</Card.Title>
             </Card.Body>
-
             <ListGroup variant="flush" className="bg-transparent">
-                {/* High School */}
                 <ListGroup.Item className="bg-transparent text-white border-0">
                 <h3 className="text-lg font-semibold">High School (Valedictorian)</h3>
                 <p className="text-sm opacity-80">
@@ -95,11 +96,7 @@ function MainPage() {
                     [Graduation Date]
                 </p>
                 </ListGroup.Item>
-
-                {/* Arrow */}
                 <div className="text-center text-gray-400 text-sm my-1">↓</div>
-
-                {/* Associate Degree */}
                 <ListGroup.Item className="bg-transparent text-white border-0">
                 <h3 className="text-lg font-semibold">
                     Associate Degree (Highest Honors)
@@ -111,11 +108,7 @@ function MainPage() {
                     [Graduation Date]
                 </p>
                 </ListGroup.Item>
-
-                {/* Arrow */}
                 <div className="text-center text-gray-400 text-sm my-1">↓</div>
-
-                {/* Bachelor’s */}
                 <ListGroup.Item className="bg-transparent text-white border-0">
                 <h3 className="text-lg font-semibold">Bachelor&apos;s Degree (Magna Cum Laude)</h3>
                 <p className="text-sm opacity-80">
@@ -143,9 +136,8 @@ function MainPage() {
             <Card.Text className="text-sm opacity-80 mb-3">
             A snapshot of some of the languages and tools I work with most.
             </Card.Text>
-
             <div className="space-y-3">
-            {featuredSkills.map((skill) => (
+            {orderedSkills.map((skill) => (
                 <div
                 key={skill.slug}
                 className="flex items-center gap-3"
@@ -232,7 +224,6 @@ function MainPage() {
         </Card>
     </div>
 
-    {/* Right column – 60%: placeholder for now */}
     <div className="flex-[0_0_60%] flex items-center justify-center px-6">
         <div className="w-full max-w-2xl border border-dashed border-gray-500 rounded-2xl h-2/3 flex items-center justify-center text-center opacity-70">
         <p className="text-sm md:text-base">

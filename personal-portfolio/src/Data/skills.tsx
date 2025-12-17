@@ -13,6 +13,15 @@ export const enum Proficiency {
   Exposed = "Exposed", // Have worked with the tool before a few times
 };
 
+// To order my proficiencies
+export const proficiencyRank: Record<Proficiency, number> = {
+  [Proficiency.Expert]: 5,
+  [Proficiency.Proficient]: 4,
+  [Proficiency.Experienced]: 3,
+  [Proficiency.Novice]: 2,
+  [Proficiency.Exposed]: 1
+};
+
 export const featuredSkills: Skill[] = [
   {
     slug: "cpp",
