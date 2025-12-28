@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import "./App.css";
 
 import Header from "./Components/Header/Header";
+import Footer from "./Components/Header/Footer";
 import MainPage from "./Components/Pages/MainPage";
 import AboutMe from "./Components/Pages/AboutMe";
 import ProjectsPage from "./Components/Pages/ProjectsPage";
@@ -18,6 +19,7 @@ function App() {
           <Route path="/projects/*" element={<ProjectsPage />} />
         </Routes>
       </main>
+      <Footer />
     </div>
   );
 }
