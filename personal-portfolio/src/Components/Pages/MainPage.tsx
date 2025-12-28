@@ -90,10 +90,10 @@ function MainPage() {
                 <ListGroup.Item className="bg-transparent text-white border-0">
                 <h3 className="text-lg font-semibold">High School (Valedictorian)</h3>
                 <p className="text-sm opacity-80">
-                    [High School Name]
+                    Charles W. Flanagan
                 </p>
                 <p className="text-xs opacity-60">
-                    [Graduation Date]
+                    2017-2021
                 </p>
                 </ListGroup.Item>
                 <div className="text-center text-gray-400 text-sm my-1">↓</div>
@@ -102,20 +102,20 @@ function MainPage() {
                     Associate Degree (Highest Honors)
                 </h3>
                 <p className="text-sm opacity-80">
-                    [College Name]
+                    Broward College
                 </p>
                 <p className="text-xs opacity-60">
-                    [Graduation Date]
+                    2017-2021
                 </p>
                 </ListGroup.Item>
                 <div className="text-center text-gray-400 text-sm my-1">↓</div>
                 <ListGroup.Item className="bg-transparent text-white border-0">
                 <h3 className="text-lg font-semibold">Bachelor&apos;s Degree (Magna Cum Laude)</h3>
                 <p className="text-sm opacity-80">
-                    [University Name]
+                    University of Florida
                 </p>
                 <p className="text-xs opacity-60">
-                    [Graduation Date]
+                    2021-2025
                 </p>
                 </ListGroup.Item>
             </ListGroup>
@@ -185,7 +185,7 @@ function MainPage() {
             <div className="flex flex-col gap-3">
             {/* GitHub */}
             <a
-                href="https://github.com/your-github-handle"
+                href="https://github.com/gabo0802"
                 target="_blank"
                 rel="noreferrer"
                 className="inline-flex items-center"
@@ -198,7 +198,7 @@ function MainPage() {
 
             {/* LinkedIn */}
             <a
-                href="https://www.linkedin.com/in/your-linkedin-handle/"
+                href="https://www.linkedin.com/in/gabriel-castejon/"
                 target="_blank"
                 rel="noreferrer"
                 className="inline-flex items-center"
@@ -213,10 +213,10 @@ function MainPage() {
             <div className="mt-2">
                 <div className="text-xs uppercase opacity-60">Email</div>
                 <a
-                href="mailto:youremail@example.com"
+                href="mailto:gabriel.castejon0802@gmail.com"
                 className="text-sm text-blue-400 hover:underline break-all"
                 >
-                youremail@example.com
+                gabriel.castejon0802@gmail.com
                 </a>
             </div>
             </div>
