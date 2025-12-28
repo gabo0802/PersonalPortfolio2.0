@@ -1,7 +1,9 @@
 import React from "react";
 import { Badge, Card, Carousel, ListGroup } from "react-bootstrap";
 import { experiences } from "../../Data/experiences";
-import { featuredSkills, proficiencyRank } from "../../Data/skills";
+import { featuredSkills } from "../../Data/skills";
+import { proficiencyRank } from "../../Data/types";
+
 
 const orderedSkills = [...featuredSkills].sort(
   (a, b) => proficiencyRank[b.proficiency] - proficiencyRank[a.proficiency]
