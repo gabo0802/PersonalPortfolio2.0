@@ -1,15 +1,15 @@
 [
   {
-    "slug": "cpp",
-    "name": "C++",
-    "visual": "https://img.shields.io/badge/C%2B%2B-00599C?style=for-the-badge&logo=cplusplus&logoColor=white",
-    "proficiency": "Proficient"
-  },
-  {
     "slug": "csharp",
     "name": "C#",
     "visual": "https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=csharp&logoColor=white",
     "proficiency": "Experienced"
+  },
+  {
+    "slug": "cpp",
+    "name": "C++",
+    "visual": "https://img.shields.io/badge/C%2B%2B-00599C?style=for-the-badge&logo=cplusplus&logoColor=white",
+    "proficiency": "Proficient"
   },
   {
     "slug": "python",
@@ -30,9 +30,63 @@
     "proficiency": "Experienced"
   },
   {
-    "slug": "template",
-    "name": "react",
-    "visual": "n/a",
-    "proficiency": "Expert"
-  }
+    "slug": "react",
+    "name": "React",
+    "visual": "https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB",
+    "proficiency": "Experienced"
+  },
+  {
+    "slug": "flask",
+    "name": "Flask",
+    "visual": "https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask&logoColor=white",
+    "proficiency": "Experienced"
+  },
+  {
+    "slug": "kotlin",
+    "name": "Kotlin",
+    "visual": "https://img.shields.io/badge/Kotlin-0095D5?style=for-the-badge&logo=kotlin&logoColor=white",
+    "proficiency": "Exposed"
+  },
+  {
+    "slug": "unity",
+    "name": "Unity",
+    "visual": "https://img.shields.io/badge/Unity-000000?style=for-the-badge&logo=unity&logoColor=white",
+    "proficiency": "Experienced"
+  },
+  {
+    "slug": "frostbite",
+    "name": "Frostbite",
+    "visual": "https://img.shields.io/badge/Frostbite-000000?style=for-the-badge&logo=frostbite&logoColor=white",
+    "proficiency": "Proficient"
+  },
+  {
+  "slug": "unity",
+  "name": "Unity",
+  "visual": "https://img.shields.io/badge/Unity-000000?style=for-the-badge&logo=unity&logoColor=white",
+  "proficiency": "Experienced"
+},
+{
+  "slug": "scikitlearn",
+  "name": "scikit-learn",
+  "visual": "https://img.shields.io/badge/scikit--learn-F7931E?style=for-the-badge&logo=scikit-learn&logoColor=white",
+  "proficiency": "Experienced"
+},
+{
+  "slug": "firebase",
+  "name": "Firebase",
+  "visual": "https://img.shields.io/badge/Firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=black",
+  "proficiency": "Experienced"
+},
+{
+  "slug": "webgl",
+  "name": "WebGL",
+  "visual": "https://img.shields.io/badge/WebGL-990000?style=for-the-badge&logo=webgl&logoColor=white",
+  "proficiency": "Exposed"
+},
+{
+  "slug": "restapi",
+  "name": "REST APIs",
+  "visual": "https://img.shields.io/badge/REST-111111?style=for-the-badge&logo=fastapi&logoColor=white",
+  "proficiency": "Experienced"
+}
 ]

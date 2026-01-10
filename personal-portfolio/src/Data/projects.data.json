@@ -25,22 +25,22 @@
     ]
   },
   {
-    "slug": "portfolio-site",
-    "title": "Personal Portfolio",
-    "summary": "Responsive portfolio with project detail routing.",
-    "description": "Showcases projects with clean UI and dynamic routing using React Router and TailwindCSS.",
-    "techSlugs": ["typescript"],
-    "links": { "demo": "https://your-site.example", "repo": "https://github.com/your/portfolio" },
-    "thumbnail": "https://raw.githubusercontent.com/your/portfolio/main/public/cover.jpg",
-    "gallery": [
-      {
-        "url": "https://raw.githubusercontent.com/your/portfolio/main/public/hero.png",
-        "caption": "Landing"
-      },
-      {
-        "url": "https://raw.githubusercontent.com/your/portfolio/main/public/projects-grid.png",
-        "caption": "Projects grid"
-      }
-    ]
-  }
+  "slug": "machine-minds",
+  "title": "Machine Minds",
+  "summary": "Unity tank shooter with machine-learning–driven adaptive difficulty (capstone project).",
+  "description": "Machine Minds is a level-based 2D tank shooter built in Unity that experiments with machine-learning–powered adaptive difficulty. The game collects gameplay metrics (accuracy, damage taken, survival time, score progression) and player survey feedback between levels, then uses a supervised learning model (logistic regression in Python via scikit-learn) to adjust difficulty by ~20% per level. It supports PC (Windows/macOS) and WebGL, includes Firebase-backed leaderboards, and uses a REST API for Python–Unity communication on non-WebGL platforms.",
+  "techSlugs": ["unity", "csharp", "python", "scikitlearn", "firebase", "restapi", "webgl"],
+  "links": {
+    "demo": "https://gabo0802.itch.io/machine-minds-demo",
+    "repo": "https://github.com/gabo0802/MachineMinds"
+  },
+  "thumbnail": null,
+  "gallery": [
+    {
+      "url": "https://www.youtube.com/watch?v=VX-DNo4qVTQ",
+      "caption": "Final presentation (YouTube)",
+      "type": "video"
+    }
+  ]
+}
 ]
