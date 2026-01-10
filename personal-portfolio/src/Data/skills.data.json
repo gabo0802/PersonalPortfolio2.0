@@ -1,20 +1,8 @@
 [
   {
-    "slug": "csharp",
-    "name": "C#",
-    "visual": "https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=csharp&logoColor=white",
-    "proficiency": "Experienced"
-  },
-  {
     "slug": "cpp",
     "name": "C++",
     "visual": "https://img.shields.io/badge/C%2B%2B-00599C?style=for-the-badge&logo=cplusplus&logoColor=white",
-    "proficiency": "Proficient"
-  },
-  {
-    "slug": "python",
-    "name": "Python",
-    "visual": "https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white",
     "proficiency": "Proficient"
   },
   {
@@ -24,16 +12,28 @@
     "proficiency": "Proficient"
   },
   {
-    "slug": "typescript",
-    "name": "TypeScript",
-    "visual": "https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white",
+    "slug": "csharp",
+    "name": "C#",
+    "visual": "https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=csharp&logoColor=white",
     "proficiency": "Experienced"
   },
   {
-    "slug": "react",
-    "name": "React",
-    "visual": "https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB",
-    "proficiency": "Experienced"
+    "slug": "dotnet",
+    "name": ".NET",
+    "visual": "https://img.shields.io/badge/.NET-512BD4?style=for-the-badge&logo=dotnet&logoColor=white",
+    "proficiency": "Exposed"
+  },
+  {
+    "slug": "python",
+    "name": "Python",
+    "visual": "https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white",
+    "proficiency": "Proficient"
+  },
+  {
+    "slug": "nodejs",
+    "name": "Node.js",
+    "visual": "https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white",
+    "proficiency": "Exposed"
   },
   {
     "slug": "flask",
@@ -42,51 +42,297 @@
     "proficiency": "Experienced"
   },
   {
+    "slug": "go",
+    "name": "Go",
+    "visual": "https://img.shields.io/badge/Go-00ADD8?style=for-the-badge&logo=go&logoColor=white",
+    "proficiency": "Exposed"
+  },
+  {
+    "slug": "react",
+    "name": "React",
+    "visual": "https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB",
+    "proficiency": "Experienced"
+  },
+  {
+    "slug": "angular",
+    "name": "Angular",
+    "visual": "https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white",
+    "proficiency": "Exposed"
+  },
+  {
+    "slug": "materialui",
+    "name": "Material UI",
+    "visual": "https://img.shields.io/badge/Material--UI-0081CB?style=for-the-badge&logo=mui&logoColor=white",
+    "proficiency": "Exposed"
+  },
+  {
+    "slug": "bootstrap",
+    "name": "Bootstrap",
+    "visual": "https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white",
+    "proficiency": "Exposed"
+  },
+  {
+    "slug": "html",
+    "name": "HTML5",
+    "visual": "https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white",
+    "proficiency": "Exposed"
+  },
+  {
+    "slug": "css",
+    "name": "CSS3",
+    "visual": "https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white",
+    "proficiency": "Exposed"
+  },
+  {
+    "slug": "sass",
+    "name": "Sass",
+    "visual": "https://img.shields.io/badge/Sass-CC6699?style=for-the-badge&logo=sass&logoColor=white",
+    "proficiency": "Exposed"
+  },
+  {
+    "slug": "javascript",
+    "name": "JavaScript",
+    "visual": "https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black",
+    "proficiency": "Exposed"
+  },
+  {
+    "slug": "typescript",
+    "name": "TypeScript",
+    "visual": "https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white",
+    "proficiency": "Experienced"
+  },
+  {
+    "slug": "tailwind",
+    "name": "Tailwind CSS",
+    "visual": "https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white",
+    "proficiency": "Exposed"
+  },
+  {
+    "slug": "figma",
+    "name": "Figma",
+    "visual": "https://img.shields.io/badge/Figma-F24E1E?style=for-the-badge&logo=figma&logoColor=white",
+    "proficiency": "Exposed"
+  },
+  {
+    "slug": "androidstudio",
+    "name": "Android Studio",
+    "visual": "https://img.shields.io/badge/Android_Studio-3DDC84?style=for-the-badge&logo=android-studio&logoColor=white",
+    "proficiency": "Exposed"
+  },
+  {
     "slug": "kotlin",
     "name": "Kotlin",
     "visual": "https://img.shields.io/badge/Kotlin-0095D5?style=for-the-badge&logo=kotlin&logoColor=white",
     "proficiency": "Exposed"
   },
   {
+    "slug": "mysql",
+    "name": "MySQL",
+    "visual": "https://img.shields.io/badge/MySQL-005C84?style=for-the-badge&logo=mysql&logoColor=white",
+    "proficiency": "Exposed"
+  },
+  {
+    "slug": "sqlite",
+    "name": "SQLite",
+    "visual": "https://img.shields.io/badge/SQLite-07405E?style=for-the-badge&logo=sqlite&logoColor=white",
+    "proficiency": "Exposed"
+  },
+  {
+    "slug": "firebase",
+    "name": "Firebase",
+    "visual": "https://img.shields.io/badge/Firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=black",
+    "proficiency": "Exposed"
+  },
+  {
+    "slug": "docker",
+    "name": "Docker",
+    "visual": "https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white",
+    "proficiency": "Exposed"
+  },
+  {
+    "slug": "kubernetes",
+    "name": "Kubernetes",
+    "visual": "https://img.shields.io/badge/Kubernetes-326CE5?style=for-the-badge&logo=kubernetes&logoColor=white",
+    "proficiency": "Exposed"
+  },
+  {
+    "slug": "gcp",
+    "name": "Google Cloud",
+    "visual": "https://img.shields.io/badge/Google_Cloud-4285F4?style=for-the-badge&logo=google-cloud&logoColor=white",
+    "proficiency": "Exposed"
+  },
+  {
+    "slug": "jenkins",
+    "name": "Jenkins",
+    "visual": "https://img.shields.io/badge/Jenkins-D24939?style=for-the-badge&logo=jenkins&logoColor=white",
+    "proficiency": "Exposed"
+  },
+  {
+    "slug": "githubactions",
+    "name": "GitHub Actions",
+    "visual": "https://img.shields.io/badge/GitHub_Actions-2088FF?style=for-the-badge&logo=github-actions&logoColor=white",
+    "proficiency": "Exposed"
+  },
+  {
+    "slug": "scikitlearn",
+    "name": "scikit-learn",
+    "visual": "https://img.shields.io/badge/scikit--learn-F7931E?style=for-the-badge&logo=scikit-learn&logoColor=white",
+    "proficiency": "Exposed"
+  },
+  {
+    "slug": "pytorch",
+    "name": "PyTorch",
+    "visual": "https://img.shields.io/badge/PyTorch-EE4C2C?style=for-the-badge&logo=pytorch&logoColor=white",
+    "proficiency": "Exposed"
+  },
+  {
+    "slug": "tensorflow",
+    "name": "TensorFlow",
+    "visual": "https://img.shields.io/badge/TensorFlow-FF6F00?style=for-the-badge&logo=tensorflow&logoColor=white",
+    "proficiency": "Exposed"
+  },
+  {
+    "slug": "git",
+    "name": "Git",
+    "visual": "https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white",
+    "proficiency": "Exposed"
+  },
+  {
+    "slug": "github",
+    "name": "GitHub",
+    "visual": "https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white",
+    "proficiency": "Exposed"
+  },
+  {
+    "slug": "gitlab",
+    "name": "GitLab",
+    "visual": "https://img.shields.io/badge/GitLab-FC6D26?style=for-the-badge&logo=gitlab&logoColor=white",
+    "proficiency": "Exposed"
+  },
+  {
+    "slug": "vscode",
+    "name": "VS Code",
+    "visual": "https://img.shields.io/badge/VS_Code-007ACC?style=for-the-badge&logo=visual-studio-code&logoColor=white",
+    "proficiency": "Exposed"
+  },
+  {
+    "slug": "eclipse",
+    "name": "Eclipse",
+    "visual": "https://img.shields.io/badge/Eclipse-2C2255?style=for-the-badge&logo=eclipse&logoColor=white",
+    "proficiency": "Exposed"
+  },
+  {
+    "slug": "visualstudio",
+    "name": "Visual Studio",
+    "visual": "https://img.shields.io/badge/Visual_Studio-5C2D91?style=for-the-badge&logo=visual-studio&logoColor=white",
+    "proficiency": "Exposed"
+  },
+  {
+    "slug": "clion",
+    "name": "CLion",
+    "visual": "https://img.shields.io/badge/CLion-000000?style=for-the-badge&logo=clion&logoColor=white",
+    "proficiency": "Exposed"
+  },
+  {
+    "slug": "intellij",
+    "name": "IntelliJ IDEA",
+    "visual": "https://img.shields.io/badge/IntelliJ_IDEA-000000?style=for-the-badge&logo=intellij-idea&logoColor=white",
+    "proficiency": "Exposed"
+  },
+  {
+    "slug": "replit",
+    "name": "Replit",
+    "visual": "https://img.shields.io/badge/Replit-667881?style=for-the-badge&logo=replit&logoColor=white",
+    "proficiency": "Exposed"
+  },
+  {
+    "slug": "discord",
+    "name": "Discord",
+    "visual": "https://img.shields.io/badge/Discord-5865F2?style=for-the-badge&logo=discord&logoColor=white",
+    "proficiency": "Exposed"
+  },
+  {
+    "slug": "notion",
+    "name": "Notion",
+    "visual": "https://img.shields.io/badge/Notion-000000?style=for-the-badge&logo=notion&logoColor=white",
+    "proficiency": "Exposed"
+  },
+  {
+    "slug": "googletasks",
+    "name": "Google Tasks",
+    "visual": "https://img.shields.io/badge/Google_Tasks-4285F4?style=for-the-badge&logo=googletasks&logoColor=white",
+    "proficiency": "Exposed"
+  },
+  {
+    "slug": "jira",
+    "name": "Jira",
+    "visual": "https://img.shields.io/badge/Jira-0052CC?style=for-the-badge&logo=jira&logoColor=white",
+    "proficiency": "Exposed"
+  },
+  {
+    "slug": "markdown",
+    "name": "Markdown",
+    "visual": "https://img.shields.io/badge/Markdown-000000?style=for-the-badge&logo=markdown&logoColor=white",
+    "proficiency": "Exposed"
+  },
+  {
+    "slug": "latex",
+    "name": "LaTeX",
+    "visual": "https://img.shields.io/badge/LaTeX-008080?style=for-the-badge&logo=latex&logoColor=white",
+    "proficiency": "Exposed"
+  },
+  {
+    "slug": "bash",
+    "name": "Bash",
+    "visual": "https://img.shields.io/badge/Bash-4EAA25?style=for-the-badge&logo=gnu-bash&logoColor=white",
+    "proficiency": "Exposed"
+  },
+  {
+    "slug": "cmake",
+    "name": "CMake",
+    "visual": "https://img.shields.io/badge/CMake-064F8C?style=for-the-badge&logo=cmake&logoColor=white",
+    "proficiency": "Exposed"
+  },
+  {
+    "slug": "matlab",
+    "name": "MATLAB",
+    "visual": "https://img.shields.io/badge/MATLAB-0076A8?style=for-the-badge&logo=mathworks&logoColor=white",
+    "proficiency": "Exposed"
+  },
+  {
+    "slug": "r",
+    "name": "R",
+    "visual": "https://img.shields.io/badge/R-276DC3?style=for-the-badge&logo=r&logoColor=white",
+    "proficiency": "Exposed"
+  },
+  {
     "slug": "unity",
     "name": "Unity",
     "visual": "https://img.shields.io/badge/Unity-000000?style=for-the-badge&logo=unity&logoColor=white",
-    "proficiency": "Experienced"
+    "proficiency": "Exposed"
   },
   {
-    "slug": "frostbite",
-    "name": "Frostbite",
-    "visual": "https://img.shields.io/badge/Frostbite-000000?style=for-the-badge&logo=frostbite&logoColor=white",
-    "proficiency": "Proficient"
+    "slug": "godot",
+    "name": "Godot",
+    "visual": "https://img.shields.io/badge/Godot-478CBF?style=for-the-badge&logo=godot-engine&logoColor=white",
+    "proficiency": "Exposed"
   },
   {
-  "slug": "unity",
-  "name": "Unity",
-  "visual": "https://img.shields.io/badge/Unity-000000?style=for-the-badge&logo=unity&logoColor=white",
-  "proficiency": "Experienced"
-},
-{
-  "slug": "scikitlearn",
-  "name": "scikit-learn",
-  "visual": "https://img.shields.io/badge/scikit--learn-F7931E?style=for-the-badge&logo=scikit-learn&logoColor=white",
-  "proficiency": "Experienced"
-},
-{
-  "slug": "firebase",
-  "name": "Firebase",
-  "visual": "https://img.shields.io/badge/Firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=black",
-  "proficiency": "Experienced"
-},
-{
-  "slug": "webgl",
-  "name": "WebGL",
-  "visual": "https://img.shields.io/badge/WebGL-990000?style=for-the-badge&logo=webgl&logoColor=white",
-  "proficiency": "Exposed"
-},
-{
-  "slug": "restapi",
-  "name": "REST APIs",
-  "visual": "https://img.shields.io/badge/REST-111111?style=for-the-badge&logo=fastapi&logoColor=white",
-  "proficiency": "Experienced"
-}
+    "slug": "windows",
+    "name": "Windows",
+    "visual": "https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white",
+    "proficiency": "Exposed"
+  },
+  {
+    "slug": "macos",
+    "name": "macOS",
+    "visual": "https://img.shields.io/badge/macOS-000000?style=for-the-badge&logo=apple&logoColor=white",
+    "proficiency": "Exposed"
+  },
+  {
+    "slug": "steamos",
+    "name": "SteamOS",
+    "visual": "https://img.shields.io/badge/SteamOS-000000?style=for-the-badge&logo=steam&logoColor=white",
+    "proficiency": "Exposed"
+  }
 ]

@@ -1,15 +1,63 @@
-import React from "react";
-import { Badge, Card, Carousel, ListGroup } from "react-bootstrap";
+import React, { useMemo, useState } from "react";
+import { Badge, Card, Carousel, ListGroup, Button, Modal } from "react-bootstrap";
 import { experiences } from "../../Data/experiences";
-import { featuredSkills } from "../../Data/skills";
+import { featuredSkills, skillsBySlug } from "../../Data/skills";
 import { proficiencyRank } from "../../Data/types";
+import type { Skill } from "../../Data/types";
 
 
 const orderedSkills = [...featuredSkills].sort(
   (a, b) => proficiencyRank[b.proficiency] - proficiencyRank[a.proficiency]
 );
 
+// README-style grouping by slug (matches your GitHub README categories) :contentReference[oaicite:1]{index=1}
+const skillGroups: { title: string; slugs: string[] }[] = [
+  {
+    title: "Back-End",
+    slugs: ["cpp", "java", "csharp", "dotnet", "python", "nodejs", "flask", "go"],
+  },
+  {
+    title: "Front-End",
+    slugs: [
+      "react",
+      "angular",
+      "materialui",
+      "bootstrap",
+      "html",
+      "css",
+      "sass",
+      "javascript",
+      "typescript",
+      "tailwind",
+      "figma",
+      "androidstudio",
+      "kotlin",
+    ],
+  },
+  { title: "Database", slugs: ["mysql", "sqlite", "firebase"] },
+  { title: "DevOps", slugs: ["docker", "kubernetes", "gcp", "jenkins", "githubactions"] },
+  { title: "AI Tools", slugs: ["scikitlearn", "pytorch", "tensorflow"] },
+  { title: "Version Control", slugs: ["git", "github", "gitlab"] },
+  { title: "IDEs", slugs: ["vscode", "eclipse", "visualstudio", "clion", "intellij", "replit"] },
+  { title: "Project Management", slugs: ["discord", "notion", "googletasks", "jira"] },
+  { title: "Other Tools", slugs: ["markdown", "latex", "bash", "cmake", "matlab", "r", "unity", "godot"] },
+  { title: "Operating Systems", slugs: ["windows", "macos", "steamos"] },
+];
+
+// Type guard: filters missing skills cleanly
+const isSkill = (s: Skill | undefined): s is Skill => s !== undefined;
+
+
 function MainPage() {
+    const [showSkills, setShowSkills] = useState(false);
+
+    const groupedSkills = useMemo(() => {
+        return skillGroups.map((g) => ({
+        title: g.title,
+        skills: g.slugs.map((slug) => skillsBySlug[slug]).filter(isSkill),
+        }));
+    }, []);
+
     return (
         <div className="flex flex-col w-full">
       {/* SECTION 1 */}
@@ -133,40 +181,88 @@ function MainPage() {
         {/* Skills column*/}
         <div className="flex-[0_0_33%] flex items-center justify-center px-6">
         <Card bg="dark" text="white" className="w-full max-w-sm border-0 shadow-lg">
-        <Card.Body>
+            <Card.Body>
             <Card.Title className="text-2xl font-bold mb-3">Skills</Card.Title>
             <Card.Text className="text-sm opacity-80 mb-3">
-            A snapshot of some of the languages and tools I work with most.
+                A snapshot of some of the languages and tools I work with most.
             </Card.Text>
-            <div className="space-y-3">
-            {orderedSkills.map((skill) => (
-                <div
-                key={skill.slug}
-                className="flex items-center gap-3"
-                >
-                {/* Badge/logo */}
-                <img
-                    src={skill.visual}
-                    alt={skill.name}
-                    className="h-8"
-                />
 
-                {/* Name + proficiency */}
-                <div className="flex flex-col">
+            {/* Highlight skills (featuredSkills) */}
+            <div className="space-y-3">
+                {orderedSkills.map((skill) => (
+                <div key={skill.slug} className="flex items-center gap-3">
+                    <img src={skill.visual} alt={skill.name} className="h-8" />
+
+                    <div className="flex flex-col">
                     <span className="font-semibold">{skill.name}</span>
                     <span className="text-xs opacity-70 flex items-center gap-2">
-                    <Badge bg="secondary" className="text-[0.65rem]">
+                        <Badge bg="secondary" className="text-[0.65rem]">
                         {skill.proficiency}
-                    </Badge>
+                        </Badge>
                     </span>
+                    </div>
                 </div>
-                </div>
-            ))}
+                ))}
             </div>
-        </Card.Body>
+
+            {/* Button to open full list */}
+            <div className="mt-4 flex justify-center">
+                <Button
+                variant="outline-light"
+                size="sm"
+                onClick={() => setShowSkills(true)}
+                >
+                View all skills
+                </Button>
+            </div>
+            </Card.Body>
         </Card>
-    </div>
+
+        {/* Modal popup (GitHub README style groups) */}
+        <Modal
+            show={showSkills}
+            onHide={() => setShowSkills(false)}
+            centered
+            size="lg"
+        >
+            <Modal.Header closeButton>
+            <Modal.Title>Languages & Tools</Modal.Title>
+            </Modal.Header>
+
+            <Modal.Body>
+            <div className="space-y-4">
+                {groupedSkills.map((group) =>
+                group.skills.length ? (
+                    <div key={group.title}>
+                    <h5 className="font-semibold mb-2">{group.title}</h5>
+
+                    <div className="flex flex-wrap gap-2">
+                        {group.skills.map((s) => (
+                        <img
+                            key={s.slug}
+                            src={s.visual}
+                            alt={s.name}
+                            title={`${s.name} • ${s.proficiency}`}
+                            className="h-8"
+                            loading="lazy"
+                        />
+                        ))}
+                    </div>
+                    </div>
+                ) : null
+                )}
+            </div>
+            </Modal.Body>
+
+            <Modal.Footer>
+            <Button variant="secondary" onClick={() => setShowSkills(false)}>
+                Close
+            </Button>
+            </Modal.Footer>
+        </Modal>
         </div>
+    </div>
+
 
       {/* SECTION 4 */}
     <div className="bg-[#282c34] h-[75vh] w-full flex items-center justify-center text-white">

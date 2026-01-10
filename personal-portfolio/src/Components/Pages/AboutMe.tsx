@@ -1,5 +1,6 @@
 import React from "react";
 import { Card, Button } from "react-bootstrap";
+import resumePdf from "../../Assets/docs/GabrielCastejonResume.pdf";
 
 function AboutMe() {
   return (
@@ -14,7 +15,7 @@ function AboutMe() {
               About Gabe...
             </h1>
 
-            <a href="/resume.pdf" download>
+            <a href={resumePdf} download>
               <Button variant="primary">
                 Download My Resume
               </Button>
