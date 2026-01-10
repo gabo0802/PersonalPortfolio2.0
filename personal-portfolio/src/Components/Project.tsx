@@ -2,7 +2,7 @@ import React from "react";
 import { useParams, Navigate, useNavigate } from "react-router-dom";
 import { Button, Badge } from "react-bootstrap";
 import { getProjectBySlug } from "../Data/projects";
-import { isImage, isVideo } from "../Utils/media";
+import { isImage, isVideo, isYouTubeUrl, toYouTubeEmbedUrl } from "../Utils/media";
 
 export default function Project() {
   const { slug } = useParams<{ slug: string }>();
@@ -134,6 +134,16 @@ export default function Project() {
                             loading="lazy"
                           />
                         </a>
+                     ) : isYouTubeUrl(m.url) ? (
+                        <div className="w-full h-48">
+                          <iframe
+                            className="w-full h-full"
+                            src={toYouTubeEmbedUrl(m.url)}
+                            title={m.caption ?? `YouTube video ${i + 1}`}
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            allowFullScreen
+                          />
+                        </div>
                       ) : (
                         <video
                           className="w-full h-48 object-cover"
@@ -142,6 +152,7 @@ export default function Project() {
                           preload="metadata"
                         />
                       )}
+
                       {m.caption && (
                         <figcaption className="p-2 text-sm opacity-80">
                           {m.caption}
