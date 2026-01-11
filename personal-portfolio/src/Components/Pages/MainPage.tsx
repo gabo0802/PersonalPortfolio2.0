@@ -5,12 +5,16 @@ import { featuredSkills, skillsBySlug } from "../../Data/skills";
 import { proficiencyRank } from "../../Data/types";
 import type { Skill } from "../../Data/types";
 
+// Image Imports
+import linkedInBg from "../../Assets/images/linkedIn2.jpg";
+import EABg from "../../Assets/images/EABackground.jpg";
+
 
 const orderedSkills = [...featuredSkills].sort(
   (a, b) => proficiencyRank[b.proficiency] - proficiencyRank[a.proficiency]
 );
 
-// README-style grouping by slug (matches your GitHub README categories) :contentReference[oaicite:1]{index=1}
+// README-style grouping by slug (matches GitHub README categories) :contentReference[oaicite:1]{index=1}
 const skillGroups: { title: string; slugs: string[] }[] = [
   {
     title: "Back-End",
@@ -61,10 +65,19 @@ function MainPage() {
     return (
         <div className="flex flex-col w-full">
       {/* SECTION 1 */}
-      <div className="bg-[#282c34] h-[75vh] w-full flex text-white">
-        <div className="flex-[0_0_35%] flex items-center justify-center">
-          {/* Placeholder for image – 50% of this area's width/height */}
-          <div className="w-1/2 h-1/2 bg-black rounded-lg" />
+      <div className="bg-[#282c34] h-[75vh] w-full flex text-white" 
+      style={{
+          backgroundImage: `url("${EABg}")`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}>
+        <div className="flex-[0_0_35%] flex items-center justify-center" >
+          <div className="w-3/4 h-3/4 bg-black rounded-lg" 
+          style={{
+          backgroundImage: `url("${linkedInBg}")`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}/>
         </div>
 
         {/* Right side – remaining width */}
@@ -72,13 +85,15 @@ function MainPage() {
           <h1 className="text-4xl md:text-5xl font-bold">
             Hi, I&apos;m Gabriel Castejon
           </h1>
-          <Card className="bg-[#1f232b] text-white shadow-lg w-full max-w-xl border-0">
+          <Card className="bg-[#1f232b] text-white shadow-lg w-full max-w-2xl border-0">
             <Card.Title className="pt-5 text-xl font-bold">Software Engineer @ Electronic Arts</Card.Title>
             <Card.Body className="md:p-4">
-            <Card.Text className="text-lg leading-relaxed">
-                This is a short introduction about who I am, what I do, and what
-                this portfolio is about. I&apos;ll replace this placeholder text
-                with a proper summary of my work and interests.
+            <Card.Text className="text-lg leading-relaxed text-left">
+                - Graduate from the <strong>University of Florida</strong> 🐊 with a Computer Science Major and Business Administration and Economics Minors<br></br>
+                - Prev SWE Intern @ <strong>Google</strong> and <strong>Electronic Arts</strong><br></br>
+                - <strong>ColorStack</strong> and <strong>SHPE</strong> Member, <strong>HSF</strong> Scholar<br></br>
+                - Currently a Software Engineer at the <strong>EA SPORTS Academy</strong> program, as a back-end engineer in the College Football Modes team.<br></br>
+                - Mostly been front-end / full stack developer, but with experience in tons of other tools, see some of what I've worked with below ~<br></br>
             </Card.Text>
             </Card.Body>
             </Card>
