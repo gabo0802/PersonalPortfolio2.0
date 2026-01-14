@@ -8,6 +8,7 @@ import type { Skill } from "../../Data/types";
 // Image Imports
 import linkedInBg from "../../Assets/images/linkedIn2.jpg";
 import EABg from "../../Assets/images/EABackground.jpg";
+import cafe from "../../Assets/images/cafe.jpg";
 
 
 const orderedSkills = [...featuredSkills].sort(
@@ -101,12 +102,11 @@ function MainPage() {
       </div>
 
       {/* SECTION 2 */}
-      <div className="bg-[#282c34] h-[75vh] w-full flex items-center justify-center text-white">
-        <div className="flex-[0_0_25%] flex items-center justify-center px-4">
-            <p>toReplace</p>
+      <div className="bg-[#151B54] h-[75vh] w-full flex items-center justify-center text-white">
+        <div className="flex-[0_0_10%] h-full flex items-center justify-center px-4">
         </div>
-        <div className="flex-[0_0_50%] flex items-center justify-center px-4">
-            <Carousel indicators={true} controls={true} className="h-full w-full max-w-2xl" interval={5000}>
+        <div className="flex-[0_0_80%] flex items-center justify-center px-4">
+            <Carousel indicators={true} controls={true} className="h-full w-full max-w-4xl" interval={5000}>
             {experiences.map((exp) => (
                 <Carousel.Item key={exp.title}>
                 <div className="h-[260px] md:h-[340px] flex items-stretch">
@@ -138,8 +138,7 @@ function MainPage() {
             ))}
             </Carousel>
         </div>
-        <div className="flex-[0_0_25%] flex items-center justify-center px-4">
-            <p>test</p>
+        <div className="flex-[0_0_10%] flex items-center justify-center px-4">
         </div>
       </div>
 
@@ -197,25 +196,25 @@ function MainPage() {
         <div className="flex-[0_0_33%] flex items-center justify-center px-6">
         <Card bg="dark" text="white" className="w-full max-w-sm border-0 shadow-lg">
             <Card.Body>
-            <Card.Title className="text-2xl font-bold mb-3">Skills</Card.Title>
-            <Card.Text className="text-sm opacity-80 mb-3">
-                A snapshot of some of the languages and tools I work with most.
+            <Card.Title className="text-2xl font-bold mb-3 text-center">Skills</Card.Title>
+            <Card.Text className="text-sm opacity-80 mb-3 text-center">
+            A snapshot of some of the languages and tools I work with most.
             </Card.Text>
 
             {/* Highlight skills (featuredSkills) */}
-            <div className="space-y-3">
-                {orderedSkills.map((skill) => (
-                <div key={skill.slug} className="flex items-center gap-3">
-                    <img src={skill.visual} alt={skill.name} className="h-8" />
+            <div className="space-y-3 flex flex-col items-center">
+            {orderedSkills.map((skill) => (
+            <div key={skill.slug} className="flex items-center gap-3 justify-center">
+                <img src={skill.visual} alt={skill.name} className="h-8" />
 
-                    <div className="flex flex-col">
-                    <span className="font-semibold">{skill.name}</span>
-                    <span className="text-xs opacity-70 flex items-center gap-2">
-                        <Badge bg="secondary" className="text-[0.65rem]">
-                        {skill.proficiency}
-                        </Badge>
-                    </span>
-                    </div>
+                <div className="flex flex-col text-center">
+                <span className="font-semibold">{skill.name}</span>
+                <span className="text-xs opacity-70 flex items-center gap-2 justify-center">
+                <Badge bg="secondary" className="text-[0.65rem]">
+                {skill.proficiency}
+                </Badge>
+                </span>
+                </div>
                 </div>
                 ))}
             </div>
@@ -337,13 +336,12 @@ function MainPage() {
         </Card>
     </div>
 
-    <div className="flex-[0_0_60%] flex items-center justify-center px-6">
-        <div className="w-full max-w-2xl border border-dashed border-gray-500 rounded-2xl h-2/3 flex items-center justify-center text-center opacity-70">
-        <p className="text-sm md:text-base">
-            Future content goes here – maybe a contact form, map, or a final call-to-action.
-        </p>
+    <div className="flex-[0_0_60%] flex items-center justify-center px-6 h-full w-full" style={{
+          backgroundImage: `url(${cafe})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}>
         </div>
-    </div>
     </div>
     </div>
     );
