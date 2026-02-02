@@ -122,7 +122,7 @@ function MainPage() {
 
         {/* Right side – remaining width */}
         <div className="flex-[0_0_65%] flex flex-col justify-center items-center px-12 space-y-6">
-          <h1 className="text-4xl md:text-5xl font-bold">
+          <h1 className="text-black text-4xl md:text-5xl font-bold">
             Hi, I&apos;m Gabriel Castejon
           </h1>
           <Card className="bg-[#1f232b] text-white shadow-lg w-full max-w-2xl border-0">
@@ -148,187 +148,216 @@ function MainPage() {
         </div>
       </div>
 
-      {/* SECTION 2 */}
-      <div className="bg-[#151B54] h-[75vh] w-full flex items-center justify-center text-white">
-        <div className="flex-[0_0_10%] h-full flex items-center justify-center px-4"></div>
-        <div className="flex-[0_0_80%] flex items-center justify-center px-4">
-          <Carousel
-            indicators={true}
-            controls={true}
-            className="h-full w-full max-w-4xl"
-            interval={5000}
-          >
-            {experiences.map((exp) => (
-              <Carousel.Item key={exp.title}>
-                <div className="h-[260px] md:h-[340px] flex items-stretch">
-                  <Card className="bg-[#1f232b] text-white border-0 shadow-lg w-full h-full">
-                    <Card.Body className="h-full flex flex-col justify-center p-6 md:p-8">
-                      <Card.Title className="text-xl md:text-2xl font-bold">
-                        {exp.title}
-                      </Card.Title>
+      {/* SECTION 2 — Option 4: Modern gradient + blobs */}
+      <div className="relative h-[75vh] w-full overflow-hidden text-white">
+        {/* Base gradient */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(135deg, #0b102a 0%, #101b47 40%, #0c1638 100%)",
+          }}
+        />
 
-                      {exp.subtitle && (
-                        <Card.Subtitle className="mt-1 mb-2 text-sm opacity-80">
-                          {exp.subtitle}
-                        </Card.Subtitle>
-                      )}
+        {/* Blobs (no custom colors required, but these are muted + nice) */}
+        <div className="absolute -top-24 -left-24 w-[420px] h-[420px] rounded-full bg-white/10 blur-3xl" />
+        <div className="absolute top-24 -right-32 w-[520px] h-[520px] rounded-full bg-white/10 blur-3xl" />
+        <div className="absolute -bottom-40 left-1/3 w-[560px] h-[560px] rounded-full bg-white/10 blur-3xl" />
 
-                      {exp.timeframe && (
-                        <div className="text-xs mb-3 opacity-70">
-                          {exp.timeframe}
+        {/* Vignette to keep focus */}
+        <div
+          className="absolute inset-0 opacity-70"
+          style={{
+            background:
+              "radial-gradient(circle at center, rgba(0,0,0,0) 0%, rgba(0,0,0,0.35) 70%, rgba(0,0,0,0.55) 100%)",
+          }}
+        />
+
+        {/* Content */}
+        <div className="relative h-full w-full flex flex-col items-center justify-center">
+          <h2 className="text-4xl md:text-5xl font-light tracking-wide mb-10">
+            My Journey:
+          </h2>
+
+          <div className="w-full px-4 flex items-center justify-center">
+            <div className="w-full max-w-5xl">
+              <Carousel indicators controls interval={5000} className="w-full">
+                {experiences.map((exp) => (
+                  <Carousel.Item key={exp.title}>
+                    <div className="h-[320px] md:h-[360px] flex items-center justify-center">
+                      <div className="w-full h-full rounded-2xl border border-white/10 bg-black/30 backdrop-blur-md shadow-2xl px-10 md:px-16 flex flex-col justify-center text-center">
+                        {exp.timeframe && (
+                          <div className="text-sm md:text-base opacity-75 mb-4">
+                            {exp.timeframe}
+                          </div>
+                        )}
+                        <div className="text-2xl md:text-3xl font-semibold mb-2">
+                          {exp.title}
                         </div>
-                      )}
-
-                      <Card.Text className="text-sm md:text-base leading-relaxed">
-                        {exp.description}
-                      </Card.Text>
-                    </Card.Body>
-                  </Card>
-                </div>
-              </Carousel.Item>
-            ))}
-          </Carousel>
+                        {exp.subtitle && (
+                          <div className="text-base md:text-lg opacity-80 mb-6">
+                            {exp.subtitle}
+                          </div>
+                        )}
+                        <p className="text-base md:text-lg opacity-90 leading-relaxed">
+                          {exp.description}
+                        </p>
+                      </div>
+                    </div>
+                  </Carousel.Item>
+                ))}
+              </Carousel>
+            </div>
+          </div>
         </div>
-        <div className="flex-[0_0_10%] flex items-center justify-center px-4"></div>
       </div>
 
       {/* SECTION 3 */}
-      <div className="bg-[#282c34] h-[75vh] w-full flex items-center justify-center text-white">
-        {/* Education Section */}
-        <div className="flex-[0_0_33%] flex items-center justify-center px-6">
-          <Card
-            bg="dark"
-            text="white"
-            className="w-full max-w-sm border-0 shadow-lg pb-2"
-          >
-            <Card.Body>
-              <Card.Title className="text-2xl font-bold">Education</Card.Title>
-            </Card.Body>
-            <ListGroup variant="flush" className="bg-transparent">
-              <ListGroup.Item className="bg-transparent text-white border-0">
-                <h3 className="text-lg font-semibold">
+      <div className="bg-[#282c34] h-[75vh] w-full flex text-white">
+        {/* LEFT: Education (full height panel, no Card) */}
+        <div className="flex-[0_0_33%] h-full px-6 py-10">
+          <div className="h-full rounded-2xl bg-white/5 border border-white/10 shadow-2xl flex flex-col items-center justify-center text-center px-8">
+            <h2 className="text-3xl font-semibold mb-8">Education</h2>
+
+            <div className="space-y-8 w-full">
+              {/* Item 1 */}
+              <div>
+                <div className="text-xl font-semibold">
                   High School (Valedictorian)
-                </h3>
-                <p className="text-sm opacity-80">Charles W. Flanagan</p>
-                <p className="text-xs opacity-60">2017-2021</p>
-              </ListGroup.Item>
-              <div className="text-center text-gray-400 text-sm my-1">↓</div>
-              <ListGroup.Item className="bg-transparent text-white border-0">
-                <h3 className="text-lg font-semibold">
+                </div>
+                <div className="text-sm opacity-80 mt-1">
+                  Charles W. Flanagan
+                </div>
+                <div className="text-xs opacity-60 mt-1">2017–2021</div>
+              </div>
+
+              <div className="flex justify-center opacity-60">↓</div>
+
+              {/* Item 2 */}
+              <div>
+                <div className="text-xl font-semibold">
                   Associate Degree (Highest Honors)
-                </h3>
-                <p className="text-sm opacity-80">Broward College</p>
-                <p className="text-xs opacity-60">2017-2021</p>
-              </ListGroup.Item>
-              <div className="text-center text-gray-400 text-sm my-1">↓</div>
-              <ListGroup.Item className="bg-transparent text-white border-0">
-                <h3 className="text-lg font-semibold">
+                </div>
+                <div className="text-sm opacity-80 mt-1">Broward College</div>
+                <div className="text-xs opacity-60 mt-1">2017–2021</div>
+              </div>
+
+              <div className="flex justify-center opacity-60">↓</div>
+
+              {/* Item 3 */}
+              <div>
+                <div className="text-xl font-semibold">
                   Bachelor&apos;s Degree (Magna Cum Laude)
-                </h3>
-                <p className="text-sm opacity-80">University of Florida</p>
-                <p className="text-xs opacity-60">2021-2025</p>
-              </ListGroup.Item>
-            </ListGroup>
-          </Card>
+                </div>
+                <div className="text-sm opacity-80 mt-1">
+                  University of Florida
+                </div>
+                <div className="text-xs opacity-60 mt-1">2021–2025</div>
+              </div>
+            </div>
+          </div>
         </div>
 
-        {/* Middle image column */}
-        <div className="flex-[0_0_33%] flex items-center justify-center px-6">
-          {/* Placeholder for image */}
+        {/* MIDDLE: Image (unchanged) */}
+        <div className="flex-[0_0_33%] h-full flex items-center justify-center px-6">
           <div className="w-3/4 h-3/4 bg-black rounded-xl" />
         </div>
 
-        {/* Skills column*/}
-        <div className="flex-[0_0_33%] flex items-center justify-center px-6">
-          <Card
-            bg="dark"
-            text="white"
-            className="w-full max-w-sm border-0 shadow-lg"
-          >
-            <Card.Body>
-              <Card.Title className="text-2xl font-bold mb-3 text-center">
-                Skills
-              </Card.Title>
-              <Card.Text className="text-sm opacity-80 mb-3 text-center">
-                A snapshot of some of the languages and tools I work with most.
-              </Card.Text>
+        {/* RIGHT: Skills (improved layout + full height panel) */}
+        <div className="flex-[0_0_33%] h-full px-6 py-10">
+          <div className="h-full rounded-2xl bg-white/5 border border-white/10 shadow-2xl flex flex-col px-8 py-10">
+            <h2 className="text-3xl font-semibold text-center">Skills</h2>
+            <p className="text-sm opacity-80 text-center mt-2">
+              A snapshot of some of the languages and tools I work with most.
+            </p>
 
-              {/* Highlight skills (featuredSkills) */}
-              <div className="space-y-3 flex flex-col items-center">
-                {orderedSkills.map((skill) => (
-                  <div
-                    key={skill.slug}
-                    className="flex items-center gap-3 justify-center"
-                  >
-                    <img src={skill.visual} alt={skill.name} className="h-8" />
+            {/* List */}
+            <div className="mt-8 space-y-4 flex-1 flex flex-col justify-center">
+              {orderedSkills.map((skill) => (
+                <div
+                  key={skill.slug}
+                  className="flex items-center gap-4 w-full justify-center"
+                >
+                  {/* Logo */}
+                  <img
+                    src={skill.visual}
+                    alt={skill.name}
+                    className="h-9"
+                    loading="lazy"
+                  />
 
-                    <div className="flex flex-col text-center">
-                      <span className="font-semibold">{skill.name}</span>
-                      <span className="text-xs opacity-70 flex items-center gap-2 justify-center">
-                        <Badge bg="secondary" className="text-[0.65rem]">
-                          {skill.proficiency}
-                        </Badge>
-                      </span>
+                  {/* Name + proficiency (left-aligned for cleaner scan) */}
+                  <div className="min-w-[140px]">
+                    <div className="font-semibold leading-tight">
+                      {skill.name}
+                    </div>
+                    <div className="mt-1">
+                      <Badge bg="secondary" className="text-[0.7rem]">
+                        {skill.proficiency}
+                      </Badge>
                     </div>
                   </div>
-                ))}
-              </div>
+                </div>
+              ))}
+            </div>
 
-              {/* Button to open full list */}
-              <div className="mt-4 flex justify-center">
-                <Button
-                  variant="outline-light"
-                  size="sm"
-                  onClick={() => setShowSkills(true)}
-                >
-                  View all skills
-                </Button>
-              </div>
-            </Card.Body>
-          </Card>
-
-          {/* Modal popup (GitHub README style groups) */}
-          <Modal
-            show={showSkills}
-            onHide={() => setShowSkills(false)}
-            centered
-            size="lg"
-          >
-            <Modal.Header closeButton>
-              <Modal.Title>Languages & Tools</Modal.Title>
-            </Modal.Header>
-
-            <Modal.Body>
-              <div className="space-y-4">
-                {groupedSkills.map((group) =>
-                  group.skills.length ? (
-                    <div key={group.title}>
-                      <h5 className="font-semibold mb-2">{group.title}</h5>
-
-                      <div className="flex flex-wrap gap-2">
-                        {group.skills.map((s) => (
-                          <img
-                            key={s.slug}
-                            src={s.visual}
-                            alt={s.name}
-                            title={`${s.name} • ${s.proficiency}`}
-                            className="h-8"
-                            loading="lazy"
-                          />
-                        ))}
-                      </div>
-                    </div>
-                  ) : null,
-                )}
-              </div>
-            </Modal.Body>
-
-            <Modal.Footer>
-              <Button variant="secondary" onClick={() => setShowSkills(false)}>
-                Close
+            {/* Button */}
+            <div className="pt-6 flex justify-center">
+              <Button
+                variant="outline-light"
+                size="sm"
+                onClick={() => setShowSkills(true)}
+              >
+                View all skills
               </Button>
-            </Modal.Footer>
-          </Modal>
+            </div>
+
+            {/* Modal popup (unchanged) */}
+            <Modal
+              show={showSkills}
+              onHide={() => setShowSkills(false)}
+              centered
+              size="lg"
+            >
+              <Modal.Header closeButton>
+                <Modal.Title>Languages & Tools</Modal.Title>
+              </Modal.Header>
+
+              <Modal.Body>
+                <div className="space-y-4">
+                  {groupedSkills.map((group) =>
+                    group.skills.length ? (
+                      <div key={group.title}>
+                        <h5 className="font-semibold mb-2">{group.title}</h5>
+
+                        <div className="flex flex-wrap gap-2">
+                          {group.skills.map((s) => (
+                            <img
+                              key={s.slug}
+                              src={s.visual}
+                              alt={s.name}
+                              title={`${s.name} • ${s.proficiency}`}
+                              className="h-8"
+                              loading="lazy"
+                            />
+                          ))}
+                        </div>
+                      </div>
+                    ) : null,
+                  )}
+                </div>
+              </Modal.Body>
+
+              <Modal.Footer>
+                <Button
+                  variant="secondary"
+                  onClick={() => setShowSkills(false)}
+                >
+                  Close
+                </Button>
+              </Modal.Footer>
+            </Modal>
+          </div>
         </div>
       </div>
 
