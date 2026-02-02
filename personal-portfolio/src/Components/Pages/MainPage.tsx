@@ -212,153 +212,182 @@ function MainPage() {
         </div>
       </div>
 
-      {/* SECTION 3 */}
-      <div className="bg-[#282c34] h-[75vh] w-full flex text-white">
-        {/* LEFT: Education (full height panel, no Card) */}
-        <div className="flex-[0_0_33%] h-full px-6 py-10">
-          <div className="h-full rounded-2xl bg-white/5 border border-white/10 shadow-2xl flex flex-col items-center justify-center text-center px-8">
-            <h2 className="text-3xl font-semibold mb-8">Education</h2>
+      {/* SECTION 3 — Education / Visual / Skills */}
+      <div className="relative h-[75vh] w-full overflow-hidden text-white">
+        {/* Base gradient */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(135deg, #0b102a 0%, #101b47 40%, #0c1638 100%)",
+          }}
+        />
 
-            <div className="space-y-8 w-full">
-              {/* Item 1 */}
-              <div>
-                <div className="text-xl font-semibold">
-                  High School (Valedictorian)
-                </div>
-                <div className="text-sm opacity-80 mt-1">
-                  Charles W. Flanagan
-                </div>
-                <div className="text-xs opacity-60 mt-1">2017–2021</div>
-              </div>
+        {/* Blobs */}
+        <div className="absolute -top-32 left-1/4 w-[520px] h-[520px] rounded-full bg-white/10 blur-3xl" />
+        <div className="absolute bottom-0 right-1/4 w-[420px] h-[420px] rounded-full bg-white/10 blur-3xl" />
 
-              <div className="flex justify-center opacity-60">↓</div>
+        {/* Vignette */}
+        <div
+          className="absolute inset-0 opacity-70"
+          style={{
+            background:
+              "radial-gradient(circle at center, rgba(0,0,0,0) 0%, rgba(0,0,0,0.35) 70%, rgba(0,0,0,0.55) 100%)",
+          }}
+        />
 
-              {/* Item 2 */}
-              <div>
-                <div className="text-xl font-semibold">
-                  Associate Degree (Highest Honors)
-                </div>
-                <div className="text-sm opacity-80 mt-1">Broward College</div>
-                <div className="text-xs opacity-60 mt-1">2017–2021</div>
-              </div>
+        {/* Content */}
+        <div className="relative z-10 h-full w-full flex">
+          {/* LEFT — Education */}
+          <div className="flex-[0_0_33%] h-full px-6 py-10">
+            <div className="h-full rounded-2xl bg-white/5 border border-white/10 shadow-2xl flex flex-col items-center justify-center text-center px-8">
+              <h2 className="text-3xl font-semibold mb-8">Education</h2>
 
-              <div className="flex justify-center opacity-60">↓</div>
+              <div className="space-y-8">
+                <div>
+                  <div className="text-xl font-semibold">
+                    High School (Valedictorian)
+                  </div>
+                  <div className="text-sm opacity-80 mt-1">
+                    Charles W. Flanagan
+                  </div>
+                  <div className="text-xs opacity-60 mt-1">2017–2021</div>
+                </div>
 
-              {/* Item 3 */}
-              <div>
-                <div className="text-xl font-semibold">
-                  Bachelor&apos;s Degree (Magna Cum Laude)
+                <div className="opacity-60">↓</div>
+
+                <div>
+                  <div className="text-xl font-semibold">
+                    Associate Degree (Highest Honors)
+                  </div>
+                  <div className="text-sm opacity-80 mt-1">Broward College</div>
+                  <div className="text-xs opacity-60 mt-1">2017–2021</div>
                 </div>
-                <div className="text-sm opacity-80 mt-1">
-                  University of Florida
+
+                <div className="opacity-60">↓</div>
+
+                <div>
+                  <div className="text-xl font-semibold">
+                    Bachelor&apos;s Degree (Magna Cum Laude)
+                  </div>
+                  <div className="text-sm opacity-80 mt-1">
+                    University of Florida
+                  </div>
+                  <div className="text-xs opacity-60 mt-1">2021–2025</div>
                 </div>
-                <div className="text-xs opacity-60 mt-1">2021–2025</div>
               </div>
             </div>
           </div>
-        </div>
 
-        {/* MIDDLE: Image (unchanged) */}
-        <div className="flex-[0_0_33%] h-full flex items-center justify-center px-6">
-          <div className="w-3/4 h-3/4 bg-black rounded-xl" />
-        </div>
+          {/* MIDDLE — Visual */}
+          <div className="flex-[0_0_33%] h-full px-6 py-10">
+            <div className="h-full rounded-2xl bg-white/5 border border-white/10 shadow-2xl overflow-hidden relative">
+              <img
+                src={/* replace with your image */ ""}
+                alt="Section visual"
+                className="w-full h-full object-cover opacity-85"
+              />
+              <div className="absolute inset-0 bg-black/30" />
+            </div>
+          </div>
 
-        {/* RIGHT: Skills (improved layout + full height panel) */}
-        <div className="flex-[0_0_33%] h-full px-6 py-10">
-          <div className="h-full rounded-2xl bg-white/5 border border-white/10 shadow-2xl flex flex-col px-8 py-10">
-            <h2 className="text-3xl font-semibold text-center">Skills</h2>
-            <p className="text-sm opacity-80 text-center mt-2">
-              A snapshot of some of the languages and tools I work with most.
-            </p>
+          {/* RIGHT — Skills */}
+          <div className="flex-[0_0_33%] h-full px-6 py-10">
+            <div className="h-full rounded-2xl bg-white/5 border border-white/10 shadow-2xl flex flex-col px-8 py-10">
+              <h2 className="text-3xl font-semibold text-center">Skills</h2>
+              <p className="text-sm opacity-80 text-center mt-2">
+                A snapshot of some of the languages and tools I work with most.
+              </p>
 
-            {/* List */}
-            <div className="mt-8 space-y-4 flex-1 flex flex-col justify-center">
-              {orderedSkills.map((skill) => (
-                <div
-                  key={skill.slug}
-                  className="flex items-center gap-4 w-full justify-center"
-                >
-                  {/* Logo */}
-                  <img
-                    src={skill.visual}
-                    alt={skill.name}
-                    className="h-9"
-                    loading="lazy"
-                  />
-
-                  {/* Name + proficiency (left-aligned for cleaner scan) */}
-                  <div className="min-w-[140px]">
-                    <div className="font-semibold leading-tight">
-                      {skill.name}
-                    </div>
-                    <div className="mt-1">
-                      <Badge bg="secondary" className="text-[0.7rem]">
+              {/* Skill list */}
+              <div className="mt-8 space-y-4 flex-1 flex flex-col justify-center">
+                {orderedSkills.map((skill) => (
+                  <div
+                    key={skill.slug}
+                    className="flex items-center gap-4 justify-center"
+                  >
+                    <img
+                      src={skill.visual}
+                      alt={skill.name}
+                      className="h-9"
+                      loading="lazy"
+                    />
+                    <div className="min-w-[140px]">
+                      <div className="font-semibold">{skill.name}</div>
+                      <Badge bg="secondary" className="text-[0.7rem] mt-1">
                         {skill.proficiency}
                       </Badge>
                     </div>
                   </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
 
-            {/* Button */}
-            <div className="pt-6 flex justify-center">
-              <Button
-                variant="outline-light"
-                size="sm"
-                onClick={() => setShowSkills(true)}
-              >
-                View all skills
-              </Button>
-            </div>
-
-            {/* Modal popup (unchanged) */}
-            <Modal
-              show={showSkills}
-              onHide={() => setShowSkills(false)}
-              centered
-              size="lg"
-            >
-              <Modal.Header closeButton>
-                <Modal.Title>Languages & Tools</Modal.Title>
-              </Modal.Header>
-
-              <Modal.Body>
-                <div className="space-y-4">
-                  {groupedSkills.map((group) =>
-                    group.skills.length ? (
-                      <div key={group.title}>
-                        <h5 className="font-semibold mb-2">{group.title}</h5>
-
-                        <div className="flex flex-wrap gap-2">
-                          {group.skills.map((s) => (
-                            <img
-                              key={s.slug}
-                              src={s.visual}
-                              alt={s.name}
-                              title={`${s.name} • ${s.proficiency}`}
-                              className="h-8"
-                              loading="lazy"
-                            />
-                          ))}
-                        </div>
-                      </div>
-                    ) : null,
-                  )}
-                </div>
-              </Modal.Body>
-
-              <Modal.Footer>
+              {/* Button */}
+              <div className="pt-6 flex justify-center">
                 <Button
-                  variant="secondary"
-                  onClick={() => setShowSkills(false)}
+                  variant="outline-light"
+                  size="sm"
+                  onClick={() => setShowSkills(true)}
                 >
-                  Close
+                  View all skills
                 </Button>
-              </Modal.Footer>
-            </Modal>
+              </div>
+            </div>
           </div>
         </div>
+
+        {/* --- Skills Modal (RESTORED) --- */}
+        <Modal
+          show={showSkills}
+          onHide={() => setShowSkills(false)}
+          centered
+          size="lg"
+        >
+          <Modal.Header closeButton>
+            <Modal.Title>Languages &amp; Tools</Modal.Title>
+          </Modal.Header>
+
+          <Modal.Body>
+            <div className="space-y-4">
+              {groupedSkills.map((group) =>
+                group.skills.length ? (
+                  <div key={group.title}>
+                    <h5 className="font-semibold mb-2">{group.title}</h5>
+
+                    <div className="flex flex-wrap gap-2">
+                      {group.skills.map((s) => (
+                        <div
+                          key={s.slug}
+                          className="flex items-center gap-2 bg-white/5 px-2 py-1 rounded-md"
+                          title={`${s.name} • ${s.proficiency}`}
+                        >
+                          <img
+                            src={s.visual}
+                            alt={s.name}
+                            className="h-8"
+                            loading="lazy"
+                          />
+                          <div className="text-sm">
+                            <div className="font-medium">{s.name}</div>
+                            <div className="text-xs opacity-70">
+                              {s.proficiency}
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ) : null,
+              )}
+            </div>
+          </Modal.Body>
+
+          <Modal.Footer>
+            <Button variant="secondary" onClick={() => setShowSkills(false)}>
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
       </div>
 
       {/* SECTION 4 */}
