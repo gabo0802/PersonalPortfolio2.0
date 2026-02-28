@@ -36,6 +36,18 @@
 
   --contact-surface: #dbe6ff;
   --contact-text: #10213f;
+
+  --about-contrast-gradient: linear-gradient(135deg, #b6daff 0%, #62a1f9 45%, #247cff 100%);
+  --about-contrast-vignette: radial-gradient(
+    circle at center,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(181, 205, 245, 0.18) 72%,
+    rgba(160, 190, 239, 0.28) 100%
+  );
+  --about-contrast-surface: rgba(201, 219, 247, 0.32);
+  --about-foreground-text: #0f1e3b;
+  --about-card-bg: rgba(12, 24, 48, 0.9);
+  --about-card-border: rgba(161, 184, 229, 0.32);
 }
 
 [data-theme="dawn"] {
@@ -75,4 +87,16 @@
 
   --contact-surface: #cdd9f5;
   --contact-text: #152b50;
+
+  --about-contrast-gradient: linear-gradient(135deg, #f7fbff 0%, #eef5ff 45%, #e3eeff 100%);
+  --about-contrast-vignette: radial-gradient(
+    circle at center,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(181, 205, 245, 0.18) 72%,
+    rgba(160, 190, 239, 0.28) 100%
+  );
+  --about-contrast-surface: rgba(201, 219, 247, 0.32);
+  --about-foreground-text: #0f1e3b;
+  --about-card-bg: rgba(12, 24, 48, 0.9);
+  --about-card-border: rgba(161, 184, 229, 0.32);
 }
