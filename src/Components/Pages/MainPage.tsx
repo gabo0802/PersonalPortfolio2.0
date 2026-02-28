@@ -580,6 +580,7 @@ function MainPage() {
           onHide={() => setShowSkills(false)}
           centered
           size="lg"
+          dialogClassName="skills-modal-dialog"
           contentClassName="skills-modal-content"
         >
           <Modal.Header

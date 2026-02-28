@@ -6,6 +6,31 @@ body {
   font-family: 'Space Grotesk', 'Poppins', sans-serif;
 }
 
+html,
+body,
+#root {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+body.modal-open {
+  overflow: hidden !important;
+  padding-right: 0 !important;
+}
+
+.modal {
+  padding-right: 0 !important;
+  overflow-x: hidden !important;
+}
+
+@media (max-width: 767px) {
+  .skills-modal-dialog {
+    width: calc(100vw - 2px) !important;
+    max-width: calc(100vw - 2px) !important;
+    margin: 1px auto !important;
+  }
+}
+
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -19,6 +44,14 @@ body {
   background: var(--modal-bg);
   color: var(--modal-text);
   border: 1px solid var(--modal-border);
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.skills-modal-content .modal-body {
+  overflow-x: hidden;
+  padding-left: 8px;
+  padding-right: 8px;
 }
 
 .skills-modal-header,
@@ -30,6 +63,7 @@ body {
 .skills-modal-chip {
   background: var(--skills-chip-bg);
   border: 1px solid var(--modal-border);
+  max-width: 100%;
 }
 
 .skills-modal-muted {
