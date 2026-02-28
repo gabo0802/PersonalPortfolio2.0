@@ -1,13 +1,12 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
   Badge,
   Card,
-  Carousel,
   Button,
   Modal,
 } from "react-bootstrap";
 import { experiences } from "../../Data/experiences";
-import { featuredSkills, skillsBySlug } from "../../Data/skills";
+import { featuredSkills, skillsBySlug, skillGroups } from "../../Data/skills";
 import { proficiencyRank } from "../../Data/types";
 import type { Skill } from "../../Data/types";
 
@@ -20,75 +19,57 @@ const orderedSkills = [...featuredSkills].sort(
   (a, b) => proficiencyRank[b.proficiency] - proficiencyRank[a.proficiency],
 );
 
-// README-style grouping by slug (matches GitHub README categories) :contentReference[oaicite:1]{index=1}
-const skillGroups: { title: string; slugs: string[] }[] = [
-  {
-    title: "Back-End",
-    slugs: [
-      "cpp",
-      "java",
-      "csharp",
-      "dotnet",
-      "python",
-      "nodejs",
-      "flask",
-      "go",
-    ],
-  },
-  {
-    title: "Front-End",
-    slugs: [
-      "react",
-      "angular",
-      "materialui",
-      "bootstrap",
-      "html",
-      "css",
-      "sass",
-      "javascript",
-      "typescript",
-      "tailwind",
-      "figma",
-      "androidstudio",
-      "kotlin",
-    ],
-  },
-  { title: "Database", slugs: ["mysql", "sqlite", "firebase"] },
-  {
-    title: "DevOps",
-    slugs: ["docker", "kubernetes", "gcp", "jenkins", "githubactions"],
-  },
-  { title: "AI Tools", slugs: ["scikitlearn", "pytorch", "tensorflow"] },
-  { title: "Version Control", slugs: ["git", "github", "gitlab"] },
-  {
-    title: "IDEs",
-    slugs: ["vscode", "eclipse", "visualstudio", "clion", "intellij", "replit"],
-  },
-  {
-    title: "Project Management",
-    slugs: ["discord", "notion", "googletasks", "jira"],
-  },
-  {
-    title: "Other Tools",
-    slugs: [
-      "markdown",
-      "latex",
-      "bash",
-      "cmake",
-      "matlab",
-      "r",
-      "unity",
-      "godot",
-    ],
-  },
-  { title: "Operating Systems", slugs: ["windows", "macos", "steamos"] },
-];
-
 // Type guard: filters missing skills cleanly
 const isSkill = (s: Skill | undefined): s is Skill => s !== undefined;
 
 function MainPage() {
   const [showSkills, setShowSkills] = useState(false);
+  const [activeExperienceIndex, setActiveExperienceIndex] = useState(0);
+  const [isExperienceVisible, setIsExperienceVisible] = useState(true);
+  const experienceTransitionTimer = useRef<number | null>(null);
+
+  const activeExperience = experiences[activeExperienceIndex] ?? experiences[0];
+  const hasExperiences = experiences.length > 0;
+
+  const switchExperienceWithTransition = (nextIndex: number) => {
+    if (!hasExperiences || nextIndex === activeExperienceIndex) return;
+
+    if (experienceTransitionTimer.current) {
+      window.clearTimeout(experienceTransitionTimer.current);
+    }
+
+    setIsExperienceVisible(false);
+    experienceTransitionTimer.current = window.setTimeout(() => {
+      setActiveExperienceIndex(nextIndex);
+      setIsExperienceVisible(true);
+    }, 140);
+  };
+
+  const goToPreviousExperience = () => {
+    if (!hasExperiences) return;
+    const nextIndex =
+      activeExperienceIndex === 0
+        ? experiences.length - 1
+        : activeExperienceIndex - 1;
+    switchExperienceWithTransition(nextIndex);
+  };
+
+  const goToNextExperience = () => {
+    if (!hasExperiences) return;
+    const nextIndex =
+      activeExperienceIndex === experiences.length - 1
+        ? 0
+        : activeExperienceIndex + 1;
+    switchExperienceWithTransition(nextIndex);
+  };
+
+  useEffect(() => {
+    return () => {
+      if (experienceTransitionTimer.current) {
+        window.clearTimeout(experienceTransitionTimer.current);
+      }
+    };
+  }, []);
 
   const groupedSkills = useMemo(() => {
     return skillGroups.map((g) => ({
@@ -172,8 +153,12 @@ function MainPage() {
         />
 
         <div
-          className="pointer-events-none absolute top-0 left-0 right-0 h-24"
+          className="pointer-events-none absolute top-0 left-0 right-0 h-30"
           style={{ background: "var(--section-bridge-top)" }}
+        />
+        <div
+          className="pointer-events-none absolute bottom-0 left-0 right-0 h-30"
+          style={{ background: "var(--section-bridge-bottom)" }}
         />
 
         {/* Blobs (no custom colors required, but these are muted + nice) */}
@@ -196,41 +181,98 @@ function MainPage() {
           </h2>
 
           <div className="w-full px-4 flex items-center justify-center">
-            <div className="w-full max-w-5xl">
-              <Carousel indicators controls interval={5000} className="w-full">
-                {experiences.map((exp) => (
-                  <Carousel.Item key={exp.title}>
-                    <div className="h-[320px] md:h-[360px] flex items-center justify-center">
-                      <div
-                        className="w-full h-full rounded-2xl backdrop-blur-md shadow-2xl px-10 md:px-16 flex flex-col justify-center text-center"
-                        style={{
-                          borderColor: "var(--glass-border)",
-                          borderWidth: "1px",
-                          borderStyle: "solid",
-                          backgroundColor: "var(--glass-surface)",
-                        }}
+            <div className="w-full max-w-6xl">
+              <div className="relative mb-8 md:mb-10">
+                <div className="absolute left-8 right-8 top-4 h-[2px] bg-white/25" />
+
+                <div className="relative flex items-start gap-4 md:gap-6 overflow-x-auto pb-2 px-1">
+                  {experiences.map((exp, index) => {
+                    const isActive = index === activeExperienceIndex;
+
+                    return (
+                      <button
+                        key={`${exp.title}-${index}`}
+                        type="button"
+                        onClick={() => switchExperienceWithTransition(index)}
+                        className="group min-w-[170px] flex flex-col items-center text-center focus:outline-none"
+                        aria-label={`Select journey item: ${exp.title}`}
+                        aria-pressed={isActive}
                       >
-                        {exp.timeframe && (
-                          <div className="text-sm md:text-base opacity-75 mb-4">
-                            {exp.timeframe}
-                          </div>
-                        )}
-                        <div className="text-2xl md:text-3xl font-semibold mb-2">
+                        <div
+                          className={`h-8 w-8 rounded-full border-2 transition-all duration-300 ${
+                            isActive
+                              ? "bg-white border-white shadow-lg shadow-white/30"
+                              : "bg-transparent border-white/60 group-hover:border-white"
+                          }`}
+                        />
+                        <div
+                          className={`mt-3 text-sm font-semibold transition-opacity ${
+                            isActive ? "opacity-100" : "opacity-80 group-hover:opacity-100"
+                          }`}
+                        >
                           {exp.title}
                         </div>
-                        {exp.subtitle && (
-                          <div className="text-base md:text-lg opacity-80 mb-6">
-                            {exp.subtitle}
-                          </div>
+                        {exp.timeframe && (
+                          <div className="text-xs opacity-70 mt-1">{exp.timeframe}</div>
                         )}
-                        <p className="text-base md:text-lg opacity-90 leading-relaxed">
-                          {exp.description}
-                        </p>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {activeExperience && (
+                <div className="h-[280px] md:h-[320px] flex items-center justify-center gap-3 md:gap-5">
+                  <button
+                    type="button"
+                    onClick={goToPreviousExperience}
+                    className="h-12 w-12 md:h-14 md:w-14 rounded-full border-2 border-white/70 bg-white/20 hover:bg-white/30 transition-all duration-200 ease-in-out flex items-center justify-center text-2xl font-bold shadow-lg shadow-black/20"
+                    aria-label="Previous journey item"
+                  >
+                    ←
+                  </button>
+
+                  <div
+                    className={`w-full h-full rounded-2xl backdrop-blur-md shadow-2xl px-8 md:px-12 py-8 flex flex-col justify-center text-center transition-all duration-300 ease-in-out ${
+                      isExperienceVisible
+                        ? "opacity-100 translate-y-0"
+                        : "opacity-0 translate-y-2"
+                    }`}
+                    style={{
+                      borderColor: "var(--glass-border)",
+                      borderWidth: "1px",
+                      borderStyle: "solid",
+                      backgroundColor: "var(--glass-surface)",
+                    }}
+                  >
+                    {activeExperience.timeframe && (
+                      <div className="text-sm md:text-base opacity-75 mb-4">
+                        {activeExperience.timeframe}
                       </div>
+                    )}
+                    <div className="text-2xl md:text-3xl font-semibold mb-2">
+                      {activeExperience.title}
                     </div>
-                  </Carousel.Item>
-                ))}
-              </Carousel>
+                    {activeExperience.subtitle && (
+                      <div className="text-base md:text-lg opacity-80 mb-6">
+                        {activeExperience.subtitle}
+                      </div>
+                    )}
+                    <p className="text-base md:text-lg opacity-90 leading-relaxed">
+                      {activeExperience.description}
+                    </p>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={goToNextExperience}
+                    className="h-12 w-12 md:h-14 md:w-14 rounded-full border-2 border-white/70 bg-white/20 hover:bg-white/30 transition-all duration-200 ease-in-out flex items-center justify-center text-2xl font-bold shadow-lg shadow-black/20"
+                    aria-label="Next journey item"
+                  >
+                    →
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -256,6 +298,11 @@ function MainPage() {
           style={{
             background: "var(--journey-vignette)",
           }}
+        />
+
+        <div
+          className="pointer-events-none absolute top-0 left-0 right-0 h-24"
+          style={{ background: "var(--section-bridge-top)" }}
         />
 
         {/* Content */}
