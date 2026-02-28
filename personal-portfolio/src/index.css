@@ -6,6 +6,15 @@ body {
   font-family: 'Space Grotesk', 'Poppins', sans-serif;
 }
 
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
 .skills-modal-content {
   background: var(--modal-bg);
   color: var(--modal-text);

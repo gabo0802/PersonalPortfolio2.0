@@ -26,7 +26,13 @@ function MainPage() {
   const [showSkills, setShowSkills] = useState(false);
   const [activeExperienceIndex, setActiveExperienceIndex] = useState(0);
   const [isExperienceVisible, setIsExperienceVisible] = useState(true);
+  const [isPageReady, setIsPageReady] = useState(false);
   const experienceTransitionTimer = useRef<number | null>(null);
+  const journeyStripRef = useRef<HTMLDivElement | null>(null);
+  const journeyItemRefs = useRef<Array<HTMLButtonElement | null>>([]);
+  const isDraggingJourneyRef = useRef(false);
+  const dragStartXRef = useRef(0);
+  const dragStartScrollLeftRef = useRef(0);
 
   const activeExperience = experiences[activeExperienceIndex] ?? experiences[0];
   const hasExperiences = experiences.length > 0;
@@ -45,23 +51,71 @@ function MainPage() {
     }, 140);
   };
 
-  const goToPreviousExperience = () => {
-    if (!hasExperiences) return;
-    const nextIndex =
-      activeExperienceIndex === 0
-        ? experiences.length - 1
-        : activeExperienceIndex - 1;
-    switchExperienceWithTransition(nextIndex);
+  const scrollJourneyStrip = (direction: "left" | "right") => {
+    const strip = journeyStripRef.current;
+    if (!strip) return;
+
+    const offset = direction === "left" ? -260 : 260;
+    strip.scrollBy({ left: offset, behavior: "smooth" });
   };
 
-  const goToNextExperience = () => {
-    if (!hasExperiences) return;
-    const nextIndex =
-      activeExperienceIndex === experiences.length - 1
-        ? 0
-        : activeExperienceIndex + 1;
-    switchExperienceWithTransition(nextIndex);
+  const handleJourneyDragStart = (event: React.MouseEvent<HTMLDivElement>) => {
+    const strip = journeyStripRef.current;
+    if (!strip) return;
+
+    isDraggingJourneyRef.current = true;
+    dragStartXRef.current = event.clientX;
+    dragStartScrollLeftRef.current = strip.scrollLeft;
   };
+
+  const handleJourneyDragMove = (event: React.MouseEvent<HTMLDivElement>) => {
+    if (!isDraggingJourneyRef.current) return;
+    const strip = journeyStripRef.current;
+    if (!strip) return;
+
+    const deltaX = event.clientX - dragStartXRef.current;
+    strip.scrollLeft = dragStartScrollLeftRef.current - deltaX;
+  };
+
+  const handleJourneyDragEnd = () => {
+    isDraggingJourneyRef.current = false;
+  };
+
+  useEffect(() => {
+    let isCancelled = false;
+
+    const preloadImage = (url: string) =>
+      new Promise<void>((resolve) => {
+        const image = new Image();
+        image.onload = () => resolve();
+        image.onerror = () => resolve();
+        image.src = url;
+      });
+
+    const staticImageUrls = [
+      EABg,
+      linkedInBg,
+      cafe,
+      "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg",
+      "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linkedin/linkedin-original.svg",
+    ];
+
+    const skillImageUrls = orderedSkills.map((skill) => skill.visual);
+
+    const urlsToPreload = Array.from(
+      new Set([...staticImageUrls, ...skillImageUrls]),
+    ).filter(Boolean);
+
+    Promise.all(urlsToPreload.map(preloadImage)).then(() => {
+      if (!isCancelled) {
+        setIsPageReady(true);
+      }
+    });
+
+    return () => {
+      isCancelled = true;
+    };
+  }, []);
 
   useEffect(() => {
     return () => {
@@ -71,12 +125,51 @@ function MainPage() {
     };
   }, []);
 
+  useEffect(() => {
+    if (!hasExperiences || experiences.length < 2) return;
+
+    const autoAdvanceTimer = window.setInterval(() => {
+      const nextIndex =
+        activeExperienceIndex === experiences.length - 1
+          ? 0
+          : activeExperienceIndex + 1;
+      switchExperienceWithTransition(nextIndex);
+    }, 6500);
+
+    return () => {
+      window.clearInterval(autoAdvanceTimer);
+    };
+  }, [activeExperienceIndex, hasExperiences]);
+
+  useEffect(() => {
+    const strip = journeyStripRef.current;
+    const activeItem = journeyItemRefs.current[activeExperienceIndex];
+
+    if (!strip || !activeItem) return;
+
+    const targetLeft =
+      activeItem.offsetLeft - strip.clientWidth / 2 + activeItem.clientWidth / 2;
+
+    strip.scrollTo({ left: Math.max(0, targetLeft), behavior: "smooth" });
+  }, [activeExperienceIndex]);
+
   const groupedSkills = useMemo(() => {
     return skillGroups.map((g) => ({
       title: g.title,
       skills: g.slugs.map((slug) => skillsBySlug[slug]).filter(isSkill),
     }));
   }, []);
+
+  if (!isPageReady) {
+    return (
+      <div
+        className="min-h-screen w-full flex items-center justify-center"
+        style={{ background: "var(--journey-gradient)", color: "var(--color-text-primary)" }}
+      >
+        <div className="text-lg md:text-xl tracking-wide">Loading...</div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col w-full">
@@ -185,15 +278,44 @@ function MainPage() {
               <div className="relative mb-8 md:mb-10">
                 <div className="absolute left-8 right-8 top-4 h-[2px] bg-white/25" />
 
-                <div className="relative flex items-start gap-4 md:gap-6 overflow-x-auto pb-2 px-1">
+                <button
+                  type="button"
+                  onClick={() => scrollJourneyStrip("left")}
+                  className="absolute left-4 top-4 -translate-y-1/2 z-20 h-6 w-6 flex items-center justify-center text-lg md:text-xl font-semibold text-white/70 hover:text-white transition leading-none"
+                  aria-label="Scroll journey left"
+                >
+                  ←
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => scrollJourneyStrip("right")}
+                  className="absolute right-4 top-4 -translate-y-1/2 z-20 h-6 w-6 flex items-center justify-center text-lg md:text-xl font-semibold text-white/70 hover:text-white transition leading-none"
+                  aria-label="Scroll journey right"
+                >
+                  →
+                </button>
+
+                <div
+                  ref={journeyStripRef}
+                  className="no-scrollbar relative flex items-start gap-4 md:gap-6 overflow-x-auto pb-2 px-8 md:px-10"
+                  onMouseDown={handleJourneyDragStart}
+                  onMouseMove={handleJourneyDragMove}
+                  onMouseUp={handleJourneyDragEnd}
+                  onMouseLeave={handleJourneyDragEnd}
+                >
                   {experiences.map((exp, index) => {
                     const isActive = index === activeExperienceIndex;
+                    const company = exp.subtitle?.split(" · ")[0];
 
                     return (
                       <button
                         key={`${exp.title}-${index}`}
                         type="button"
                         onClick={() => switchExperienceWithTransition(index)}
+                        ref={(element) => {
+                          journeyItemRefs.current[index] = element;
+                        }}
                         className="group min-w-[170px] flex flex-col items-center text-center focus:outline-none"
                         aria-label={`Select journey item: ${exp.title}`}
                         aria-pressed={isActive}
@@ -212,6 +334,11 @@ function MainPage() {
                         >
                           {exp.title}
                         </div>
+                        {company && (
+                          <div className="text-[0.72rem] opacity-85 mt-1 max-w-[170px] truncate">
+                            {company}
+                          </div>
+                        )}
                         {exp.timeframe && (
                           <div className="text-xs opacity-70 mt-1">{exp.timeframe}</div>
                         )}
@@ -222,16 +349,7 @@ function MainPage() {
               </div>
 
               {activeExperience && (
-                <div className="h-[280px] md:h-[320px] flex items-center justify-center gap-3 md:gap-5">
-                  <button
-                    type="button"
-                    onClick={goToPreviousExperience}
-                    className="h-12 w-12 md:h-14 md:w-14 rounded-full border-2 border-white/70 bg-white/20 hover:bg-white/30 transition-all duration-200 ease-in-out flex items-center justify-center text-2xl font-bold shadow-lg shadow-black/20"
-                    aria-label="Previous journey item"
-                  >
-                    ←
-                  </button>
-
+                <div className="h-[280px] md:h-[320px] flex items-center justify-center">
                   <div
                     className={`w-full h-full rounded-2xl backdrop-blur-md shadow-2xl px-8 md:px-12 py-8 flex flex-col justify-center text-center transition-all duration-300 ease-in-out ${
                       isExperienceVisible
@@ -262,15 +380,6 @@ function MainPage() {
                       {activeExperience.description}
                     </p>
                   </div>
-
-                  <button
-                    type="button"
-                    onClick={goToNextExperience}
-                    className="h-12 w-12 md:h-14 md:w-14 rounded-full border-2 border-white/70 bg-white/20 hover:bg-white/30 transition-all duration-200 ease-in-out flex items-center justify-center text-2xl font-bold shadow-lg shadow-black/20"
-                    aria-label="Next journey item"
-                  >
-                    →
-                  </button>
                 </div>
               )}
             </div>
