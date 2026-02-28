@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   Badge,
   Card,
@@ -38,7 +38,7 @@ function MainPage() {
   const activeExperience = experiences[activeExperienceIndex] ?? experiences[0];
   const hasExperiences = experiences.length > 0;
 
-  const switchExperienceWithTransition = (nextIndex: number) => {
+  const switchExperienceWithTransition = useCallback((nextIndex: number) => {
     if (!hasExperiences || nextIndex === activeExperienceIndex) return;
 
     if (experienceTransitionTimer.current) {
@@ -50,7 +50,7 @@ function MainPage() {
       setActiveExperienceIndex(nextIndex);
       setIsExperienceVisible(true);
     }, 140);
-  };
+  }, [activeExperienceIndex, hasExperiences]);
 
   const scrollJourneyStrip = (direction: "left" | "right") => {
     const strip = journeyStripRef.current;
@@ -161,7 +161,7 @@ function MainPage() {
     return () => {
       window.clearInterval(autoAdvanceTimer);
     };
-  }, [activeExperienceIndex, hasExperiences]);
+  }, [activeExperienceIndex, hasExperiences, switchExperienceWithTransition]);
 
   useEffect(() => {
     const strip = journeyStripRef.current;
