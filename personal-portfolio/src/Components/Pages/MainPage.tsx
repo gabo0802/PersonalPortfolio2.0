@@ -430,7 +430,7 @@ function MainPage() {
       </div>
 
       {/* SECTION 3 — Education / Visual / Skills */}
-      <div className="relative min-h-[120vh] md:h-[75vh] w-full overflow-hidden text-white py-6 md:py-0">
+      <div className="relative min-h-[120vh] md:min-h-0 md:h-[70vh] w-full overflow-hidden text-white py-6 md:py-0">
         {/* Base gradient */}
         <div
           className="absolute inset-0"
@@ -459,7 +459,7 @@ function MainPage() {
         {/* Content */}
         <div className="relative z-10 h-full w-full flex flex-col md:flex-row">
           {/* LEFT — Education */}
-          <div className="w-full md:flex-[0_0_33%] h-auto md:h-full px-4 md:px-6 py-3 md:py-10">
+          <div className="w-full md:flex-[0_0_33%] h-auto md:h-full px-4 md:px-6 py-3 md:py-6">
             <div
               className="h-full rounded-2xl shadow-2xl flex flex-col items-center justify-center text-center px-4 md:px-8 py-6 md:py-0"
               style={{
@@ -506,7 +506,7 @@ function MainPage() {
           </div>
 
           {/* MIDDLE — Visual */}
-          <div className="w-full md:flex-[0_0_33%] h-auto md:h-full px-4 md:px-6 py-3 md:py-10">
+          <div className="w-full md:flex-[0_0_33%] h-auto md:h-full px-4 md:px-6 py-3 md:py-6">
             <div
               className="h-64 md:h-full rounded-2xl shadow-2xl overflow-hidden relative"
               style={{
@@ -524,9 +524,9 @@ function MainPage() {
           </div>
 
           {/* RIGHT — Skills */}
-          <div className="w-full md:flex-[0_0_33%] h-auto md:h-full px-4 md:px-6 py-3 md:py-10">
+          <div className="w-full md:flex-[0_0_33%] h-auto md:h-full px-4 md:px-6 py-3 md:py-6">
             <div
-              className="h-full rounded-2xl shadow-2xl flex flex-col px-3 md:px-8 py-5 md:py-10"
+              className="h-full rounded-2xl shadow-2xl flex flex-col md:justify-center px-3 md:px-8 py-5 md:py-8"
               style={{
                 backgroundColor: "var(--glass-surface)",
                 border: "1px solid var(--glass-border)",
@@ -538,11 +538,11 @@ function MainPage() {
               </p>
 
               {/* Skill list */}
-              <div className="mt-5 md:mt-8 space-y-3 md:space-y-4 flex-1 flex flex-col justify-center min-w-0">
+              <div className="mt-5 md:mt-7 space-y-3 md:space-y-4 flex flex-col min-w-0">
                 {orderedSkills.map((skill) => (
                   <div
                     key={skill.slug}
-                    className="w-full min-w-0 flex items-center justify-center md:justify-between gap-2 md:gap-4"
+                    className="w-full min-w-0 flex items-center justify-center gap-2 md:gap-4"
                   >
                     <img
                       src={skill.visual}
@@ -550,7 +550,7 @@ function MainPage() {
                       className="hidden md:block h-9 w-auto max-w-[150px] object-contain"
                       loading="lazy"
                     />
-                    <div className="min-w-[104px] md:min-w-[140px] text-center md:text-right">
+                    <div className="min-w-[104px] md:min-w-[140px] text-center md:text-left">
                       <div className="font-semibold text-sm md:text-base leading-tight">{skill.name}</div>
                       <Badge bg="secondary" className="text-[0.66rem] md:text-[0.7rem] mt-1">
                         {skill.proficiency}

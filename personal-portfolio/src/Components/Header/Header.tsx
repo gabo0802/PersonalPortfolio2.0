@@ -1,9 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 
 export default function Header() {
   const { pathname } = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const desktopNavRef = useRef<HTMLDivElement | null>(null);
+  const [desktopUnderlineStyle, setDesktopUnderlineStyle] = useState({
+    left: 0,
+    width: 0,
+    opacity: 0,
+  });
 
   const baseLink =
     "text-2xl font-light tracking-wide transition-colors duration-200";
@@ -22,8 +28,44 @@ export default function Header() {
     { to: "/projects", label: "Projects" },
   ];
 
+  useEffect(() => {
+    const updateDesktopUnderline = () => {
+      const navContainer = desktopNavRef.current;
+      if (!navContainer) return;
+
+      const activeItem = navContainer.querySelector<HTMLElement>(
+        ".desktop-nav-item-active",
+      );
+      const activeLabel = activeItem?.querySelector<HTMLElement>(
+        ".desktop-nav-label",
+      );
+
+      if (!activeItem || !activeLabel) {
+        setDesktopUnderlineStyle((prev) => ({ ...prev, opacity: 0 }));
+        return;
+      }
+
+      const nextWidth = activeLabel.offsetWidth;
+      const nextLeft =
+        activeItem.offsetLeft + (activeItem.offsetWidth - nextWidth) / 2;
+
+      setDesktopUnderlineStyle({
+        left: nextLeft,
+        width: nextWidth,
+        opacity: 1,
+      });
+    };
+
+    updateDesktopUnderline();
+    window.addEventListener("resize", updateDesktopUnderline);
+
+    return () => {
+      window.removeEventListener("resize", updateDesktopUnderline);
+    };
+  }, [pathname]);
+
   return (
-    <header className="relative w-full min-h-[9rem] md:h-28 overflow-visible md:overflow-hidden text-white">
+    <header className="relative w-full h-20 md:h-28 overflow-visible md:overflow-hidden text-white">
       {/* Gradient base */}
       <div
         className="absolute inset-0"
@@ -40,8 +82,8 @@ export default function Header() {
       {/* Content */}
       <div className="relative z-10 h-full w-full flex flex-col md:flex-row">
         {/* Name */}
-        <div className="w-full md:w-1/4 flex items-center justify-between md:justify-center pt-5 md:pt-0 px-4 md:px-0">
-          <div className="text-xl md:text-3xl font-semibold tracking-wide text-center px-3">
+        <div className="w-full h-full md:h-auto md:w-1/4 flex items-center justify-between md:justify-center px-4 md:px-0">
+          <div className="text-xl md:text-3xl font-semibold tracking-wide text-center px-3 md:-translate-y-1">
             Gabriel Castejon
           </div>
           <button
@@ -72,7 +114,10 @@ export default function Header() {
 
         {/* Nav */}
         <div className="hidden md:flex w-full md:w-3/4 items-center justify-center pb-3 md:pb-0">
-          <nav className="no-scrollbar w-full md:w-auto flex items-start justify-center overflow-x-auto px-3 md:px-0">
+          <nav
+            ref={desktopNavRef}
+            className="no-scrollbar relative w-full md:w-auto flex items-start justify-center overflow-x-auto px-3 md:px-0"
+          >
 
             {/* Tabs */}
             {navItems.map(({ to, label, end }) => (
@@ -84,19 +129,30 @@ export default function Header() {
                   `${baseLink} ${isActive ? activeLink : inactiveLink}`
                 }
               >
-                <div className="min-w-[7rem] md:w-52 px-4 md:px-6 py-2 flex flex-col items-center">
-                  <span
-                    className={`mt-2 md:mt-3 border-b-2 pb-1 ${
-                      isTabActive(to, end)
-                        ? "border-white"
-                        : "border-transparent"
-                    }`}
-                  >
+                <div
+                  className={`min-w-[7rem] md:w-52 px-4 md:px-6 py-2 flex flex-col items-center ${
+                    isTabActive(to, end) ? "desktop-nav-item-active" : ""
+                  }`}
+                >
+                  <span className="desktop-nav-label mt-2 md:mt-3 pb-1">
                     {label}
                   </span>
                 </div>
               </NavLink>
             ))}
+
+            <span
+              className="pointer-events-none absolute bottom-[10px] h-[2px] bg-white"
+              style={{
+                left: desktopUnderlineStyle.left,
+                width: desktopUnderlineStyle.width,
+                opacity: desktopUnderlineStyle.opacity,
+                transitionProperty: "left, width, opacity",
+                transitionDuration: "360ms",
+                transitionTimingFunction: "cubic-bezier(0.22, 1, 0.36, 1)",
+              }}
+              aria-hidden="true"
+            />
           </nav>
         </div>
 
