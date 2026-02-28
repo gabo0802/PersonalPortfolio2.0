@@ -43,7 +43,7 @@ export default function ProjectsPage() {
       </section>
 
       {/* PROJECTS LIST SECTION */}
-      <section className="relative w-full py-10 md:py-16 overflow-hidden text-white">
+      <section id="projects-list-top" className="relative w-full py-10 md:py-16 overflow-hidden text-white">
         <div
           className="absolute inset-0"
           style={{ background: "var(--journey-gradient)" }}
