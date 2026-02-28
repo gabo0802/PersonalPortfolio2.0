@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useLayoutEffect, useRef, useState } from "react";
 import { useParams, Navigate, useNavigate } from "react-router-dom";
 import { Button, Badge, Modal, Carousel } from "react-bootstrap";
 import { getProjectBySlug } from "../Data/projects";
@@ -11,6 +11,57 @@ export default function Project() {
   const [showGalleryModal, setShowGalleryModal] = useState(false);
   const [activeGalleryIndex, setActiveGalleryIndex] = useState(0);
   const isItchThumbnail = project?.thumbnail?.includes("img.itch.zone") ?? false;
+  const panelRef = useRef<HTMLDivElement | null>(null);
+
+  useLayoutEffect(() => {
+    const isMobile = window.matchMedia("(max-width: 767px)").matches;
+    const previousScrollY = window.scrollY;
+    const targetTop = isMobile ? 0 : 300;
+
+    const activeElement = document.activeElement;
+    if (activeElement instanceof HTMLElement) {
+      activeElement.blur();
+    }
+
+    const scrollingElement = document.scrollingElement as HTMLElement | null;
+    if (scrollingElement) {
+      scrollingElement.scrollTop = targetTop;
+    }
+
+    window.scrollTo({ top: targetTop, left: 0, behavior: "auto" });
+    document.documentElement.scrollTop = targetTop;
+    document.body.scrollTop = targetTop;
+
+    if (panelRef.current) {
+      panelRef.current.scrollTop = 0;
+      panelRef.current.focus({ preventScroll: true });
+    }
+
+    const originalOverflow = document.body.style.overflow;
+    const originalPosition = document.body.style.position;
+    const originalTop = document.body.style.top;
+    const originalLeft = document.body.style.left;
+    const originalRight = document.body.style.right;
+    const originalWidth = document.body.style.width;
+
+    const lockTop = isMobile ? 0 : previousScrollY;
+    document.body.style.overflow = "hidden";
+    document.body.style.position = "fixed";
+    document.body.style.top = `-${lockTop}px`;
+    document.body.style.left = "0";
+    document.body.style.right = "0";
+    document.body.style.width = "100%";
+
+    return () => {
+      document.body.style.overflow = originalOverflow;
+      document.body.style.position = originalPosition;
+      document.body.style.top = originalTop;
+      document.body.style.left = originalLeft;
+      document.body.style.right = originalRight;
+      document.body.style.width = originalWidth;
+      window.scrollTo({ top: previousScrollY, left: 0, behavior: "auto" });
+    };
+  }, [slug]);
 
   if (!project) return <Navigate to="/projects" replace />;
 
@@ -33,12 +84,14 @@ export default function Project() {
   return (
     // Full-screen overlay
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm"
+      className="fixed inset-0 z-50 flex items-start md:items-center justify-center bg-black/60 backdrop-blur-sm pt-10 md:pt-0"
       onClick={handleOverlayClick}
     >
       {/* Main panel */}
       <div
-        className="w-[95%] md:w-[90%] max-h-[92vh] md:max-h-[90vh] overflow-y-auto rounded-2xl shadow-2xl relative"
+        ref={panelRef}
+        tabIndex={-1}
+        className="w-[95%] md:w-[90%] max-h-[calc(100vh-2.5rem)] md:max-h-[90vh] overflow-y-auto rounded-2xl shadow-2xl relative"
         style={{
           backgroundColor: "var(--modal-bg)",
           color: "var(--modal-text)",
