@@ -14,6 +14,7 @@ import type { Skill } from "../../Data/types";
 import linkedInBg from "../../Assets/images/linkedIn2.jpg";
 import EABg from "../../Assets/images/EABackground.jpg";
 import cafe from "../../Assets/images/cafe.jpg";
+import sectionVisual from "../../Assets/images/agapornifischeri.jpg";
 
 const orderedSkills = [...featuredSkills].sort(
   (a, b) => proficiencyRank[b.proficiency] - proficiencyRank[a.proficiency],
@@ -116,6 +117,7 @@ function MainPage() {
       EABg,
       linkedInBg,
       cafe,
+      sectionVisual,
       "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg",
       "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linkedin/linkedin-original.svg",
     ];
@@ -506,20 +508,18 @@ function MainPage() {
           </div>
 
           {/* MIDDLE — Visual */}
-          <div className="w-full md:flex-[0_0_33%] h-auto md:h-full px-4 md:px-6 py-3 md:py-6">
+          <div className="w-full md:flex-[0_0_33%] h-64 md:h-full px-0 py-0">
             <div
-              className="h-64 md:h-full rounded-2xl shadow-2xl overflow-hidden relative"
-              style={{
-                backgroundColor: "var(--glass-surface)",
-                border: "1px solid var(--glass-border)",
-              }}
+              className="h-full w-full overflow-hidden relative"
             >
               <img
-                src={/* replace with your image */ ""}
+                src={sectionVisual}
                 alt="Section visual"
-                className="w-full h-full object-cover opacity-85"
+                className="w-full h-full object-cover"
               />
-              <div className="absolute inset-0 bg-black/30" />
+              <div className="absolute bottom-3 left-1/2 -translate-x-1/2 text-xs md:text-sm font-medium text-white/90 tracking-wide px-3 py-1 rounded-md bg-black/35">
+                my favorite animal :)
+              </div>
             </div>
           </div>
 
