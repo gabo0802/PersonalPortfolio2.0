@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { useParams, Navigate, useNavigate } from "react-router-dom";
-import { Button, Badge } from "react-bootstrap";
+import { Button, Badge, Modal, Carousel } from "react-bootstrap";
 import { getProjectBySlug } from "../Data/projects";
 import { isImage, isVideo, isYouTubeUrl, toYouTubeEmbedUrl } from "../Utils/media";
 
@@ -8,6 +8,9 @@ export default function Project() {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
   const project = slug ? getProjectBySlug(slug) : undefined;
+  const [showGalleryModal, setShowGalleryModal] = useState(false);
+  const [activeGalleryIndex, setActiveGalleryIndex] = useState(0);
+  const isItchThumbnail = project?.thumbnail?.includes("img.itch.zone") ?? false;
 
   if (!project) return <Navigate to="/projects" replace />;
 
@@ -15,33 +18,69 @@ export default function Project() {
     navigate("/projects");
   };
 
+  const openGalleryAt = (index: number) => {
+    setActiveGalleryIndex(index);
+    setShowGalleryModal(true);
+  };
+
+  const handleOverlayClick = (event: React.MouseEvent<HTMLDivElement>) => {
+    if (showGalleryModal) return;
+    if (event.target === event.currentTarget) {
+      handleClose();
+    }
+  };
+
   return (
     // Full-screen overlay
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm"
+      onClick={handleOverlayClick}
+    >
       {/* Main panel */}
-      <div className="w-[90%] max-h-[90vh] overflow-y-auto bg-[#f7f8f2] rounded-2xl shadow-2xl relative">
+      <div
+        className="w-[90%] max-h-[90vh] overflow-y-auto rounded-2xl shadow-2xl relative"
+        style={{
+          backgroundColor: "var(--modal-bg)",
+          color: "var(--modal-text)",
+          border: "1px solid var(--modal-border)",
+        }}
+        onClick={(event) => event.stopPropagation()}
+      >
         {/* Close button */}
         <button
           onClick={handleClose}
           aria-label="Close project details"
-          className="absolute top-3 right-4 text-2xl leading-none text-gray-700 hover:text-black z-10"
+          className="absolute top-3 right-4 text-2xl leading-none z-10"
+          style={{ color: "var(--modal-muted)" }}
         >
           &times;
         </button>
 
         {/* Hero thumbnail behind title */}
         {project.thumbnail && (
-          <div
-            className="h-64 md:h-80 w-full rounded-t-2xl bg-center bg-cover"
-            style={{ backgroundImage: `url(${project.thumbnail})` }}
-          />
+          <div className="px-4 md:px-6 pt-10 md:pt-20">
+            <div
+              className="w-full h-56 md:h-72 rounded-xl overflow-hidden flex items-center justify-center bg-black/20"
+            >
+              <img
+                src={project.thumbnail}
+                alt={`${project.title} thumbnail`}
+                className={
+                  isItchThumbnail
+                    ? "w-full h-full object-cover object-center"
+                    : "max-h-full max-w-full object-contain"
+                }
+                loading="lazy"
+              />
+            </div>
+          </div>
         )}
 
         <div className="px-6 md:px-12 pb-10 pt-6">
           {/* Back button row */}
           <div className="flex justify-start mb-4">
             <Button
-              variant="outline-secondary"
+              variant="outline-light"
               size="sm"
               onClick={handleClose}
             >
@@ -50,13 +89,13 @@ export default function Project() {
           </div>
 
           {/* Title */}
-          <h1 className="text-3xl md:text-4xl font-semibold text-center mb-6 text-gray-900">
+          <h1 className="text-3xl md:text-4xl font-semibold text-center mb-6">
             {project.title}
           </h1>
 
           {/* Description block like the mock – centered column */}
           <section className="flex justify-center">
-            <p className="max-w-3xl text-base md:text-lg leading-relaxed text-gray-900">
+            <p className="max-w-3xl text-base md:text-lg leading-relaxed text-white/90">
               {project.description}
             </p>
           </section>
@@ -82,7 +121,7 @@ export default function Project() {
                   href={project.links.repo}
                   target="_blank"
                   rel="noreferrer"
-                  variant="outline-dark"
+                  variant="outline-light"
                   size="sm"
                 >
                   Source
@@ -123,38 +162,41 @@ export default function Project() {
                   return (
                     <figure
                       key={`${m.url}-${i}`}
-                      className="border rounded-xl overflow-hidden bg-white"
+                      className="border rounded-xl overflow-hidden"
+                      style={{
+                        borderColor: "var(--glass-border)",
+                        backgroundColor: "var(--glass-surface)",
+                      }}
                     >
-                      {type === "image" && isImage(m.url) ? (
-                        <a href={m.url} target="_blank" rel="noreferrer">
+                      <button
+                        type="button"
+                        onClick={() => openGalleryAt(i)}
+                        className="w-full text-left"
+                        aria-label={`Open gallery item ${i + 1}`}
+                      >
+                        {type === "image" && isImage(m.url) ? (
                           <img
                             src={m.thumbnailUrl ?? m.url}
                             alt={m.caption ?? `Media ${i + 1}`}
                             className="w-full h-48 object-cover"
                             loading="lazy"
                           />
-                        </a>
-                     ) : isYouTubeUrl(m.url) ? (
-                        <div className="w-full h-48">
-                          <iframe
-                            className="w-full h-full"
-                            src={toYouTubeEmbedUrl(m.url)}
-                            title={m.caption ?? `YouTube video ${i + 1}`}
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                            allowFullScreen
+                        ) : isYouTubeUrl(m.url) ? (
+                          <div className="w-full h-48 bg-black/40 flex items-center justify-center text-white/80">
+                            Play video in carousel
+                          </div>
+                        ) : (
+                          <video
+                            className="w-full h-48 object-cover"
+                            src={m.url}
+                            preload="metadata"
+                            muted
                           />
-                        </div>
-                      ) : (
-                        <video
-                          className="w-full h-48 object-cover"
-                          src={m.url}
-                          controls
-                          preload="metadata"
-                        />
-                      )}
+                        )}
+                      </button>
 
                       {m.caption && (
-                        <figcaption className="p-2 text-sm opacity-80">
+                        <figcaption className="p-2 text-sm opacity-80 text-white/85">
                           {m.caption}
                         </figcaption>
                       )}
@@ -166,6 +208,70 @@ export default function Project() {
           ) : null}
         </div>
       </div>
+
+      <Modal
+        show={showGalleryModal}
+        onHide={() => setShowGalleryModal(false)}
+        centered
+        size="xl"
+        contentClassName="skills-modal-content"
+      >
+        <Modal.Header closeButton closeVariant="white" className="skills-modal-header">
+          <Modal.Title>Project Media</Modal.Title>
+        </Modal.Header>
+        <Modal.Body className="p-0">
+          {project.gallery?.length ? (
+            <Carousel
+              activeIndex={activeGalleryIndex}
+              onSelect={(selectedIndex) => setActiveGalleryIndex(selectedIndex)}
+              interval={null}
+              indicators={project.gallery.length > 1}
+            >
+              {project.gallery.map((m, i) => {
+                const type = m.type ?? (isVideo(m.url) ? "video" : "image");
+
+                return (
+                  <Carousel.Item key={`${m.url}-carousel-${i}`}>
+                    <div
+                      className="w-full h-[70vh] flex items-center justify-center"
+                      style={{ background: "var(--journey-gradient)" }}
+                    >
+                      {type === "image" && isImage(m.url) ? (
+                        <img
+                          src={m.url}
+                          alt={m.caption ?? `Gallery item ${i + 1}`}
+                          className="max-h-full max-w-full object-contain"
+                        />
+                      ) : isYouTubeUrl(m.url) ? (
+                        <iframe
+                          className="w-full h-full"
+                          src={toYouTubeEmbedUrl(m.url)}
+                          title={m.caption ?? `YouTube video ${i + 1}`}
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                          allowFullScreen
+                        />
+                      ) : (
+                        <video
+                          className="max-h-full max-w-full"
+                          src={m.url}
+                          controls
+                          autoPlay
+                          preload="metadata"
+                        />
+                      )}
+                    </div>
+                    {m.caption && (
+                      <Carousel.Caption>
+                        <p>{m.caption}</p>
+                      </Carousel.Caption>
+                    )}
+                  </Carousel.Item>
+                );
+              })}
+            </Carousel>
+          ) : null}
+        </Modal.Body>
+      </Modal>
     </div>
   );
 }
