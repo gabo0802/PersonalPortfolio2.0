@@ -1,5 +1,23 @@
 .App {
   text-align: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0b102a 0%, #101b47 40%, #0c1638 100%);
+}
+
+.route-transition {
+  animation: routeFadeIn 320ms ease-in-out;
+  will-change: opacity, transform;
+}
+
+@keyframes routeFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .nav-link.active {
