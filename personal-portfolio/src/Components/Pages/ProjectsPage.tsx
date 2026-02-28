@@ -19,7 +19,7 @@ export default function ProjectsPage() {
           className="absolute inset-0 opacity-70"
           style={{ background: "var(--about-contrast-vignette)" }}
         />
-        <div className="relative h-[55vh] flex items-center justify-center">
+        <div className="relative min-h-[45vh] md:h-[55vh] flex items-center justify-center py-8 md:py-0">
           {/* Center hero card */}
           <Card
             className="shadow-xl w-11/12 md:w-3/4 rounded-2xl text-center"
@@ -29,11 +29,11 @@ export default function ProjectsPage() {
               border: "1px solid var(--about-card-border)",
             }}
           >
-            <Card.Body className="px-6 md:px-16 py-10 md:py-16">
-              <Card.Title className="text-4xl md:text-5xl font-semibold mb-6">
+            <Card.Body className="px-4 md:px-16 py-8 md:py-16">
+              <Card.Title className="text-3xl md:text-5xl font-semibold mb-4 md:mb-6">
                 My Personal Portfolio
               </Card.Title>
-              <Card.Text className="text-base md:text-lg opacity-80 max-w-2xl mx-auto">
+              <Card.Text className="text-sm md:text-lg opacity-80 max-w-2xl mx-auto">
                 This is a compilation of some of my favorite projects that I&apos;ve
                 contributed to. Feel free to take a look at these:
               </Card.Text>
@@ -43,7 +43,7 @@ export default function ProjectsPage() {
       </section>
 
       {/* PROJECTS LIST SECTION */}
-      <section className="relative w-full py-16 overflow-hidden text-white">
+      <section className="relative w-full py-10 md:py-16 overflow-hidden text-white">
         <div
           className="absolute inset-0"
           style={{ background: "var(--journey-gradient)" }}
@@ -61,7 +61,7 @@ export default function ProjectsPage() {
           {/* Section title */}
           <Row className="mb-12 relative z-10">
             <Col>
-              <h2 className="text-3xl md:text-4xl font-semibold text-center">
+              <h2 className="text-2xl md:text-4xl font-semibold text-center">
                 Projects
               </h2>
             </Col>
@@ -70,7 +70,7 @@ export default function ProjectsPage() {
           {/* Projects grid */}
           <Row className="g-4 relative z-10">
             {projects.map((p) => (
-              <Col key={p.slug} md={4}>
+              <Col key={p.slug} xs={12} sm={6} lg={4}>
                 <Card
                   className="h-100 shadow-md rounded-2xl overflow-hidden"
                   style={{

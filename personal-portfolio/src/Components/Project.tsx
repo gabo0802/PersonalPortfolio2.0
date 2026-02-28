@@ -38,7 +38,7 @@ export default function Project() {
     >
       {/* Main panel */}
       <div
-        className="w-[90%] max-h-[90vh] overflow-y-auto rounded-2xl shadow-2xl relative"
+        className="w-[95%] md:w-[90%] max-h-[92vh] md:max-h-[90vh] overflow-y-auto rounded-2xl shadow-2xl relative"
         style={{
           backgroundColor: "var(--modal-bg)",
           color: "var(--modal-text)",
@@ -58,9 +58,9 @@ export default function Project() {
 
         {/* Hero thumbnail behind title */}
         {project.thumbnail && (
-          <div className="px-4 md:px-6 pt-10 md:pt-20">
+          <div className="px-3 md:px-6 pt-8 md:pt-20">
             <div
-              className="w-full h-56 md:h-72 rounded-xl overflow-hidden flex items-center justify-center bg-black/20"
+              className="w-full h-44 md:h-72 rounded-xl overflow-hidden flex items-center justify-center bg-black/20"
             >
               <img
                 src={project.thumbnail}
@@ -76,7 +76,7 @@ export default function Project() {
           </div>
         )}
 
-        <div className="px-6 md:px-12 pb-10 pt-6">
+        <div className="px-4 md:px-12 pb-8 md:pb-10 pt-5 md:pt-6">
           {/* Back button row */}
           <div className="flex justify-start mb-4">
             <Button
@@ -89,13 +89,13 @@ export default function Project() {
           </div>
 
           {/* Title */}
-          <h1 className="text-3xl md:text-4xl font-semibold text-center mb-6">
+          <h1 className="text-2xl md:text-4xl font-semibold text-center mb-5 md:mb-6">
             {project.title}
           </h1>
 
           {/* Description block like the mock – centered column */}
           <section className="flex justify-center">
-            <p className="max-w-3xl text-base md:text-lg leading-relaxed text-white/90">
+            <p className="max-w-3xl text-sm md:text-lg leading-relaxed text-white/90">
               {project.description}
             </p>
           </section>
@@ -151,11 +151,11 @@ export default function Project() {
           {/* Gallery */}
           {project.gallery?.length ? (
             <section className="mt-10">
-              <h3 className="text-xl font-semibold mb-4 text-center">
+              <h3 className="text-lg md:text-xl font-semibold mb-4 text-center">
                 Project Gallery
               </h3>
 
-              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="grid gap-3 md:gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 {project.gallery.map((m, i) => {
                   const type = m.type ?? (isVideo(m.url) ? "video" : "image");
 
@@ -178,16 +178,16 @@ export default function Project() {
                           <img
                             src={m.thumbnailUrl ?? m.url}
                             alt={m.caption ?? `Media ${i + 1}`}
-                            className="w-full h-48 object-cover"
+                            className="w-full h-40 md:h-48 object-cover"
                             loading="lazy"
                           />
                         ) : isYouTubeUrl(m.url) ? (
-                          <div className="w-full h-48 bg-black/40 flex items-center justify-center text-white/80">
+                          <div className="w-full h-40 md:h-48 bg-black/40 flex items-center justify-center text-white/80">
                             Play video in carousel
                           </div>
                         ) : (
                           <video
-                            className="w-full h-48 object-cover"
+                            className="w-full h-40 md:h-48 object-cover"
                             src={m.url}
                             preload="metadata"
                             muted
@@ -233,7 +233,7 @@ export default function Project() {
                 return (
                   <Carousel.Item key={`${m.url}-carousel-${i}`}>
                     <div
-                      className="w-full h-[70vh] flex items-center justify-center"
+                      className="w-full h-[52vh] md:h-[70vh] flex items-center justify-center"
                       style={{ background: "var(--journey-gradient)" }}
                     >
                       {type === "image" && isImage(m.url) ? (

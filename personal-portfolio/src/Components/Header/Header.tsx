@@ -1,24 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 
 export default function Header() {
   const { pathname } = useLocation();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const baseLink =
     "text-2xl font-light tracking-wide transition-colors duration-200";
   const inactiveLink = "text-slate-300 hover:text-white";
   const activeLink = "text-white";
 
-  const activeIndex = React.useMemo(() => {
-    if (pathname.startsWith("/projects")) return 2;
-    if (pathname.startsWith("/about")) return 1;
-    return 0;
-  }, [pathname]);
+  const isTabActive = (to: string, end?: boolean) => {
+    if (to === "/") return pathname === "/";
+    if (end) return pathname === to;
+    return pathname.startsWith(to);
+  };
 
-  const TAB_WIDTH_REM = 13; // w-52
+  const navItems = [
+    { to: "/", label: "Home", end: true },
+    { to: "/about", label: "About" },
+    { to: "/projects", label: "Projects" },
+  ];
 
   return (
-    <header className="relative w-full h-28 overflow-hidden text-white">
+    <header className="relative w-full min-h-[9rem] md:h-28 overflow-visible md:overflow-hidden text-white">
       {/* Gradient base */}
       <div
         className="absolute inset-0"
@@ -33,32 +38,44 @@ export default function Header() {
       <div className="absolute top-12 -right-32 w-[520px] h-[520px] rounded-full bg-white/10 blur-3xl" />
 
       {/* Content */}
-      <div className="relative z-10 h-full w-full flex">
+      <div className="relative z-10 h-full w-full flex flex-col md:flex-row">
         {/* Name */}
-        <div className="w-1/4 flex items-center justify-center">
-          <div className="text-3xl font-semibold tracking-wide">
+        <div className="w-full md:w-1/4 flex items-center justify-between md:justify-center pt-5 md:pt-0 px-4 md:px-0">
+          <div className="text-xl md:text-3xl font-semibold tracking-wide text-center px-3">
             Gabriel Castejon
           </div>
+          <button
+            type="button"
+            onClick={() => setIsMobileMenuOpen((prev) => !prev)}
+            className="md:hidden h-10 w-10 flex items-center justify-center rounded-md text-white p-2"
+            aria-label="Toggle navigation menu"
+            aria-expanded={isMobileMenuOpen}
+          >
+            <svg
+              viewBox="0 0 24 24"
+              className="h-6 w-6"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              {isMobileMenuOpen ? (
+                <path d="M18 6L6 18M6 6l12 12" />
+              ) : (
+                <path d="M4 7h16M4 12h16M4 17h16" />
+              )}
+            </svg>
+          </button>
         </div>
 
         {/* Nav */}
-        <div className="w-3/4 flex items-center justify-center">
-          <nav className="relative flex items-start">
-            {/* Sliding underline */}
-            <div
-              className="absolute top-0 left-0 h-1 bg-white/90 transition-transform duration-300 ease-in-out"
-              style={{
-                width: `${TAB_WIDTH_REM}rem`,
-                transform: `translateX(${activeIndex * TAB_WIDTH_REM}rem)`,
-              }}
-            />
+        <div className="hidden md:flex w-full md:w-3/4 items-center justify-center pb-3 md:pb-0">
+          <nav className="no-scrollbar w-full md:w-auto flex items-start justify-center overflow-x-auto px-3 md:px-0">
 
             {/* Tabs */}
-            {[
-              { to: "/", label: "Home", end: true },
-              { to: "/about", label: "About" },
-              { to: "/projects", label: "Projects" },
-            ].map(({ to, label, end }) => (
+            {navItems.map(({ to, label, end }) => (
               <NavLink
                 key={label}
                 to={to}
@@ -67,14 +84,51 @@ export default function Header() {
                   `${baseLink} ${isActive ? activeLink : inactiveLink}`
                 }
               >
-                <div className="w-52 px-6 py-2 flex flex-col items-center">
-                  {/* Spacer for underline */}
-                  <div className="h-1 w-full" />
-                  <span className="mt-3">{label}</span>
+                <div className="min-w-[7rem] md:w-52 px-4 md:px-6 py-2 flex flex-col items-center">
+                  <span
+                    className={`mt-2 md:mt-3 border-b-2 pb-1 ${
+                      isTabActive(to, end)
+                        ? "border-white"
+                        : "border-transparent"
+                    }`}
+                  >
+                    {label}
+                  </span>
                 </div>
               </NavLink>
             ))}
           </nav>
+        </div>
+
+        <div
+          className={`md:hidden absolute left-0 right-0 top-full z-30 pt-2 transition-all duration-300 ease-in-out ${
+            isMobileMenuOpen
+              ? "opacity-100 translate-y-0 pointer-events-auto"
+              : "opacity-0 -translate-y-2 pointer-events-none"
+          }`}
+        >
+          <div className="w-full">
+            <nav
+              className="w-full rounded-b-xl bg-blue-950/40 backdrop-blur-md py-2 shadow-lg shadow-blue-950/35"
+              aria-label="Mobile navigation"
+            >
+              {navItems.map(({ to, label, end }) => (
+                <NavLink
+                  key={label}
+                  to={to}
+                  end={end}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className={`block w-full px-5 py-3 text-base font-medium text-center transition-colors ${
+                    isTabActive(to, end)
+                      ? "text-white bg-blue-300/20"
+                      : "text-slate-300 hover:text-white hover:bg-blue-300/12"
+                  }`}
+                >
+                  {label}
+                </NavLink>
+              ))}
+            </nav>
+          </div>
         </div>
       </div>
     </header>

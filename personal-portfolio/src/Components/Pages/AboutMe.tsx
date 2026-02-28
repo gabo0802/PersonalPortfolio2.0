@@ -10,7 +10,7 @@ function AboutMe() {
   return (
     <div className="flex flex-col w-full">
       {/* SECTION 1 — About + Resume */}
-      <section className="relative min-h-[95vh] w-full overflow-hidden text-white py-16">
+      <section className="relative min-h-[95vh] w-full overflow-hidden text-white py-10 md:py-16">
         <div
           className="absolute inset-0"
           style={{ background: "var(--about-contrast-gradient)" }}
@@ -23,9 +23,9 @@ function AboutMe() {
         <div className="absolute -bottom-32 -right-28 w-[460px] h-[460px] rounded-full bg-white/10 blur-3xl" />
 
         <div className="relative z-10 w-11/12 md:w-4/5 max-w-6xl mx-auto">
-          <div className="mb-6 md:mb-8 text-left">
+          <div className="mb-5 md:mb-8 text-left">
             <h1
-              className="text-4xl md:text-5xl font-semibold tracking-wide"
+              className="text-3xl md:text-5xl font-semibold tracking-wide"
               style={{ color: "var(--about-foreground-text)" }}
             >
               About Gabe...
@@ -40,8 +40,8 @@ function AboutMe() {
                 borderColor: "var(--about-card-border)",
               }}
             >
-              <Card.Body className="px-6 md:px-10 py-8 md:py-10 text-center">
-                <p className="text-base md:text-lg leading-relaxed">
+              <Card.Body className="px-4 md:px-10 py-6 md:py-10 text-center">
+                <p className="text-sm md:text-lg leading-relaxed">
                   Born and raised in Caracas, Venezuela, I always found the software
                   around me to be fascinating. Once I moved to the United States, I took
                   the first opportunities I found to take as many computer-programming
@@ -58,14 +58,14 @@ function AboutMe() {
 
           <div className="mt-8 md:mt-10">
             <div
-              className="rounded-2xl shadow-2xl overflow-hidden p-4 md:p-6"
+              className="rounded-2xl shadow-2xl overflow-hidden p-3 md:p-6"
               style={{
                 border: "1px solid var(--about-card-border)",
                 backgroundColor: "var(--about-card-bg)",
               }}
             >
-              <div className="px-6 py-4 border-b" style={{ borderColor: "var(--about-card-border)" }}>
-                <h2 className="text-xl md:text-2xl font-semibold">Resume Preview</h2>
+              <div className="px-4 md:px-6 py-3 md:py-4 border-b" style={{ borderColor: "var(--about-card-border)" }}>
+                <h2 className="text-lg md:text-2xl font-semibold">Resume Preview</h2>
               </div>
 
               <div className="mt-4 rounded-xl overflow-hidden bg-black/20 max-w-5xl mx-auto">
@@ -79,7 +79,7 @@ function AboutMe() {
 
             <div className="flex justify-center pt-6">
               <a href={resumePdf} download>
-                <Button variant="dark" size="lg">
+                <Button variant="dark" size="sm" className="md:!text-base md:px-4 md:py-2">
                   Download My Resume
                 </Button>
               </a>
@@ -89,7 +89,7 @@ function AboutMe() {
       </section>
 
       {/* SECTION 2 — Highlight Projects */}
-      <section className="relative min-h-[70vh] w-full overflow-hidden text-white py-14 md:py-16">
+      <section className="relative min-h-[70vh] w-full overflow-hidden text-white py-10 md:py-16">
         <div
           className="absolute inset-0"
           style={{ background: "var(--journey-gradient)" }}
@@ -104,8 +104,8 @@ function AboutMe() {
         />
 
         <div className="relative z-10 w-11/12 md:w-4/5 max-w-6xl mx-auto">
-          <div className="flex items-center justify-between mb-8 md:mb-10">
-            <h2 className="text-3xl md:text-4xl font-semibold">My Latest Projects</h2>
+          <div className="flex items-center justify-between mb-6 md:mb-10 gap-2">
+            <h2 className="text-2xl md:text-4xl font-semibold">My Latest Projects</h2>
             <Link to="/projects" className="text-white/80 hover:text-white transition">
               View all →
             </Link>

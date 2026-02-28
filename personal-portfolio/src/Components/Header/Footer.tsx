@@ -16,8 +16,8 @@ export default function Footer() {
       <div className="absolute -bottom-24 -right-24 w-[420px] h-[420px] rounded-full bg-white/10 blur-3xl" />
 
       {/* Content */}
-      <div className="relative z-10 flex items-center justify-center h-20">
-        <div className="text-sm tracking-wide">
+      <div className="relative z-10 flex items-center justify-center min-h-[4.5rem] px-4 py-3">
+        <div className="text-xs md:text-sm tracking-wide text-center">
           © {new Date().getFullYear()}{" "}
           <span className="text-white font-medium">Gabriel Castejon</span>
         </div>
