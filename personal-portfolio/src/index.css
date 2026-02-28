@@ -5,6 +5,27 @@
 body {
   font-family: 'Space Grotesk', 'Poppins', sans-serif;
 }
+
+.skills-modal-content {
+  background: var(--modal-bg);
+  color: var(--modal-text);
+  border: 1px solid var(--modal-border);
+}
+
+.skills-modal-header,
+.skills-modal-footer {
+  background: var(--modal-header-bg);
+  border-color: var(--modal-border) !important;
+}
+
+.skills-modal-chip {
+  background: var(--skills-chip-bg);
+  border: 1px solid var(--modal-border);
+}
+
+.skills-modal-muted {
+  color: var(--modal-muted);
+}
 /* body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',

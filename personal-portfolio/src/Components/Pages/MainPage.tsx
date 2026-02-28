@@ -3,7 +3,6 @@ import {
   Badge,
   Card,
   Carousel,
-  ListGroup,
   Button,
   Modal,
 } from "react-bootstrap";
@@ -102,13 +101,18 @@ function MainPage() {
     <div className="flex flex-col w-full">
       {/* SECTION 1 */}
       <div
-        className="bg-[#282c34] h-[75vh] w-full flex text-white"
+        className="relative h-[75vh] w-full flex text-white overflow-hidden"
         style={{
           backgroundImage: `url("${EABg}")`,
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
       >
+        <div className="absolute inset-0 bg-black/20" />
+        <div
+          className="pointer-events-none absolute bottom-0 left-0 right-0 h-32"
+          style={{ background: "var(--section-bridge-bottom)" }}
+        />
         <div className="flex-[0_0_35%] flex items-center justify-center">
           <div
             className="w-3/4 h-3/4 bg-black rounded-lg"
@@ -121,11 +125,20 @@ function MainPage() {
         </div>
 
         {/* Right side – remaining width */}
-        <div className="flex-[0_0_65%] flex flex-col justify-center items-center px-12 space-y-6">
-          <h1 className="text-black text-4xl md:text-5xl font-bold">
+        <div className="relative flex-[0_0_65%] flex flex-col justify-center items-center px-12 space-y-6">
+          <h1
+            className="text-4xl md:text-5xl font-bold"
+            style={{ color: "var(--hero-heading-text)" }}
+          >
             Hi, I&apos;m Gabriel Castejon
           </h1>
-          <Card className="bg-[#1f232b] text-white shadow-lg w-full max-w-2xl border-0">
+          <Card
+            className="text-white shadow-lg w-full max-w-2xl"
+            style={{
+              backgroundColor: "var(--hero-card-bg)",
+              borderColor: "var(--hero-card-border)",
+            }}
+          >
             <Card.Title className="pt-5 text-xl font-bold">
               Software Engineer @ Electronic Arts
             </Card.Title>
@@ -154,9 +167,13 @@ function MainPage() {
         <div
           className="absolute inset-0"
           style={{
-            background:
-              "linear-gradient(135deg, #0b102a 0%, #101b47 40%, #0c1638 100%)",
+            background: "var(--journey-gradient)",
           }}
+        />
+
+        <div
+          className="pointer-events-none absolute top-0 left-0 right-0 h-24"
+          style={{ background: "var(--section-bridge-top)" }}
         />
 
         {/* Blobs (no custom colors required, but these are muted + nice) */}
@@ -168,8 +185,7 @@ function MainPage() {
         <div
           className="absolute inset-0 opacity-70"
           style={{
-            background:
-              "radial-gradient(circle at center, rgba(0,0,0,0) 0%, rgba(0,0,0,0.35) 70%, rgba(0,0,0,0.55) 100%)",
+            background: "var(--journey-vignette)",
           }}
         />
 
@@ -185,7 +201,15 @@ function MainPage() {
                 {experiences.map((exp) => (
                   <Carousel.Item key={exp.title}>
                     <div className="h-[320px] md:h-[360px] flex items-center justify-center">
-                      <div className="w-full h-full rounded-2xl border border-white/10 bg-black/30 backdrop-blur-md shadow-2xl px-10 md:px-16 flex flex-col justify-center text-center">
+                      <div
+                        className="w-full h-full rounded-2xl backdrop-blur-md shadow-2xl px-10 md:px-16 flex flex-col justify-center text-center"
+                        style={{
+                          borderColor: "var(--glass-border)",
+                          borderWidth: "1px",
+                          borderStyle: "solid",
+                          backgroundColor: "var(--glass-surface)",
+                        }}
+                      >
                         {exp.timeframe && (
                           <div className="text-sm md:text-base opacity-75 mb-4">
                             {exp.timeframe}
@@ -218,8 +242,7 @@ function MainPage() {
         <div
           className="absolute inset-0"
           style={{
-            background:
-              "linear-gradient(135deg, #0b102a 0%, #101b47 40%, #0c1638 100%)",
+            background: "var(--journey-gradient)",
           }}
         />
 
@@ -231,8 +254,7 @@ function MainPage() {
         <div
           className="absolute inset-0 opacity-70"
           style={{
-            background:
-              "radial-gradient(circle at center, rgba(0,0,0,0) 0%, rgba(0,0,0,0.35) 70%, rgba(0,0,0,0.55) 100%)",
+            background: "var(--journey-vignette)",
           }}
         />
 
@@ -240,7 +262,13 @@ function MainPage() {
         <div className="relative z-10 h-full w-full flex">
           {/* LEFT — Education */}
           <div className="flex-[0_0_33%] h-full px-6 py-10">
-            <div className="h-full rounded-2xl bg-white/5 border border-white/10 shadow-2xl flex flex-col items-center justify-center text-center px-8">
+            <div
+              className="h-full rounded-2xl shadow-2xl flex flex-col items-center justify-center text-center px-8"
+              style={{
+                backgroundColor: "var(--glass-surface)",
+                border: "1px solid var(--glass-border)",
+              }}
+            >
               <h2 className="text-3xl font-semibold mb-8">Education</h2>
 
               <div className="space-y-8">
@@ -281,7 +309,13 @@ function MainPage() {
 
           {/* MIDDLE — Visual */}
           <div className="flex-[0_0_33%] h-full px-6 py-10">
-            <div className="h-full rounded-2xl bg-white/5 border border-white/10 shadow-2xl overflow-hidden relative">
+            <div
+              className="h-full rounded-2xl shadow-2xl overflow-hidden relative"
+              style={{
+                backgroundColor: "var(--glass-surface)",
+                border: "1px solid var(--glass-border)",
+              }}
+            >
               <img
                 src={/* replace with your image */ ""}
                 alt="Section visual"
@@ -293,7 +327,13 @@ function MainPage() {
 
           {/* RIGHT — Skills */}
           <div className="flex-[0_0_33%] h-full px-6 py-10">
-            <div className="h-full rounded-2xl bg-white/5 border border-white/10 shadow-2xl flex flex-col px-8 py-10">
+            <div
+              className="h-full rounded-2xl shadow-2xl flex flex-col px-8 py-10"
+              style={{
+                backgroundColor: "var(--glass-surface)",
+                border: "1px solid var(--glass-border)",
+              }}
+            >
               <h2 className="text-3xl font-semibold text-center">Skills</h2>
               <p className="text-sm opacity-80 text-center mt-2">
                 A snapshot of some of the languages and tools I work with most.
@@ -342,8 +382,13 @@ function MainPage() {
           onHide={() => setShowSkills(false)}
           centered
           size="lg"
+          contentClassName="skills-modal-content"
         >
-          <Modal.Header closeButton>
+          <Modal.Header
+            closeButton
+            closeVariant="white"
+            className="skills-modal-header"
+          >
             <Modal.Title>Languages &amp; Tools</Modal.Title>
           </Modal.Header>
 
@@ -358,7 +403,7 @@ function MainPage() {
                       {group.skills.map((s) => (
                         <div
                           key={s.slug}
-                          className="flex items-center gap-2 bg-white/5 px-2 py-1 rounded-md"
+                          className="skills-modal-chip flex items-center gap-2 px-2 py-1 rounded-md"
                           title={`${s.name} • ${s.proficiency}`}
                         >
                           <img
@@ -369,7 +414,7 @@ function MainPage() {
                           />
                           <div className="text-sm">
                             <div className="font-medium">{s.name}</div>
-                            <div className="text-xs opacity-70">
+                            <div className="text-xs skills-modal-muted">
                               {s.proficiency}
                             </div>
                           </div>
@@ -382,8 +427,8 @@ function MainPage() {
             </div>
           </Modal.Body>
 
-          <Modal.Footer>
-            <Button variant="secondary" onClick={() => setShowSkills(false)}>
+          <Modal.Footer className="skills-modal-footer">
+            <Button variant="outline-light" onClick={() => setShowSkills(false)}>
               Close
             </Button>
           </Modal.Footer>
@@ -392,9 +437,15 @@ function MainPage() {
 
       {/* SECTION 4 */}
       <div className="h-[75vh] w-full flex">
-        {/* Left: white contact panel */}
-        <div className="w-1/2 bg-[#f7f8f2] flex items-center justify-center">
-          <div className="text-center text-black space-y-6">
+        {/* Left: themed contact panel */}
+        <div
+          className="w-1/2 flex items-center justify-center"
+          style={{ backgroundColor: "var(--contact-surface)" }}
+        >
+          <div
+            className="text-center space-y-6"
+            style={{ color: "var(--contact-text)" }}
+          >
             <h2 className="text-5xl font-light">Feel Free to Contact Me!</h2>
 
             <div className="text-2xl font-light leading-relaxed">

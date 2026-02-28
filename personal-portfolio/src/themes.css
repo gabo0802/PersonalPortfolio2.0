@@ -1,0 +1,78 @@
+:root,
+[data-theme="midnight"] {
+  --color-text-primary: #f5f7ff;
+  --hero-heading-text: #0b1220;
+  --hero-card-bg: rgba(16, 22, 38, 0.88);
+  --hero-card-border: rgba(255, 255, 255, 0.08);
+
+  --journey-gradient: linear-gradient(135deg, #0b102a 0%, #101b47 40%, #0c1638 100%);
+  --journey-vignette: radial-gradient(
+    circle at center,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.35) 70%,
+    rgba(0, 0, 0, 0.55) 100%
+  );
+
+  --section-bridge-bottom: linear-gradient(
+    180deg,
+    rgba(11, 16, 42, 0) 0%,
+    rgba(11, 16, 42, 0.92) 100%
+  );
+  --section-bridge-top: linear-gradient(
+    180deg,
+    rgba(11, 16, 42, 0.88) 0%,
+    rgba(11, 16, 42, 0) 100%
+  );
+
+  --glass-surface: rgba(255, 255, 255, 0.06);
+  --glass-border: rgba(255, 255, 255, 0.14);
+
+  --modal-bg: #0f1835;
+  --modal-header-bg: #111c3d;
+  --modal-border: rgba(255, 255, 255, 0.14);
+  --modal-text: #eef2ff;
+  --modal-muted: #cad2ef;
+  --skills-chip-bg: rgba(255, 255, 255, 0.08);
+
+  --contact-surface: #dbe6ff;
+  --contact-text: #10213f;
+}
+
+[data-theme="dawn"] {
+  --color-text-primary: #1a2540;
+  --hero-heading-text: #112142;
+  --hero-card-bg: rgba(244, 247, 255, 0.9);
+  --hero-card-border: rgba(20, 33, 63, 0.15);
+
+  --journey-gradient: linear-gradient(135deg, #dce7ff 0%, #cfdfff 45%, #bcd3ff 100%);
+  --journey-vignette: radial-gradient(
+    circle at center,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(16, 33, 63, 0.12) 70%,
+    rgba(16, 33, 63, 0.2) 100%
+  );
+
+  --section-bridge-bottom: linear-gradient(
+    180deg,
+    rgba(188, 211, 255, 0) 0%,
+    rgba(188, 211, 255, 0.95) 100%
+  );
+  --section-bridge-top: linear-gradient(
+    180deg,
+    rgba(188, 211, 255, 0.9) 0%,
+    rgba(188, 211, 255, 0) 100%
+  );
+
+  --glass-surface: rgba(255, 255, 255, 0.5);
+  --glass-border: rgba(17, 33, 66, 0.2);
+
+  --modal-bg: #f2f6ff;
+  --modal-header-bg: #e6efff;
+  --modal-border: rgba(17, 33, 66, 0.2);
+  --modal-text: #16284a;
+  --modal-muted: #364b76;
+  --skills-chip-bg: rgba(17, 33, 66, 0.08);
+
+  --contact-surface: #cdd9f5;
+  --contact-text: #152b50;
+}
