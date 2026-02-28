@@ -42,15 +42,21 @@ function AboutMe() {
             >
               <Card.Body className="px-4 md:px-10 py-6 md:py-10 text-center">
                 <p className="text-sm md:text-lg leading-relaxed">
-                  Born and raised in Caracas, Venezuela, I always found the software
-                  around me to be fascinating. Once I moved to the United States, I took
-                  the first opportunities I found to take as many computer-programming
-                  related courses and bootcamps as possible. Once I graduated high school
-                  and entered the University of Florida, I stumbled upon CodePath, a
-                  non-profit organization that has furthered my understanding of the
-                  software engineering field and provided me with opportunities that I
-                  could have only dreamed of when I first moved into this country. My
-                  willingness to learn fast is what drives me in this industry! TODO - CHANGE THIS!
+                  I&apos;m currently a Software Engineer at Electronic Arts, where I&apos;m part
+                  of the Software Engineering Academy. I began my time at EA on the
+                  College Football Modes team and now contribute to the AFL Live team.
+                  Previously, I interned with EA&apos;s Football SHIELD team after interviewing
+                  as an HSF Scholar, and later with Google on the Cloud Storage Encryption
+                  team. I graduated from the University of Florida with a bachelor&apos;s
+                  degree in Computer Science and minors in Business Administration and
+                  Economics. At UF, I served as a Tech Fellow for CodePath, was a
+                  founding E-Board member of UF&apos;s ColorStack chapter, later became Vice
+                  President and National Chapter Ambassador, and conducted undergraduate
+                  research applying AI to predict microstructure grain growth in materials
+                  science. I&apos;ve remained actively involved with the Hispanic Scholarship
+                  Fund, attending the HSF STEM Summit as a Scholar in 2023,
+                  Mentor-in-Training in 2024, and Mentor in 2025.
+                  Currently, I also serve as an Advisory Council Member in Orlando.
                 </p>
               </Card.Body>
             </Card>
@@ -69,10 +75,19 @@ function AboutMe() {
               </div>
 
               <div className="mt-4 rounded-xl overflow-hidden bg-black/20 max-w-5xl mx-auto">
+                <div className="block md:hidden w-full aspect-[8.5/11] overflow-hidden">
+                  <iframe
+                    src={`${resumePdf}#toolbar=0&navpanes=0&scrollbar=0&view=FitH`}
+                    title="Gabriel Castejon Resume Preview (Mobile)"
+                    className="w-[190%] h-[190%] scale-[0.53] origin-top-left pointer-events-none"
+                    tabIndex={-1}
+                  />
+                </div>
+
                 <iframe
                   src={resumePdf}
                   title="Gabriel Castejon Resume Preview"
-                  className="w-full aspect-[8.5/11]"
+                  className="hidden md:block w-full aspect-[8.5/11]"
                 />
               </div>
             </div>
@@ -126,11 +141,11 @@ function AboutMe() {
                   className="no-underline text-inherit flex-1 flex flex-col"
                 >
                   {project.thumbnail ? (
-                    <div className="h-44 bg-black/30">
+                    <div className="h-44 bg-black/20 flex items-center justify-center">
                       <img
                         src={project.thumbnail}
                         alt={`${project.title} preview`}
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-contain"
                         loading="lazy"
                       />
                     </div>
