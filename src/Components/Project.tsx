@@ -1,4 +1,5 @@
 import React, { useLayoutEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { useParams, Navigate, useNavigate } from "react-router-dom";
 import { Button, Badge, Modal, Carousel } from "react-bootstrap";
 import { getProjectBySlug } from "../Data/projects";
@@ -14,23 +15,12 @@ export default function Project() {
   const panelRef = useRef<HTMLDivElement | null>(null);
 
   useLayoutEffect(() => {
-    const isMobile = window.matchMedia("(max-width: 767px)").matches;
     const previousScrollY = window.scrollY;
-    const targetTop = isMobile ? 0 : 300;
 
     const activeElement = document.activeElement;
     if (activeElement instanceof HTMLElement) {
       activeElement.blur();
     }
-
-    const scrollingElement = document.scrollingElement as HTMLElement | null;
-    if (scrollingElement) {
-      scrollingElement.scrollTop = targetTop;
-    }
-
-    window.scrollTo({ top: targetTop, left: 0, behavior: "auto" });
-    document.documentElement.scrollTop = targetTop;
-    document.body.scrollTop = targetTop;
 
     if (panelRef.current) {
       panelRef.current.scrollTop = 0;
@@ -44,10 +34,9 @@ export default function Project() {
     const originalRight = document.body.style.right;
     const originalWidth = document.body.style.width;
 
-    const lockTop = isMobile ? 0 : previousScrollY;
     document.body.style.overflow = "hidden";
     document.body.style.position = "fixed";
-    document.body.style.top = `-${lockTop}px`;
+    document.body.style.top = `-${previousScrollY}px`;
     document.body.style.left = "0";
     document.body.style.right = "0";
     document.body.style.width = "100%";
@@ -81,7 +70,7 @@ export default function Project() {
     }
   };
 
-  return (
+  return createPortal(
     // Full-screen overlay
     <div
       className="fixed inset-0 z-50 flex items-start md:items-center justify-center bg-black/60 backdrop-blur-sm pt-10 md:pt-0"
@@ -325,6 +314,7 @@ export default function Project() {
           ) : null}
         </Modal.Body>
       </Modal>
-    </div>
+    </div>,
+    document.body
   );
 }
