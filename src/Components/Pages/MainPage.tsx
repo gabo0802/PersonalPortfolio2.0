@@ -34,9 +34,9 @@ function MainPage() {
   const dragStartScrollLeftRef = useRef(0);
 
   const { data } = usePortfolioData();
-  const experiences = data?.experiences || [];
-  const featuredSkills = data?.featuredSkills || [];
-  const skillsBySlug = data?.skillsBySlug || {};
+  const experiences = useMemo(() => data?.experiences || [], [data]);
+  const featuredSkills = useMemo(() => data?.featuredSkills || [], [data]);
+  const skillsBySlug = useMemo(() => data?.skillsBySlug || {}, [data]);
 
   const orderedSkills = useMemo(() => {
     return [...featuredSkills].sort(
@@ -146,7 +146,7 @@ function MainPage() {
     return () => {
       isCancelled = true;
     };
-  }, []);
+  }, [orderedSkills]);
 
   useEffect(() => {
     return () => {
@@ -170,7 +170,7 @@ function MainPage() {
     return () => {
       window.clearInterval(autoAdvanceTimer);
     };
-  }, [activeExperienceIndex, hasExperiences, switchExperienceWithTransition]);
+  }, [activeExperienceIndex, hasExperiences, switchExperienceWithTransition, experiences.length]);
 
   useEffect(() => {
     const strip = journeyStripRef.current;
