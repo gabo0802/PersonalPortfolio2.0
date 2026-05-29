@@ -2,13 +2,14 @@ import React, { useLayoutEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { useParams, Navigate, useNavigate } from "react-router-dom";
 import { Button, Badge, Modal, Carousel } from "react-bootstrap";
-import { getProjectBySlug } from "../Data/projects";
+import { usePortfolioData } from "../Data/DataProvider";
 import { isImage, isVideo, isYouTubeUrl, toYouTubeEmbedUrl } from "../Utils/media";
 
 export default function Project() {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
-  const project = slug ? getProjectBySlug(slug) : undefined;
+  const { data } = usePortfolioData();
+  const project = slug ? data?.projects.find((p) => p.slug === slug) : undefined;
   const [showGalleryModal, setShowGalleryModal] = useState(false);
   const [activeGalleryIndex, setActiveGalleryIndex] = useState(0);
   const isItchThumbnail = project?.thumbnail?.includes("img.itch.zone") ?? false;

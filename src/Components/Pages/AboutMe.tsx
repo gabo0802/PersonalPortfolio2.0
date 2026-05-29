@@ -1,11 +1,12 @@
 import React, { useMemo } from "react";
 import { Card, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { getAllProjects } from "../../Data/projects";
+import { usePortfolioData } from "../../Data/DataProvider";
 import resumePdf from "../../Assets/docs/GabrielCastejonResume.pdf";
 
 function AboutMe() {
-  const highlightProjects = useMemo(() => getAllProjects().slice(0, 3), []);
+  const { data } = usePortfolioData();
+  const highlightProjects = useMemo(() => data?.projects.slice(0, 3) || [], [data]);
 
   return (
     <div className="flex flex-col w-full">

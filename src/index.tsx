@@ -4,6 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import './themes.css';
 import './index.css';
 import App from './App';
+import { DataProvider } from './Data/DataProvider';
 import reportWebVitals from './reportWebVitals';
 import { HashRouter } from "react-router-dom";
 
@@ -13,7 +14,9 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <HashRouter>
-      <App />
+      <DataProvider>
+        <App />
+      </DataProvider>
     </HashRouter>
   </React.StrictMode>
 );

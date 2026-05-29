@@ -5,10 +5,10 @@ import {
   Button,
   Modal,
 } from "react-bootstrap";
-import { experiences } from "../../Data/experiences";
-import { featuredSkills, skillsBySlug, skillGroups } from "../../Data/skills";
+import { skillGroups } from "../../Data/skills";
 import { proficiencyRank } from "../../Data/types";
 import type { Skill } from "../../Data/types";
+import { usePortfolioData } from "../../Data/DataProvider";
 
 // Image Imports
 import linkedInBg from "../../Assets/images/linkedIn2.jpg";
@@ -16,9 +16,7 @@ import EABg from "../../Assets/images/EABackground.jpg";
 import cafe from "../../Assets/images/cafe.jpg";
 import sectionVisual from "../../Assets/images/agapornifischeri.jpg";
 
-const orderedSkills = [...featuredSkills].sort(
-  (a, b) => proficiencyRank[b.proficiency] - proficiencyRank[a.proficiency],
-);
+// Type guard: filters missing skills cleanly
 
 // Type guard: filters missing skills cleanly
 const isSkill = (s: Skill | undefined): s is Skill => s !== undefined;
@@ -34,6 +32,17 @@ function MainPage() {
   const isDraggingJourneyRef = useRef(false);
   const dragStartXRef = useRef(0);
   const dragStartScrollLeftRef = useRef(0);
+
+  const { data } = usePortfolioData();
+  const experiences = data?.experiences || [];
+  const featuredSkills = data?.featuredSkills || [];
+  const skillsBySlug = data?.skillsBySlug || {};
+
+  const orderedSkills = useMemo(() => {
+    return [...featuredSkills].sort(
+      (a, b) => proficiencyRank[b.proficiency] - proficiencyRank[a.proficiency],
+    );
+  }, [featuredSkills]);
 
   const activeExperience = experiences[activeExperienceIndex] ?? experiences[0];
   const hasExperiences = experiences.length > 0;
@@ -180,7 +189,7 @@ function MainPage() {
       title: g.title,
       skills: g.slugs.map((slug) => skillsBySlug[slug]).filter(isSkill),
     }));
-  }, []);
+  }, [skillsBySlug]);
 
   if (!isPageReady) {
     return (
