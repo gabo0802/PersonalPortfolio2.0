@@ -1,11 +1,12 @@
 import React from "react";
 import { Link, Routes, Route } from "react-router-dom";
 import { Container, Row, Col, Card, Button } from "react-bootstrap";
-import { getAllProjects } from "../../Data/projects";
 import Project from "../Project";
+import { usePortfolioData } from "../../Data/DataProvider";
 
 export default function ProjectsPage() {
-  const projects = getAllProjects();
+  const { data } = usePortfolioData();
+  const projects = data?.projects || [];
 
   return (
     <div className="flex flex-col w-full">

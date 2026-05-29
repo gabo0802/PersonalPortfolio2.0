@@ -7,8 +7,7 @@ import Footer from "./Components/Header/Footer";
 import MainPage from "./Components/Pages/MainPage";
 import AboutMe from "./Components/Pages/AboutMe";
 import ProjectsPage from "./Components/Pages/ProjectsPage";
-import { featuredSkills } from "./Data/skills";
-import { projects } from "./Data/projects";
+import { usePortfolioData } from "./Data/DataProvider";
 
 import linkedInBg from "./Assets/images/linkedIn2.jpg";
 import EABg from "./Assets/images/EABackground.jpg";
@@ -18,7 +17,11 @@ function App() {
   const location = useLocation();
   const [isAppReady, setIsAppReady] = useState(false);
 
+  const { data, loading: dataLoading, error } = usePortfolioData();
+
   const preloadUrls = useMemo(() => {
+    if (!data) return [];
+    
     const staticUrls = [
       EABg,
       linkedInBg,
@@ -27,9 +30,9 @@ function App() {
       "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linkedin/linkedin-original.svg",
     ];
 
-    const skillUrls = featuredSkills.map((skill) => skill.visual);
+    const skillUrls = data.featuredSkills.map((skill) => skill.visual);
 
-    const projectImageUrls = projects.flatMap((project) => {
+    const projectImageUrls = data.projects.flatMap((project) => {
       const thumbnail = project.thumbnail ? [project.thumbnail] : [];
       const galleryImages =
         project.gallery
@@ -41,7 +44,7 @@ function App() {
     return Array.from(
       new Set([...staticUrls, ...skillUrls, ...projectImageUrls]),
     ).filter(Boolean);
-  }, []);
+  }, [data]);
 
   useEffect(() => {
     let isCancelled = false;
@@ -65,7 +68,21 @@ function App() {
     };
   }, [preloadUrls]);
 
-  if (!isAppReady) {
+  if (error) {
+    return (
+      <div
+        className="min-h-screen w-full flex items-center justify-center"
+        style={{
+          background: "linear-gradient(135deg, #0b102a 0%, #101b47 40%, #0c1638 100%)",
+          color: "var(--color-text-primary)",
+        }}
+      >
+        <div className="text-lg md:text-xl tracking-wide text-red-500">Error: {error.message}</div>
+      </div>
+    );
+  }
+
+  if (dataLoading || !isAppReady || !data) {
     return (
       <div
         className="min-h-screen w-full flex items-center justify-center"
