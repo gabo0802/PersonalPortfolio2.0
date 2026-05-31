@@ -6,6 +6,8 @@ export type Skill = {
   name: string;
   visual: string;
   proficiency: Proficiency;
+  category?: string;
+  isFeatured?: boolean;
 };
 
 export enum Proficiency {

@@ -5,7 +5,6 @@ import {
   Button,
   Modal,
 } from "react-bootstrap";
-import { skillGroups } from "../../Data/skills";
 import { proficiencyRank } from "../../Data/types";
 import type { Skill } from "../../Data/types";
 import { usePortfolioData } from "../../Data/DataProvider";
@@ -39,9 +38,9 @@ function MainPage() {
   const skillsBySlug = useMemo(() => data?.skillsBySlug || {}, [data]);
 
   const orderedSkills = useMemo(() => {
-    return [...featuredSkills].sort(
-      (a, b) => proficiencyRank[b.proficiency] - proficiencyRank[a.proficiency],
-    );
+    return [...featuredSkills]
+      .sort((a, b) => proficiencyRank[b.proficiency] - proficiencyRank[a.proficiency])
+      .slice(0, 5);
   }, [featuredSkills]);
 
   const activeExperience = experiences[activeExperienceIndex] ?? experiences[0];
@@ -185,9 +184,42 @@ function MainPage() {
   }, [activeExperienceIndex]);
 
   const groupedSkills = useMemo(() => {
-    return skillGroups.map((g) => ({
-      title: g.title,
-      skills: g.slugs.map((slug) => skillsBySlug[slug]).filter(isSkill),
+    const categoryOrder = [
+      "Back-End",
+      "Front-End",
+      "Database",
+      "DevOps",
+      "AI Tools",
+      "Version Control",
+      "IDEs",
+      "Project Management",
+      "Other Tools",
+      "Operating Systems"
+    ];
+
+    const allSkills = Object.values(skillsBySlug);
+    const groupsMap: Record<string, Skill[]> = {};
+
+    allSkills.forEach((skill) => {
+      const category = skill.category || "Other Tools";
+      if (!groupsMap[category]) {
+        groupsMap[category] = [];
+      }
+      groupsMap[category].push(skill);
+    });
+
+    const uniqueCategories = Object.keys(groupsMap).sort((a, b) => {
+      const idxA = categoryOrder.indexOf(a);
+      const idxB = categoryOrder.indexOf(b);
+      if (idxA !== -1 && idxB !== -1) return idxA - idxB;
+      if (idxA !== -1) return -1;
+      if (idxB !== -1) return 1;
+      return a.localeCompare(b);
+    });
+
+    return uniqueCategories.map((title) => ({
+      title,
+      skills: groupsMap[title],
     }));
   }, [skillsBySlug]);
 

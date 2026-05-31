@@ -7,6 +7,8 @@ type RawSkill = {
   name: string;
   visual: string;
   proficiency: string;
+  category?: string;
+  is_featured?: boolean;
 };
 
 type RawProject = {
@@ -32,7 +34,7 @@ export async function fetchAllData() {
   // Fetch all tables
   const [skillsRes, projectsRes, experiencesRes] = await Promise.all([
     supabase.from("skills").select("*"),
-    supabase.from("projects").select("*, project_skills(skill_slug)"),
+    supabase.from("projects").select("*, project_skills(skill_slug)").order("created_at", { ascending: false }),
     supabase.from("experiences").select("*").order("order_index", { ascending: true }),
   ]);
 
@@ -46,8 +48,12 @@ export async function fetchAllData() {
 
   // Parse Skills
   const skills: Skill[] = rawSkills.map((s) => ({
-    ...s,
+    slug: s.slug,
+    name: s.name,
+    visual: s.visual,
     proficiency: s.proficiency as Proficiency,
+    category: s.category,
+    isFeatured: s.is_featured ?? false,
   }));
 
   // Parse Projects
