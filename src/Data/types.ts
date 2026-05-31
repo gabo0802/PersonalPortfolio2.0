@@ -51,8 +51,10 @@ export type Project = {
 // Experiences
 // --------------------
 export type Experience = {
+  slug: string;
   title: string;
   subtitle?: string;
   timeframe?: string;
   description: string;
+  tech?: Skill[];
 };

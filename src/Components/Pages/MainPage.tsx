@@ -431,7 +431,7 @@ function MainPage() {
               </div>
 
               {activeExperience && (
-                <div className="min-h-[330px] md:h-[320px] flex items-center justify-center">
+                <div className="min-h-[360px] md:min-h-[320px] md:h-auto flex items-center justify-center py-4">
                   <div
                     className={`w-full rounded-2xl backdrop-blur-md shadow-2xl px-4 md:px-12 py-6 md:py-8 flex flex-col justify-center text-center transition-all duration-300 ease-in-out ${
                       isExperienceVisible
@@ -458,6 +458,19 @@ function MainPage() {
                         {activeExperience.subtitle}
                       </div>
                     )}
+                    {activeExperience.tech?.length ? (
+                      <div className="flex flex-wrap justify-center gap-2 mb-4 md:mb-6">
+                        {activeExperience.tech.map((t) => (
+                          <Badge
+                            key={t.name}
+                            bg="secondary"
+                            className="text-[0.66rem] md:text-xs py-1.5 px-2.5"
+                          >
+                            {t.name}
+                          </Badge>
+                        ))}
+                      </div>
+                    ) : null}
                     <p className="text-sm md:text-lg opacity-90 leading-relaxed">
                       {activeExperience.description}
                     </p>

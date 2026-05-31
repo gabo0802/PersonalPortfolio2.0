@@ -23,11 +23,13 @@ type RawProject = {
 };
 
 type RawExperience = {
+  slug: string;
   title: string;
   subtitle: string | null;
   timeframe: string | null;
   description: string;
   order_index: number;
+  experience_skills: { skill_slug: string }[];
 };
 
 export async function fetchAllData() {
@@ -35,7 +37,7 @@ export async function fetchAllData() {
   const [skillsRes, projectsRes, experiencesRes] = await Promise.all([
     supabase.from("skills").select("*"),
     supabase.from("projects").select("*, project_skills(skill_slug)").order("created_at", { ascending: false }),
-    supabase.from("experiences").select("*").order("order_index", { ascending: true }),
+    supabase.from("experiences").select("*, experience_skills(skill_slug)").order("order_index", { ascending: true }),
   ]);
 
   if (skillsRes.error) console.error("Error fetching skills:", skillsRes.error);
@@ -76,12 +78,21 @@ export async function fetchAllData() {
   });
 
   // Parse Experiences
-  const experiences: Experience[] = rawExperiences.map((e) => ({
-    title: e.title,
-    subtitle: e.subtitle || undefined,
-    timeframe: e.timeframe || undefined,
-    description: e.description,
-  }));
+  const experiences: Experience[] = rawExperiences.map((e) => {
+    const techSlugs = e.experience_skills?.map((es) => es.skill_slug) || [];
+    const tech = techSlugs
+      .map((slug) => skills.find((s) => s.slug === slug))
+      .filter((s): s is Skill => s !== undefined);
+
+    return {
+      slug: e.slug,
+      title: e.title,
+      subtitle: e.subtitle || undefined,
+      timeframe: e.timeframe || undefined,
+      description: e.description,
+      tech: tech.length > 0 ? tech : undefined,
+    };
+  });
 
   return { skills, projects, experiences };
 }

@@ -12,15 +12,20 @@ if (!url || !key) {
 const supabase = createClient(url, key);
 
 async function test() {
-  const { data, error } = await supabase.from('projects').select('*');
-  if (error) {
-    console.error('Error:', error);
-  } else {
-    console.log(`Fetched ${data.length} projects`);
-    if (data.length > 0) {
-      console.log('First project:', data[0].title);
-    }
-  }
+  console.log('Testing skills query...');
+  const skillsRes = await supabase.from("skills").select("*");
+  if (skillsRes.error) console.error("Skills error:", skillsRes.error);
+  else console.log("Fetched skills:", skillsRes.data.length);
+
+  console.log('Testing projects query...');
+  const projectsRes = await supabase.from("projects").select("*, project_skills(skill_slug)").order("created_at", { ascending: false });
+  if (projectsRes.error) console.error("Projects error:", projectsRes.error);
+  else console.log("Fetched projects:", projectsRes.data.length);
+
+  console.log('Testing experiences query...');
+  const experiencesRes = await supabase.from("experiences").select("*, experience_skills(skill_slug)").order("order_index", { ascending: true });
+  if (experiencesRes.error) console.error("Experiences error:", experiencesRes.error);
+  else console.log("Fetched experiences:", experiencesRes.data.length);
 }
 
 test();

@@ -72,8 +72,8 @@ npm run build
 
 All site content is dynamic and loaded from a **Supabase database** via the client in `src/Data/api.ts`:
 
-- **Projects**: Stored in the `projects` table (with links, thumbnail, gallery details).
-- **Experience Timeline**: Stored in the `experiences` table (ordered by `order_index`).
+- **Projects**: Stored in the `projects` table, with technical skills associated via the `project_skills` join table (mapped using project and skill slugs).
+- **Experience Timeline**: Stored in the `experiences` table (ordered by `order_index`), with technical skills associated via the `experience_skills` join table (mapped using experience and skill slugs).
 - **Skills & Grouping**: Stored in the `skills` table, with categories managed via the `category` column and home page featured status managed via the `is_featured` column.
 
 Changes updated in Supabase reflect in the UI automatically. Static fallback data and files in `src/Data/` remain for reference/seed purposes.
