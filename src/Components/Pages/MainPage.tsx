@@ -15,10 +15,7 @@ import EABg from "../../Assets/images/EABackground.jpg";
 import cafe from "../../Assets/images/cafe.jpg";
 import sectionVisual from "../../Assets/images/agapornifischeri.jpg";
 
-// Type guard: filters missing skills cleanly
 
-// Type guard: filters missing skills cleanly
-const isSkill = (s: Skill | undefined): s is Skill => s !== undefined;
 
 function MainPage() {
   const [showSkills, setShowSkills] = useState(false);
