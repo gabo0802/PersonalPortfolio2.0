@@ -127,54 +127,99 @@ function AboutMe() {
             </Link>
           </div>
 
-          <div className="grid gap-6 md:grid-cols-2 items-stretch">
-            {highlightProjects.map((project) => (
-              <Card
-                key={project.slug}
-                className="h-full w-full shadow-2xl overflow-hidden flex flex-col"
-                style={{
-                  backgroundColor: "var(--glass-surface)",
-                  border: "1px solid var(--glass-border)",
-                }}
-              >
-                <Link
-                  to={`/projects/${project.slug}`}
-                  className="no-underline text-inherit flex-1 flex flex-col"
+          <div className="flex flex-col gap-8 md:gap-10">
+            {highlightProjects.map((project, index) => {
+              const isEven = index % 2 === 0;
+              return (
+                <div
+                  key={project.slug}
+                  className="w-full rounded-2xl backdrop-blur-md shadow-2xl overflow-hidden flex flex-col md:flex-row items-stretch border transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(0,0,0,0.3)]"
+                  style={{
+                    backgroundColor: "var(--glass-surface)",
+                    borderColor: "var(--glass-border)",
+                  }}
                 >
-                  {project.thumbnail ? (
-                    <div className="h-44 bg-black/20 flex items-center justify-center">
+                  {/* Image Container */}
+                  <div
+                    className={`w-full md:w-[45%] h-56 md:h-auto min-h-[220px] bg-black/15 flex items-center justify-center p-6 relative overflow-hidden group ${
+                      isEven ? "md:order-1" : "md:order-2"
+                    }`}
+                  >
+                    {project.thumbnail ? (
                       <img
                         src={project.thumbnail}
                         alt={`${project.title} preview`}
-                        className="w-full h-full object-contain"
+                        className="max-w-full max-h-[90%] object-contain transition-transform duration-500 group-hover:scale-105"
                         loading="lazy"
                       />
-                    </div>
-                  ) : (
-                    <div className="h-44 bg-black/25 flex items-center justify-center text-white/70 text-sm">
-                      Preview image unavailable
-                    </div>
-                  )}
+                    ) : (
+                      <span className="text-white/50 text-sm">Preview unavailable</span>
+                    )}
+                  </div>
 
-                  <Card.Body className="px-5 py-5 flex-1">
-                    <Card.Title className="text-xl font-semibold mb-3 text-white">
-                      {project.title}
-                    </Card.Title>
-                    <Card.Text className="text-sm md:text-base leading-relaxed text-white/85">
-                      {project.summary}
-                    </Card.Text>
-                  </Card.Body>
-                </Link>
+                  {/* Content Container */}
+                  <div
+                    className={`w-full md:w-[55%] p-6 md:p-8 flex flex-col justify-between ${
+                      isEven ? "md:order-2" : "md:order-1"
+                    }`}
+                  >
+                    <div>
+                      <h3 className="text-2xl md:text-3xl font-bold mb-3 text-white">
+                        {project.title}
+                      </h3>
+                      <p className="text-sm md:text-base leading-relaxed text-white/80 mb-5">
+                        {project.summary}
+                      </p>
 
-                <Card.Footer className="bg-transparent border-0 px-5 pb-5 pt-0">
-                  <Link to={`/projects/${project.slug}`}>
-                    <Button variant="outline-light" size="sm">
-                      View project
-                    </Button>
-                  </Link>
-                </Card.Footer>
-              </Card>
-            ))}
+                      {/* Tech stack visuals */}
+                      {project.tech && project.tech.length > 0 && (
+                        <div className="flex flex-wrap gap-2.5 mb-6">
+                          {project.tech.map((t) => (
+                            t.visual && (
+                              <img
+                                key={t.slug}
+                                src={t.visual}
+                                alt={t.name}
+                                title={t.name}
+                                className="h-7 w-auto object-contain transition-transform duration-200 hover:scale-105"
+                                loading="lazy"
+                              />
+                            )
+                          ))}
+                        </div>
+                      )}
+                    </div>
+
+                    <div>
+                      <Link to={`/projects/${project.slug}`}>
+                        <Button
+                          variant="none"
+                          className="px-5 py-2 rounded-xl text-sm font-semibold transition-all duration-300 border"
+                          style={{
+                            backgroundColor: "rgba(255, 255, 255, 0.05)",
+                            borderColor: "rgba(255, 255, 255, 0.15)",
+                            color: "white",
+                            backdropFilter: "blur(4px)",
+                          }}
+                          onMouseEnter={(e) => {
+                            e.currentTarget.style.backgroundColor = "rgba(255, 255, 255, 0.12)";
+                            e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.35)";
+                            e.currentTarget.style.boxShadow = "0 0 15px rgba(255, 255, 255, 0.15)";
+                          }}
+                          onMouseLeave={(e) => {
+                            e.currentTarget.style.backgroundColor = "rgba(255, 255, 255, 0.05)";
+                            e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.15)";
+                            e.currentTarget.style.boxShadow = "none";
+                          }}
+                        >
+                          View project
+                        </Button>
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
