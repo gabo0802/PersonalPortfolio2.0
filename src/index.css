@@ -4,6 +4,7 @@
 
 body {
   font-family: 'Space Grotesk', 'Poppins', sans-serif;
+  background-color: #0b102a;
 }
 
 html,
@@ -11,6 +12,7 @@ body,
 #root {
   max-width: 100%;
   overflow-x: hidden;
+  background-color: #0b102a;
 }
 
 body.modal-open {

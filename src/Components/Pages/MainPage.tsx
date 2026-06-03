@@ -640,7 +640,7 @@ function MainPage() {
               <img
                 src={sectionVisual}
                 alt="Section visual"
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover object-top"
               />
               <div className="absolute bottom-3 left-1/2 -translate-x-1/2 text-xs md:text-sm font-medium text-white/90 tracking-wide px-3 py-1 rounded-md bg-black/35">
                 my favorite animal :)
@@ -815,7 +815,7 @@ function MainPage() {
       </div>
 
       {/* SECTION 4 */}
-      <div className="min-h-[90vh] md:h-[75vh] w-full flex flex-col md:flex-row">
+      <div className="md:h-[75vh] w-full flex flex-col md:flex-row">
         {/* Left: themed contact panel */}
         <div
           className="w-full md:w-1/2 flex items-center justify-center py-10 md:py-0 px-4"
