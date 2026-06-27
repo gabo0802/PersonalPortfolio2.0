@@ -374,16 +374,14 @@ function MainPage() {
                         aria-pressed={isActive}
                       >
                         <div
-                          className={`h-8 w-8 rounded-full border-2 transition-all duration-300 ${
-                            isActive
+                          className={`h-8 w-8 rounded-full border-2 transition-all duration-300 ${isActive
                               ? "bg-white border-white shadow-lg shadow-white/30"
                               : "bg-transparent border-white/60 group-hover:border-white"
-                          }`}
+                            }`}
                         />
                         <div
-                          className={`mt-3 text-sm font-semibold transition-opacity ${
-                            isActive ? "opacity-100" : "opacity-80 group-hover:opacity-100"
-                          }`}
+                          className={`mt-3 text-sm font-semibold transition-opacity ${isActive ? "opacity-100" : "opacity-80 group-hover:opacity-100"
+                            }`}
                         >
                           {exp.title}
                         </div>
@@ -404,11 +402,10 @@ function MainPage() {
               {activeExperience && (
                 <div className="min-h-[330px] md:h-[320px] flex items-center justify-center">
                   <div
-                    className={`w-full rounded-2xl backdrop-blur-md shadow-2xl px-4 md:px-12 py-6 md:py-8 flex flex-col justify-center text-center transition-all duration-300 ease-in-out ${
-                      isExperienceVisible
+                    className={`w-full rounded-2xl backdrop-blur-md shadow-2xl px-4 md:px-12 py-6 md:py-8 flex flex-col justify-center text-center transition-all duration-300 ease-in-out ${isExperienceVisible
                         ? "opacity-100 translate-y-0"
                         : "opacity-0 translate-y-2"
-                    }`}
+                      }`}
                     style={{
                       borderColor: "var(--glass-border)",
                       borderWidth: "1px",
@@ -517,14 +514,14 @@ function MainPage() {
           </div>
 
           {/* MIDDLE — Visual */}
-          <div className="w-full md:flex-[0_0_33%] h-64 md:h-full px-0 py-0">
+          <div className="w-full md:flex-[0_0_33%] h-auto md:h-full px-0 py-0">
             <div
               className="h-full w-full overflow-hidden relative"
             >
               <img
                 src={sectionVisual}
                 alt="Section visual"
-                className="w-full h-full object-cover"
+                className="w-full h-auto md:h-full object-contain md:object-cover"
               />
               <div className="absolute bottom-3 left-1/2 -translate-x-1/2 text-xs md:text-sm font-medium text-white/90 tracking-wide px-3 py-1 rounded-md bg-black/35">
                 my favorite animal :)
