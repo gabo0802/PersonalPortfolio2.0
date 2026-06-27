@@ -23,7 +23,6 @@ function MainPage() {
   const [activeExperienceIndex, setActiveExperienceIndex] = useState(0);
   const [isExperienceVisible, setIsExperienceVisible] = useState(true);
   const [isPageReady, setIsPageReady] = useState(false);
-  const [visibleIndices, setVisibleIndices] = useState<Record<number, boolean>>({});
   const experienceTransitionTimer = useRef<number | null>(null);
   const journeyStripRef = useRef<HTMLDivElement | null>(null);
   const journeyItemRefs = useRef<Array<HTMLButtonElement | null>>([]);
@@ -169,41 +168,6 @@ function MainPage() {
       window.clearInterval(autoAdvanceTimer);
     };
   }, [activeExperienceIndex, hasExperiences, switchExperienceWithTransition, experiences.length]);
-
-  useEffect(() => {
-    const strip = journeyStripRef.current;
-    if (!strip || experiences.length === 0) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        setVisibleIndices((prev) => {
-          const next = { ...prev };
-          entries.forEach((entry) => {
-            const indexStr = entry.target.getAttribute("data-index");
-            if (indexStr !== null) {
-              const index = Number(indexStr);
-              // Mark as visible only if the item is fully or almost fully visible (intersectionRatio >= 0.95)
-              next[index] = entry.isIntersecting && entry.intersectionRatio >= 0.95;
-            }
-          });
-          return next;
-        });
-      },
-      {
-        root: strip,
-        threshold: [0.95],
-      }
-    );
-
-    // Observe each timeline button
-    journeyItemRefs.current.forEach((ref) => {
-      if (ref) observer.observe(ref);
-    });
-
-    return () => {
-      observer.disconnect();
-    };
-  }, [experiences, isPageReady]);
 
   useEffect(() => {
     const strip = journeyStripRef.current;
@@ -465,7 +429,6 @@ function MainPage() {
                         ref={(element) => {
                           journeyItemRefs.current[index] = element;
                         }}
-                        data-index={index}
                         className="group min-w-[150px] md:min-w-[170px] flex flex-col items-center text-center focus:outline-none"
                         aria-label={`Select journey item: ${exp.title}`}
                         aria-pressed={isActive}
