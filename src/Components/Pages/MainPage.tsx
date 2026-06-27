@@ -477,12 +477,8 @@ function MainPage() {
                             }`}
                         />
                         <div
-                          className="transition-all duration-300 ease-in-out w-full"
-                          style={{
-                            opacity: visibleIndices[index] !== false ? 1 : 0,
-                            visibility: visibleIndices[index] !== false ? "visible" : "hidden",
-                            transform: visibleIndices[index] !== false ? "scale(1)" : "scale(0.95)",
-                          }}
+                          className={`mt-3 text-sm font-semibold transition-opacity ${isActive ? "opacity-100" : "opacity-80 group-hover:opacity-100"
+                            }`}
                         >
                           <div
                             className={`mt-3 text-sm font-semibold transition-opacity ${isActive ? "opacity-100" : "opacity-80 group-hover:opacity-100"
@@ -633,14 +629,14 @@ function MainPage() {
           </div>
 
           {/* MIDDLE — Visual */}
-          <div className="w-full md:flex-[0_0_33%] h-64 md:h-full px-0 py-0">
+          <div className="w-full md:flex-[0_0_33%] h-auto md:h-full px-0 py-0">
             <div
               className="h-full w-full overflow-hidden relative"
             >
               <img
                 src={sectionVisual}
                 alt="Section visual"
-                className="w-full h-full object-cover object-top"
+                className="w-full h-auto md:h-full object-contain md:object-cover"
               />
               <div className="absolute bottom-3 left-1/2 -translate-x-1/2 text-xs md:text-sm font-medium text-white/90 tracking-wide px-3 py-1 rounded-md bg-black/35">
                 my favorite animal :)
