@@ -7,6 +7,8 @@ type RawSkill = {
   name: string;
   visual: string;
   proficiency: string;
+  category?: string;
+  is_featured?: boolean;
 };
 
 type RawProject = {
@@ -21,11 +23,13 @@ type RawProject = {
 };
 
 type RawExperience = {
+  slug: string;
   title: string;
   subtitle: string | null;
   timeframe: string | null;
   description: string;
   order_index: number;
+  experience_skills: { skill_slug: string }[];
 };
 
 export async function fetchAllData() {

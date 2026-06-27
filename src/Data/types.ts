@@ -6,6 +6,8 @@ export type Skill = {
   name: string;
   visual: string;
   proficiency: Proficiency;
+  category?: string;
+  isFeatured?: boolean;
 };
 
 export enum Proficiency {
@@ -49,8 +51,10 @@ export type Project = {
 // Experiences
 // --------------------
 export type Experience = {
+  slug: string;
   title: string;
   subtitle?: string;
   timeframe?: string;
   description: string;
+  tech?: Skill[];
 };

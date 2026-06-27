@@ -33,9 +33,7 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
     fetchAllData()
       .then((res) => {
         const skillsBySlug = Object.fromEntries(res.skills.map((s) => [s.slug, s]));
-        const featuredSkills = res.skills.filter((s) =>
-          ["cpp", "csharp", "python", "java", "typescript"].includes(s.slug)
-        );
+        const featuredSkills = res.skills.filter((s) => s.isFeatured);
 
         setData({
           projects: res.projects,

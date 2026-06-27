@@ -5,8 +5,7 @@ import {
   Button,
   Modal,
 } from "react-bootstrap";
-import { skillGroups } from "../../Data/skills";
-import { proficiencyRank } from "../../Data/types";
+import { proficiencyRank, Proficiency } from "../../Data/types";
 import type { Skill } from "../../Data/types";
 import { usePortfolioData } from "../../Data/DataProvider";
 
@@ -16,16 +15,15 @@ import EABg from "../../Assets/images/EABackground.jpg";
 import cafe from "../../Assets/images/cafe.jpg";
 import sectionVisual from "../../Assets/images/agapornifischeri.jpg";
 
-// Type guard: filters missing skills cleanly
 
-// Type guard: filters missing skills cleanly
-const isSkill = (s: Skill | undefined): s is Skill => s !== undefined;
 
 function MainPage() {
   const [showSkills, setShowSkills] = useState(false);
+  const [skillsGrouping, setSkillsGrouping] = useState<"category" | "proficiency">("category");
   const [activeExperienceIndex, setActiveExperienceIndex] = useState(0);
   const [isExperienceVisible, setIsExperienceVisible] = useState(true);
   const [isPageReady, setIsPageReady] = useState(false);
+  const [visibleIndices, setVisibleIndices] = useState<Record<number, boolean>>({});
   const experienceTransitionTimer = useRef<number | null>(null);
   const journeyStripRef = useRef<HTMLDivElement | null>(null);
   const journeyItemRefs = useRef<Array<HTMLButtonElement | null>>([]);
@@ -34,14 +32,14 @@ function MainPage() {
   const dragStartScrollLeftRef = useRef(0);
 
   const { data } = usePortfolioData();
-  const experiences = data?.experiences || [];
-  const featuredSkills = data?.featuredSkills || [];
-  const skillsBySlug = data?.skillsBySlug || {};
+  const experiences = useMemo(() => data?.experiences || [], [data]);
+  const featuredSkills = useMemo(() => data?.featuredSkills || [], [data]);
+  const skillsBySlug = useMemo(() => data?.skillsBySlug || {}, [data]);
 
   const orderedSkills = useMemo(() => {
-    return [...featuredSkills].sort(
-      (a, b) => proficiencyRank[b.proficiency] - proficiencyRank[a.proficiency],
-    );
+    return [...featuredSkills]
+      .sort((a, b) => proficiencyRank[b.proficiency] - proficiencyRank[a.proficiency])
+      .slice(0, 5);
   }, [featuredSkills]);
 
   const activeExperience = experiences[activeExperienceIndex] ?? experiences[0];
@@ -146,7 +144,7 @@ function MainPage() {
     return () => {
       isCancelled = true;
     };
-  }, []);
+  }, [orderedSkills]);
 
   useEffect(() => {
     return () => {
@@ -170,7 +168,42 @@ function MainPage() {
     return () => {
       window.clearInterval(autoAdvanceTimer);
     };
-  }, [activeExperienceIndex, hasExperiences, switchExperienceWithTransition]);
+  }, [activeExperienceIndex, hasExperiences, switchExperienceWithTransition, experiences.length]);
+
+  useEffect(() => {
+    const strip = journeyStripRef.current;
+    if (!strip || experiences.length === 0) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        setVisibleIndices((prev) => {
+          const next = { ...prev };
+          entries.forEach((entry) => {
+            const indexStr = entry.target.getAttribute("data-index");
+            if (indexStr !== null) {
+              const index = Number(indexStr);
+              // Mark as visible only if the item is fully or almost fully visible (intersectionRatio >= 0.95)
+              next[index] = entry.isIntersecting && entry.intersectionRatio >= 0.95;
+            }
+          });
+          return next;
+        });
+      },
+      {
+        root: strip,
+        threshold: [0.95],
+      }
+    );
+
+    // Observe each timeline button
+    journeyItemRefs.current.forEach((ref) => {
+      if (ref) observer.observe(ref);
+    });
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [experiences, isPageReady]);
 
   useEffect(() => {
     const strip = journeyStripRef.current;
@@ -185,10 +218,74 @@ function MainPage() {
   }, [activeExperienceIndex]);
 
   const groupedSkills = useMemo(() => {
-    return skillGroups.map((g) => ({
-      title: g.title,
-      skills: g.slugs.map((slug) => skillsBySlug[slug]).filter(isSkill),
+    const categoryOrder = [
+      "Back-End",
+      "Front-End",
+      "Database",
+      "DevOps",
+      "AI Tools",
+      "Version Control",
+      "IDEs",
+      "Project Management",
+      "Other Tools",
+      "Operating Systems"
+    ];
+
+    const allSkills = Object.values(skillsBySlug);
+    const groupsMap: Record<string, Skill[]> = {};
+
+    allSkills.forEach((skill) => {
+      const category = skill.category || "Other Tools";
+      if (!groupsMap[category]) {
+        groupsMap[category] = [];
+      }
+      groupsMap[category].push(skill);
+    });
+
+    const uniqueCategories = Object.keys(groupsMap).sort((a, b) => {
+      const idxA = categoryOrder.indexOf(a);
+      const idxB = categoryOrder.indexOf(b);
+      if (idxA !== -1 && idxB !== -1) return idxA - idxB;
+      if (idxA !== -1) return -1;
+      if (idxB !== -1) return 1;
+      return a.localeCompare(b);
+    });
+
+    return uniqueCategories.map((title) => ({
+      title,
+      skills: groupsMap[title],
     }));
+  }, [skillsBySlug]);
+
+  const groupedByProficiency = useMemo(() => {
+    const order = [
+      Proficiency.Expert,
+      Proficiency.Proficient,
+      Proficiency.Experienced,
+      Proficiency.Novice,
+      Proficiency.Exposed,
+    ];
+    const allSkills = Object.values(skillsBySlug);
+    const groupsMap: Record<Proficiency, Skill[]> = {
+      [Proficiency.Expert]: [],
+      [Proficiency.Proficient]: [],
+      [Proficiency.Experienced]: [],
+      [Proficiency.Novice]: [],
+      [Proficiency.Exposed]: [],
+    };
+
+    allSkills.forEach((skill) => {
+      if (groupsMap[skill.proficiency]) {
+        groupsMap[skill.proficiency].push(skill);
+      }
+    });
+
+    return order
+      .map((level) => ({
+        title: level,
+        skills: groupsMap[level],
+      }))
+      .filter((group) => group.skills.length > 0);
   }, [skillsBySlug]);
 
   if (!isPageReady) {
@@ -232,10 +329,9 @@ function MainPage() {
         {/* Right side – remaining width */}
         <div className="relative w-full md:flex-[0_0_65%] flex flex-col justify-center items-center px-4 md:px-12 py-8 md:py-0 space-y-4 md:space-y-6">
           <h1
-            className="text-3xl md:text-5xl font-bold text-center md:text-left"
-            style={{ color: "var(--hero-heading-text)" }}
+            className="text-3xl md:text-5xl font-bold text-center md:text-left hero-greeting"
           >
-            Hi, I&apos;m Gabriel Castejon
+            Hi, I&apos;m Gabe
           </h1>
           <Card
             className="text-white shadow-lg w-full max-w-2xl"
@@ -351,7 +447,7 @@ function MainPage() {
 
                 <div
                   ref={journeyStripRef}
-                  className="no-scrollbar relative flex items-start gap-3 md:gap-6 overflow-x-auto pb-2 px-8 md:px-10"
+                  className="no-scrollbar relative flex items-start gap-3 md:gap-6 overflow-x-auto pb-2 px-4 mx-12 md:mx-16"
                   onMouseDown={handleJourneyDragStart}
                   onMouseMove={handleJourneyDragMove}
                   onMouseUp={handleJourneyDragEnd}
@@ -369,6 +465,7 @@ function MainPage() {
                         ref={(element) => {
                           journeyItemRefs.current[index] = element;
                         }}
+                        data-index={index}
                         className="group min-w-[150px] md:min-w-[170px] flex flex-col items-center text-center focus:outline-none"
                         aria-label={`Select journey item: ${exp.title}`}
                         aria-pressed={isActive}
@@ -383,16 +480,21 @@ function MainPage() {
                           className={`mt-3 text-sm font-semibold transition-opacity ${isActive ? "opacity-100" : "opacity-80 group-hover:opacity-100"
                             }`}
                         >
-                          {exp.title}
-                        </div>
-                        {company && (
-                          <div className="text-[0.68rem] md:text-[0.72rem] opacity-85 mt-1 max-w-[150px] md:max-w-[170px] truncate">
-                            {company}
+                          <div
+                            className={`mt-3 text-sm font-semibold transition-opacity ${isActive ? "opacity-100" : "opacity-80 group-hover:opacity-100"
+                              }`}
+                          >
+                            {exp.title}
                           </div>
-                        )}
-                        {exp.timeframe && (
-                          <div className="text-xs opacity-70 mt-1">{exp.timeframe}</div>
-                        )}
+                          {company && (
+                            <div className="text-[0.68rem] md:text-[0.72rem] opacity-85 mt-1 max-w-[150px] md:max-w-[170px] truncate">
+                              {company}
+                            </div>
+                          )}
+                          {exp.timeframe && (
+                            <div className="text-xs opacity-70 mt-1">{exp.timeframe}</div>
+                          )}
+                        </div>
                       </button>
                     );
                   })}
@@ -400,7 +502,7 @@ function MainPage() {
               </div>
 
               {activeExperience && (
-                <div className="min-h-[330px] md:h-[320px] flex items-center justify-center">
+                <div className="min-h-[360px] md:min-h-[320px] md:h-auto flex items-center justify-center py-4">
                   <div
                     className={`w-full rounded-2xl backdrop-blur-md shadow-2xl px-4 md:px-12 py-6 md:py-8 flex flex-col justify-center text-center transition-all duration-300 ease-in-out ${isExperienceVisible
                         ? "opacity-100 translate-y-0"
@@ -426,6 +528,19 @@ function MainPage() {
                         {activeExperience.subtitle}
                       </div>
                     )}
+                    {activeExperience.tech?.length ? (
+                      <div className="flex flex-wrap justify-center gap-2 mb-4 md:mb-6">
+                        {activeExperience.tech.map((t) => (
+                          <Badge
+                            key={t.name}
+                            bg="secondary"
+                            className="text-[0.66rem] md:text-xs py-1.5 px-2.5"
+                          >
+                            {t.name}
+                          </Badge>
+                        ))}
+                      </div>
+                    ) : null}
                     <p className="text-sm md:text-lg opacity-90 leading-relaxed">
                       {activeExperience.description}
                     </p>
@@ -597,37 +712,92 @@ function MainPage() {
             <Modal.Title>Languages &amp; Tools</Modal.Title>
           </Modal.Header>
 
-          <Modal.Body>
-            <div className="space-y-4">
-              {groupedSkills.map((group) =>
-                group.skills.length ? (
-                  <div key={group.title}>
-                    <h5 className="font-semibold mb-2">{group.title}</h5>
+          <Modal.Body className="p-4 md:p-6">
+            {/* View Toggle */}
+            <div className="flex justify-center mb-6">
+              <div className="inline-flex rounded-xl p-1 bg-black/20 border border-white/5 backdrop-blur-md">
+                <button
+                  type="button"
+                  onClick={() => setSkillsGrouping("category")}
+                  className={`px-4 py-1.5 rounded-lg text-xs font-semibold transition-all duration-300 ${
+                    skillsGrouping === "category"
+                      ? "bg-white/10 text-white shadow-sm"
+                      : "text-white/60 hover:text-white"
+                  }`}
+                >
+                  Group by Category
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setSkillsGrouping("proficiency")}
+                  className={`px-4 py-1.5 rounded-lg text-xs font-semibold transition-all duration-300 ${
+                    skillsGrouping === "proficiency"
+                      ? "bg-white/10 text-white shadow-sm"
+                      : "text-white/60 hover:text-white"
+                  }`}
+                >
+                  Group by Proficiency
+                </button>
+              </div>
+            </div>
 
-                    <div className="flex flex-wrap gap-2">
-                      {group.skills.map((s) => (
-                        <div
-                          key={s.slug}
-                          className="skills-modal-chip flex flex-col md:flex-row items-center md:items-start gap-1 md:gap-2 px-2 py-2 md:py-1 rounded-md text-center md:text-left"
-                          title={`${s.name} • ${s.proficiency}`}
-                        >
-                          <img
-                            src={s.visual}
-                            alt={s.name}
-                            className="h-8"
-                            loading="lazy"
-                          />
-                          <div className="text-sm">
-                            <div className="font-medium">{s.name}</div>
-                            <div className="text-xs skills-modal-muted">
-                              {s.proficiency}
+            {/* Modal Content */}
+            <div className="space-y-6">
+              {skillsGrouping === "category" ? (
+                // Category Grouping View
+                groupedSkills.map((group) =>
+                  group.skills.length ? (
+                    <div key={group.title} className="border-b border-white/5 pb-4 last:border-b-0 last:pb-0">
+                      <h5 className="font-semibold text-white/90 mb-3 text-left">{group.title}</h5>
+
+                      <div className="flex flex-wrap gap-2.5">
+                        {group.skills.map((s) => (
+                          s.visual && (
+                            <div
+                              key={s.slug}
+                              className="flex items-center gap-2 p-1.5 rounded-xl bg-white/5 border border-white/5 shadow-sm hover:bg-white/10 transition duration-300"
+                              title={`${s.name} • ${s.proficiency}`}
+                            >
+                              <img
+                                src={s.visual}
+                                alt={s.name}
+                                className="h-7 w-auto object-contain"
+                                loading="lazy"
+                              />
+                              <span className="text-[9px] uppercase tracking-wider font-semibold opacity-75 pr-2 pl-0.5 border-l border-white/10 text-white/95">
+                                {s.proficiency}
+                              </span>
                             </div>
-                          </div>
-                        </div>
-                      ))}
+                          )
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                ) : null,
+                  ) : null,
+                )
+              ) : (
+                // Proficiency Grouping View
+                groupedByProficiency.map((group) =>
+                  group.skills.length ? (
+                    <div key={group.title} className="border-b border-white/5 pb-4 last:border-b-0 last:pb-0">
+                      <h5 className="font-semibold text-white/90 mb-3 text-left">{group.title}</h5>
+
+                      <div className="flex flex-wrap gap-2.5">
+                        {group.skills.map((s) => (
+                          s.visual && (
+                            <img
+                              key={s.slug}
+                              src={s.visual}
+                              alt={s.name}
+                              title={`${s.name} • ${s.proficiency}`}
+                              className="h-7 w-auto object-contain transition-transform duration-200 hover:scale-105"
+                              loading="lazy"
+                            />
+                          )
+                        ))}
+                      </div>
+                    </div>
+                  ) : null,
+                )
               )}
             </div>
           </Modal.Body>
@@ -641,7 +811,7 @@ function MainPage() {
       </div>
 
       {/* SECTION 4 */}
-      <div className="min-h-[90vh] md:h-[75vh] w-full flex flex-col md:flex-row">
+      <div className="md:h-[75vh] w-full flex flex-col md:flex-row">
         {/* Left: themed contact panel */}
         <div
           className="w-full md:w-1/2 flex items-center justify-center py-10 md:py-0 px-4"
