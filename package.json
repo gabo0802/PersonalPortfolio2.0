@@ -23,8 +23,11 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "prestart": "node scripts/prepare-backend-assets.js",
     "build": "react-scripts build",
+    "prebuild": "node scripts/prepare-backend-assets.js",
     "test": "react-scripts test",
+    "pretest": "node scripts/prepare-backend-assets.js",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

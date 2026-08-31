@@ -1,104 +1,96 @@
+import fallbackExperiences from "../generated/backend/experiences.json";
+import fallbackExperienceSkills from "../generated/backend/experience_skills.json";
+import fallbackProjects from "../generated/backend/projects.json";
+import fallbackProjectSkills from "../generated/backend/project_skills.json";
+import fallbackSkills from "../generated/backend/skills.json";
+import {
+  normalizePortfolioData,
+  RawExperience,
+  RawExperienceSkill,
+  RawPortfolioSnapshot,
+  RawProject,
+  RawProjectSkill,
+  RawSkill,
+} from "./portfolioData";
 import { supabase } from "./supabaseClient";
-import { Project, Experience, Skill, Proficiency, MediaItem } from "./types";
 
-// Raw types as they come from Supabase
-type RawSkill = {
-  slug: string;
-  name: string;
-  visual: string;
-  proficiency: string;
-  category?: string;
-  is_featured?: boolean;
+const FALLBACK_TIMEOUT_MS = 4000;
+
+const fallbackSnapshot: RawPortfolioSnapshot = {
+  skills: fallbackSkills as RawSkill[],
+  projects: fallbackProjects as RawProject[],
+  experiences: fallbackExperiences as RawExperience[],
+  project_skills: fallbackProjectSkills as RawProjectSkill[],
+  experience_skills: fallbackExperienceSkills as RawExperienceSkill[],
 };
 
-type RawProject = {
-  slug: string;
-  title: string;
-  summary: string;
-  description: string;
-  links: { demo?: string | null; repo?: string | null };
-  thumbnail: string | null;
-  gallery: MediaItem[];
-  project_skills: { skill_slug: string }[];
-};
+async function fetchFromSupabase(signal: AbortSignal) {
+  if (!supabase) {
+    throw new Error("Supabase is not configured.");
+  }
 
-type RawExperience = {
-  slug: string;
-  title: string;
-  subtitle: string | null;
-  timeframe: string | null;
-  description: string;
-  order_index: number;
-  experience_skills: { skill_slug: string }[];
-};
+  const [skillsRes, projectsRes, experiencesRes] = await Promise.all([
+    supabase.from("skills").select("*").abortSignal(signal),
+    supabase
+      .from("projects")
+      .select("*, project_skills(skill_slug)")
+      .order("created_at", { ascending: false })
+      .abortSignal(signal),
+    supabase
+      .from("experiences")
+      .select("*, experience_skills(skill_slug)")
+      .order("order_index", { ascending: true })
+      .abortSignal(signal),
+  ]);
+
+  const error = skillsRes.error || projectsRes.error || experiencesRes.error;
+  if (error) {
+    throw new Error(`Supabase query failed: ${error.message}`);
+  }
+
+  if (
+    !Array.isArray(skillsRes.data) ||
+    !Array.isArray(projectsRes.data) ||
+    !Array.isArray(experiencesRes.data)
+  ) {
+    throw new Error("Supabase returned an incomplete portfolio response.");
+  }
+
+  return normalizePortfolioData({
+    skills: skillsRes.data as RawSkill[],
+    projects: projectsRes.data as RawProject[],
+    experiences: experiencesRes.data as RawExperience[],
+    project_skills: [],
+    experience_skills: [],
+  });
+}
+
+async function fetchFromSupabaseWithDeadline() {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), FALLBACK_TIMEOUT_MS);
+
+  try {
+    return await fetchFromSupabase(controller.signal);
+  } finally {
+    clearTimeout(timeoutId);
+  }
+}
 
 export async function fetchAllData() {
   try {
-    // Fetch all tables
-    const [skillsRes, projectsRes, experiencesRes] = await Promise.all([
-      supabase.from("skills").select("*"),
-      supabase.from("projects").select("*, project_skills(skill_slug)").order("created_at", { ascending: false }),
-      supabase.from("experiences").select("*, experience_skills(skill_slug)").order("order_index", { ascending: true }),
-    ]);
-
-    if (skillsRes.error || projectsRes.error || experiencesRes.error) {
-      const err = skillsRes.error || projectsRes.error || experiencesRes.error;
-      console.error("Supabase query error details:", err);
-      throw new Error("Database query returned an error status.");
-    }
-
-    const rawSkills: RawSkill[] = skillsRes.data || [];
-    const rawProjects: RawProject[] = projectsRes.data || [];
-    const rawExperiences: RawExperience[] = experiencesRes.data || [];
-
-    // Parse Skills
-    const skills: Skill[] = rawSkills.map((s) => ({
-      ...s,
-      proficiency: s.proficiency as Proficiency,
-    }));
-
-    // Parse Projects
-    const projects: Project[] = rawProjects.map((p) => {
-      const techSlugs = p.project_skills?.map((ps) => ps.skill_slug) || [];
-      const tech = techSlugs
-        .map((slug) => skills.find((s) => s.slug === slug))
-        .filter((s): s is Skill => s !== undefined);
-
-      return {
-        slug: p.slug,
-        title: p.title,
-        summary: p.summary,
-        description: p.description,
-        links: p.links,
-        thumbnail: p.thumbnail,
-        gallery: p.gallery,
-        tech: tech.length > 0 ? tech : undefined,
-      };
-    });
-
-    // Parse Experiences
-    const experiences: Experience[] = rawExperiences.map((e) => {
-      const techSlugs = e.experience_skills?.map((es) => es.skill_slug) || [];
-      const tech = techSlugs
-        .map((slug) => skills.find((s) => s.slug === slug))
-        .filter((s): s is Skill => s !== undefined);
-
-      return {
-        slug: e.slug,
-        title: e.title,
-        subtitle: e.subtitle || undefined,
-        timeframe: e.timeframe || undefined,
-        description: e.description,
-        tech: tech.length > 0 ? tech : undefined,
-      };
-    });
-
-    return { skills, projects, experiences };
-  } catch (error) {
-    console.error("Failed to load portfolio data from Supabase:", error);
-    // ponytail: custom user-facing error message when database is paused or unreachable
-    throw new Error(
-      "The back-end failed to load because it is paused due to lack of use. Please reach out to Gabe to reenable it."
+    return await fetchFromSupabaseWithDeadline();
+  } catch (primaryError) {
+    const reason =
+      primaryError instanceof Error ? primaryError.message : String(primaryError);
+    console.warn(
+      `Supabase portfolio request failed; using the bundled snapshot instead: ${reason}`,
     );
+
+    try {
+      return normalizePortfolioData(fallbackSnapshot);
+    } catch (fallbackError) {
+      console.error("The bundled portfolio snapshot is invalid.", fallbackError);
+      throw new Error("Portfolio data is temporarily unavailable.");
+    }
   }
 }

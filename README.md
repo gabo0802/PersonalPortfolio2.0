@@ -22,6 +22,7 @@ A responsive React + TypeScript portfolio site showcasing experience, projects, 
 ## Project Structure
 
 ```text
+backend/              # PersonalPortfolioBackend Git submodule
 src/
 	Components/
 		Header/
@@ -33,13 +34,10 @@ src/
 			ProjectsPage.tsx
 		Project.tsx
 	Data/
-		projects.data.json
-		experiences.data.json
-		skills.data.json
-		projects.ts
-		experiences.ts
-		skills.ts
+		api.ts
+		portfolioData.ts
 		types.ts
+	generated/             # populated from the backend submodule before build
 	Assets/
 		images/
 		docs/
@@ -70,13 +68,27 @@ npm run build
 
 ## Content Management
 
-All site content is dynamic and loaded from a **Supabase database** via the client in `src/Data/api.ts`:
+All site content first loads from a **Supabase database** via the client in
+`src/Data/api.ts`:
 
 - **Projects**: Stored in the `projects` table, with technical skills associated via the `project_skills` join table (mapped using project and skill slugs).
 - **Experience Timeline**: Stored in the `experiences` table (ordered by `order_index`), with technical skills associated via the `experience_skills` join table (mapped using experience and skill slugs).
 - **Skills & Grouping**: Stored in the `skills` table, with categories managed via the `category` column and home page featured status managed via the `is_featured` column.
 
-Changes updated in Supabase reflect in the UI automatically. Static fallback data and files in `src/Data/` remain for reference/seed purposes.
+If Supabase is unavailable or does not respond within four seconds, the app
+uses a bundled snapshot generated from the `PersonalPortfolioBackend` submodule.
+The fallback is read from five raw table-shaped JSON files and normalized into
+the same data contract as the live response.
+
+The frontend repository includes `PersonalPortfolioBackend` at `backend/` as a
+Git submodule. Its latest `main` commit is fetched during the Pages build, and
+`scripts/prepare-backend-assets.js` copies the snapshot and canonical resume
+PDF into generated frontend source. Initialize the submodule before local
+development:
+
+```bash
+git submodule update --init --recursive
+```
 
 ## Theming
 

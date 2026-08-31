@@ -105,7 +105,7 @@ function App() {
             {error.message}
           </p>
           <div className="text-xs text-gray-500 border-t border-white/5 pt-4">
-            If you are Gabe, please log into your Supabase console to restore service.
+            Please check the portfolio data source and bundled snapshot configuration.
           </div>
         </div>
       </div>

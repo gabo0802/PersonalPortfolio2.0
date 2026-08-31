@@ -2,7 +2,7 @@ import React, { useMemo } from "react";
 import { Card, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { usePortfolioData } from "../../Data/DataProvider";
-import resumePdf from "../../Assets/docs/GabrielCastejonResume.pdf";
+import resumePdf from "../../generated/backend/GabrielCastejonResume.pdf";
 
 function AboutMe() {
   const { data } = usePortfolioData();
