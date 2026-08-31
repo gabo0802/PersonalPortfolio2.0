@@ -1,0 +1,4 @@
+[submodule "backend"]
+	path = backend
+	url = https://github.com/gabo0802/PersonalPortfolioBackend.git
+	branch = main

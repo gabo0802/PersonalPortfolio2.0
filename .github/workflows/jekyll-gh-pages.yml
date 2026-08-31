@@ -9,6 +9,9 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
+  repository_dispatch:
+    types: [backend-updated]
+
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
   contents: read
@@ -28,11 +31,20 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          submodules: recursive
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: npm
+      - name: Resolve latest backend
+        working-directory: backend
+        run: |
+          git fetch --no-tags origin main
+          git checkout --detach origin/main
+          echo "Using backend snapshot commit $(git rev-parse HEAD)"
       - name: Install dependencies
         run: npm ci
       - name: Build React app
